@@ -1,0 +1,58 @@
+@extends('layouts.peserta')
+
+@section('content')
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="card-scout p-6 rounded-lg max-w-2xl mx-auto">
+                <div class="flex items-center mb-6 border-b pb-4 border-scout-secondary">
+                    <a href="{{ route('peserta.dashboard') }}"
+                        class="mr-4 text-scout-secondary hover:text-scout-primary transition-colors">
+                        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    </a>
+                    <h2 class="text-2xl font-bold text-scout-primary">Tambah Anggota Regu</h2>
+                </div>
+
+                @if ($errors->any())
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow-sm">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('peserta.anggota.store') }}" class="space-y-6">
+                    @csrf
+
+                    <div>
+                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                        <input type="text" name="nama" id="nama" value="{{ old('nama') }}" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
+                            <select name="jabatan" id="jabatan" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border bg-white">
+                                <option value="Anggota" {{ old('jabatan') == 'Anggota' ? 'selected' : '' }}>Anggota</option>
+                                <option value="Pinru" {{ old('jabatan') == 'Pinru' ? 'selected' : '' }}>Pinru</option>
+                                <option value="Wapinru" {{ old('jabatan') == 'Wapinru' ? 'selected' : '' }}>Wapinru</option>
+                            </select>
+                            <p class="mt-1 text-xs text-gray-500">Pastikan hanya ada 1 Pinru dan 1 Wapinru dalam regu.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4">
+                        <button type="submit"
+                            class="btn-scout-primary py-2 px-6 rounded font-bold shadow-md transition transform hover:scale-105 flex items-center">
+                            <i data-lucide="save" class="w-4 h-4 mr-2"></i>
+                            Simpan Anggota
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
