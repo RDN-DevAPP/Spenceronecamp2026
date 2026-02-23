@@ -18,5 +18,10 @@ class Sponsorship extends Model
         'tier',
         'logo',
         'website_url',
+        'pic_name',
+        'email',
+        'phone',
+        'receipt',
+        'is_approved',
     ];
 }

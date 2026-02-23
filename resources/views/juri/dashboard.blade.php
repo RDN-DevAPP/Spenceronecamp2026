@@ -21,6 +21,105 @@
                 </div>
             @endif
 
+            <!-- Pending Deletion Requests -->
+            @if ($pendingDeletions && $pendingDeletions->count() > 0)
+                <div class="mb-8 border-2 border-red-200 rounded-xl overflow-hidden shadow-lg bg-white">
+                    <div class="bg-red-50 px-6 py-4 border-b border-red-100 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="bg-red-100 p-2 rounded-full mr-3">
+                                <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-red-800">Permintaan Penghapusan Nilai</h2>
+                                <p class="text-sm text-red-600">Admin meminta persetujuan Anda untuk menghapus nilai-nilai berikut.</p>
+                            </div>
+                        </div>
+                        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">{{ $pendingDeletions->count() }} Permintaan</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <!-- Mobile View -->
+                        <div class="sm:hidden divide-y divide-gray-200">
+                            @foreach($pendingDeletions as $deleteReq)
+                                <div class="p-4 bg-white hover:bg-red-50/50 transition-colors">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-900">{{ $deleteReq->reguProfile->nama_regu }}</div>
+                                            <div class="text-xs text-gray-500">{{ ucfirst($deleteReq->reguProfile->jenis) }} - Regu {{ $deleteReq->reguProfile->nomor_regu }}</div>
+                                        </div>
+                                        <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-bold rounded-full border border-gray-200">
+                                            Nilai: {{ $deleteReq->nilai }}
+                                        </span>
+                                    </div>
+                                    <div class="text-sm text-gray-900 font-medium mb-3">
+                                        Mata Lomba: <span class="text-scout-primary font-bold">{{ $deleteReq->mataLomba->nama }}</span>
+                                    </div>
+                                    <div class="flex justify-end space-x-2 border-t border-gray-100 pt-3">
+                                        <form action="{{ route('juri.scores.reject', $deleteReq->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none transition-colors">
+                                                <i data-lucide="x" class="w-4 h-4 mr-1"></i> Tolak
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('juri.scores.approve', $deleteReq->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menyetujui penghapusan ini? Nilai akan musnah permanen.');">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-bold rounded shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none transition-colors">
+                                                <i data-lucide="check" class="w-4 h-4 mr-1"></i> Setujui
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Desktop View -->
+                        <table class="hidden sm:table min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Regu</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Mata Lomba</th>
+                                    <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Nilai</th>
+                                    <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($pendingDeletions as $deleteReq)
+                                    <tr class="hover:bg-red-50/50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-bold text-gray-900">{{ $deleteReq->reguProfile->nama_regu }}</div>
+                                            <div class="text-xs text-gray-500">{{ ucfirst($deleteReq->reguProfile->jenis) }} - Regu {{ $deleteReq->reguProfile->nomor_regu }}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                            {{ $deleteReq->mataLomba->nama }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-bold rounded-full bg-gray-100 text-gray-800 border border-gray-200">
+                                                {{ $deleteReq->nilai }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex justify-end space-x-2">
+                                                <form action="{{ route('juri.scores.reject', $deleteReq->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-bold rounded shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none transition-colors">
+                                                        <i data-lucide="x" class="w-4 h-4 mr-1"></i> Tolak
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('juri.scores.approve', $deleteReq->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menyetujui penghapusan ini? Nilai akan musnah permanen.');">
+                                                    @csrf
+                                                    <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-bold rounded shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none transition-colors">
+                                                        <i data-lucide="check" class="w-4 h-4 mr-1"></i> Setujui Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
             <!-- Competition Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 @foreach ($mataLomba as $lomba)

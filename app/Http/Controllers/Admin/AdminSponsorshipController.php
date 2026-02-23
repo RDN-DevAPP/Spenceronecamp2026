@@ -88,18 +88,36 @@ class AdminSponsorshipController extends Controller
             ->with('success', 'Sponsorship updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Sponsorship $sponsorship): RedirectResponse
     {
         if ($sponsorship->logo) {
             Storage::disk('public')->delete($sponsorship->logo);
+        }
+        if ($sponsorship->receipt) {
+            Storage::disk('public')->delete($sponsorship->receipt);
         }
 
         $sponsorship->delete();
 
         return redirect()->route('admin.sponsorships.index')
             ->with('success', 'Sponsorship deleted successfully.');
+    }
+
+    /**
+     * Approve and define the tier for pending sponsorships.
+     */
+    public function approve(Request $request, Sponsorship $sponsorship): RedirectResponse
+    {
+        $request->validate([
+            'tier' => 'required|in:platinum,gold,silver',
+        ]);
+
+        $sponsorship->update([
+            'tier' => $request->tier,
+            'is_approved' => true,
+        ]);
+
+        return redirect()->route('admin.sponsorships.index')
+            ->with('success', 'Sponsorship berhasil disetujui sebagai sponsor ' . ucfirst($request->tier));
     }
 }

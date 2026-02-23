@@ -33,6 +33,15 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
+                            <label for="tingkatan_tku" class="block text-sm font-medium text-gray-700">Tingkatan TKU</label>
+                            <select name="tingkatan_tku" id="tingkatan_tku" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border bg-white">
+                                <option value="ramu" {{ old('tingkatan_tku') == 'ramu' ? 'selected' : '' }}>RAMU</option>
+                                <option value="rakit" {{ old('tingkatan_tku') == 'rakit' ? 'selected' : '' }}>RAKIT</option>
+                                <option value="terap" {{ old('tingkatan_tku') == 'terap' ? 'selected' : '' }}>TERAP</option>
+                            </select>
+                        </div>
+                        <div>
                             <label for="jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
                             <select name="jabatan" id="jabatan" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border bg-white">

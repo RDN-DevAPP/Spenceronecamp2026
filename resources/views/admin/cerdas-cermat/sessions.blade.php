@@ -24,7 +24,64 @@
 
             <div class="bg-white shadow-lg border-2 border-scout-secondary rounded-lg overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <!-- Mobile View -->
+                    <div class="md:hidden divide-y divide-gray-200">
+                        @forelse($sessions as $session)
+                            <div class="p-4 bg-white hover:bg-gray-50 transition-colors">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $session->reguProfile->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500">{{ $session->reguProfile->jenis }} - {{ $session->reguProfile->nomor_regu }}</div>
+                                    </div>
+                                    <span class="px-2 py-1 inline-flex text-[10px] leading-4 font-bold rounded-full bg-blue-100 text-blue-800 uppercase">
+                                        {{ str_replace('_', ' ', $session->status) }}
+                                    </span>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Peserta</div>
+                                    <ul class="list-disc list-inside text-xs text-gray-700">
+                                        <li>{{ $session->name_1 }}</li>
+                                        <li>{{ $session->name_2 }}</li>
+                                        <li>{{ $session->name_3 }}</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-2 mb-4 bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                    <div class="text-center">
+                                        <div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-0.5">R1</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $session->score_round_1 ?? '-' }}</div>
+                                    </div>
+                                    <div class="text-center border-l border-r border-gray-200">
+                                        <div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-0.5">R2</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $session->score_round_2 ?? '-' }}</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-0.5">R3</div>
+                                        <div class="text-sm font-bold text-gray-900">{{ $session->score_round_3 ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-end pt-2 border-t border-gray-100">
+                                    <form action="{{ route('admin.cerdas-cermat.resetSession', $session->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin mereset/menghapus data peserta ini? Mereka harus mendaftar ulang dan mulai dari awal.')" class="w-full">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full justify-center inline-flex items-center px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 rounded-md text-sm font-bold transition-colors">
+                                            <i data-lucide="refresh-ccw" class="w-4 h-4 mr-2"></i> Reset Peserta
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="p-8 text-center text-gray-500">
+                                Belum ada peserta yang mendaftar.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    <!-- Desktop View -->
+                    <table class="hidden md:table min-w-full divide-y divide-gray-200">
                         <thead class="bg-scout-light">
                             <tr>
                                 <th

@@ -7,16 +7,22 @@ use App\Http\Controllers\Peserta\PesertaDashboardController;
 use App\Http\Controllers\Peserta\PesertaPosterController;
 use App\Http\Controllers\InformasiLombaController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\SponsorshipRegistrationController;
+use App\Http\Controllers\ReguRegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class)->name('home');
 Route::get('/jadwal', \App\Http\Controllers\JadwalController::class)->name('jadwal');
 Route::get('/informasi-lomba', InformasiLombaController::class)->name('informasi-lomba');
+Route::get('/sponsorship/daftar', [SponsorshipRegistrationController::class, 'create'])->name('sponsorship.daftar');
+Route::post('/sponsorship/daftar', [SponsorshipRegistrationController::class, 'store'])->name('sponsorship.store');
 
 // Auth
 Route::middleware('guest')->group(function () {
     Route::get('/login', fn() => view('auth.login'))->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/register-regu', [ReguRegistrationController::class, 'create'])->name('register.regu');
+    Route::post('/register-regu', [ReguRegistrationController::class, 'store'])->name('register.regu.submit');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -28,6 +34,8 @@ Route::middleware(['auth', 'juri'])->prefix('juri')->name('juri.')->group(functi
     Route::get('/lomba/{slug}/regu/{reguId}', [JuriDashboardController::class, 'scoreRegu'])->name('lomba.score.regu');
     Route::post('/scores', [JuriScoreController::class, 'store'])->name('scores.store');
     Route::post('/scores/bulk', [JuriScoreController::class, 'storeBulk'])->name('scores.storeBulk');
+    Route::post('/scores/{score}/approve', [JuriScoreController::class, 'approveDelete'])->name('scores.approve');
+    Route::post('/scores/{score}/reject', [JuriScoreController::class, 'rejectDelete'])->name('scores.reject');
 
     Route::get('/cerdas-cermat', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'index'])->name('cerdas-cermat.index');
     Route::get('/cerdas-cermat/qualifiers', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'qualifiers'])->name('cerdas-cermat.qualifiers');
@@ -39,6 +47,7 @@ Route::middleware(['auth', 'juri'])->prefix('juri')->name('juri.')->group(functi
 // Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::post('sponsorships/{sponsorship}/approve', [\App\Http\Controllers\Admin\AdminSponsorshipController::class, 'approve'])->name('sponsorships.approve');
     Route::resource('sponsorships', \App\Http\Controllers\Admin\AdminSponsorshipController::class);
 
     // Cerdas Cermat
@@ -53,10 +62,30 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('cerdas-cermat', \App\Http\Controllers\Admin\AdminCerdasCermatController::class)
         ->parameters(['cerdas-cermat' => 'question']);
 
+    Route::get('kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'index'])->name('kriteria.index');
+    Route::get('mata-lomba/{mataLomba}/kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'show'])->name('kriteria.show');
+    Route::get('mata-lomba/{mataLomba}/kriteria/create', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'create'])->name('kriteria.create');
+    Route::post('mata-lomba/{mataLomba}/kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'store'])->name('kriteria.store');
+
+    Route::get('kriteria/{kriteria}/edit', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'edit'])->name('kriteria.edit');
+    Route::put('kriteria/{kriteria}', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'update'])->name('kriteria.update');
+    Route::delete('kriteria/{kriteria}', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'destroy'])->name('kriteria.destroy');
+
     Route::resource('users', \App\Http\Controllers\Admin\AdminUserController::class);
 
     // Scores
-    Route::delete('/scores/{score}', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'destroy'])->name('scores.destroy');
+    Route::get('/scores', [\App\Http\Controllers\Admin\AdminScoreController::class, 'index'])->name('scores.index');
+    Route::delete('/scores/{score}', [\App\Http\Controllers\Admin\AdminScoreController::class, 'destroy'])->name('scores.destroy');
+    Route::post('/toggle-reveal-juara-umum', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'toggleRevealJuaraUmum'])->name('toggle.reveal');
+
+    // Informasi Lomba
+    Route::get('informasi-lomba', [\App\Http\Controllers\Admin\AdminInformasiLombaController::class, 'index'])->name('informasi-lomba.index');
+    Route::get('informasi-lomba/{mataLomba}/edit', [\App\Http\Controllers\Admin\AdminInformasiLombaController::class, 'edit'])->name('informasi-lomba.edit');
+    Route::put('informasi-lomba/{mataLomba}', [\App\Http\Controllers\Admin\AdminInformasiLombaController::class, 'update'])->name('informasi-lomba.update');
+
+    // Jadwal
+    Route::post('jadwal/settings', [\App\Http\Controllers\Admin\AdminJadwalController::class, 'updateSettings'])->name('jadwal.settings');
+    Route::resource('jadwal', \App\Http\Controllers\Admin\AdminJadwalController::class);
 });
 
 // Peserta (Regu)

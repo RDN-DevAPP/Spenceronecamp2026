@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MataLomba;
 use Illuminate\View\View;
 
 class InformasiLombaController extends Controller
@@ -11,6 +12,7 @@ class InformasiLombaController extends Controller
      */
     public function __invoke(): View
     {
-        return view('informasi-lomba');
+        $mataLombas = MataLomba::orderBy('urutan')->get();
+        return view('informasi-lomba', compact('mataLombas'));
     }
 }

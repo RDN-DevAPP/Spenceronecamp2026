@@ -17,12 +17,14 @@ class Score extends Model
         'juri_id',
         'nilai',
         'catatan',
+        'delete_requested'
     ];
 
     protected function casts(): array
     {
         return [
             'nilai' => 'decimal:2',
+            'delete_requested' => 'boolean',
         ];
     }
 

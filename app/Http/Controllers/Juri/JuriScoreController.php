@@ -152,4 +152,43 @@ class JuriScoreController extends Controller
 
         return back()->with('success', 'Nilai berhasil disimpan.');
     }
+
+    /**
+     * Setujui penghapusan nilai yang diajukan oleh Admin.
+     */
+    public function approveDelete(Request $request, Score $score): RedirectResponse
+    {
+        // Pastikan hanya Juri pemilik nilai yang bisa menyetujui
+        if ($score->juri_id !== Auth::id()) {
+            return back()->with('error', 'Anda tidak memiliki akses untuk menghapus nilai ini.');
+        }
+
+        if (!$score->delete_requested) {
+            return back()->with('error', 'Nilai ini tidak sedang diajukan untuk dihapus.');
+        }
+
+        $score->delete();
+
+        return back()->with('success', 'Penghapusan nilai berhasil disetujui dan nilai telah musnah.');
+    }
+
+    /**
+     * Tolak penghapusan nilai yang diajukan oleh Admin.
+     */
+    public function rejectDelete(Request $request, Score $score): RedirectResponse
+    {
+        // Pastikan hanya Juri pemilik nilai yang bisa menolak
+        if ($score->juri_id !== Auth::id()) {
+            return back()->with('error', 'Anda tidak memiliki akses untuk aksi ini.');
+        }
+
+        if (!$score->delete_requested) {
+            return back()->with('error', 'Nilai ini tidak sedang diajukan untuk dihapus.');
+        }
+
+        // Kembalikan status delete_requested ke false
+        $score->update(['delete_requested' => false]);
+
+        return back()->with('success', 'Permintaan penghapusan nilai ditolak. Nilai tetap dipertahankan.');
+    }
 }

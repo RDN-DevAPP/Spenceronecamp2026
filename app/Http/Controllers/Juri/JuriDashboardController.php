@@ -36,9 +36,16 @@ class JuriDashboardController extends Controller
             ];
         }
 
+        // Get pending deletion requests from admin
+        $pendingDeletions = Score::with(['reguProfile', 'mataLomba'])
+            ->where('juri_id', $juriId)
+            ->where('delete_requested', true)
+            ->get();
+
         return view('juri.dashboard', [
             'mataLomba' => $mataLomba,
             'scoringStats' => $scoringStats,
+            'pendingDeletions' => $pendingDeletions,
         ]);
     }
 
@@ -59,21 +66,40 @@ class JuriDashboardController extends Controller
 
         $lomba = MataLomba::where('slug', $slug)->firstOrFail();
 
+        // Determine if this is a visual competition
+        $visualSlugs = ['desain-poster-digital', 'masak-konvensional', 'tapak-kemah', 'upcycle-art'];
+        $isVisual = in_array($slug, $visualSlugs);
+
         $regu = ReguProfile::with('user:id,name,username')
             ->orderBy('jenis')
             ->orderBy('nomor_regu')
             ->get();
 
         // Load existing scores for this lomba to show status
-        $existingScores = Score::where('juri_id', $juriId)
-            ->where('mata_lomba_id', $lomba->id)
-            ->get()
-            ->keyBy('regu_profile_id');
+        $existingScoresQuery = Score::where('juri_id', $juriId)
+            ->where('mata_lomba_id', $lomba->id);
+
+        // If visual, we need the details for the modal form
+        if ($isVisual) {
+            $existingScoresQuery->with('scoreDetails.scoringCriteria');
+        }
+
+        $existingScores = $existingScoresQuery->get()->keyBy('regu_profile_id');
+
+        // Load criteria if it's a visual competition (for the modal)
+        $criteria = null;
+        if ($isVisual) {
+            $criteria = ScoringCriteria::where('mata_lomba_id', $lomba->id)
+                ->orderBy('urutan')
+                ->get();
+        }
 
         return view('juri.score-lomba', [
             'lomba' => $lomba,
             'regu' => $regu,
             'existingScores' => $existingScores,
+            'isVisual' => $isVisual,
+            'criteria' => $criteria,
         ]);
     }
 

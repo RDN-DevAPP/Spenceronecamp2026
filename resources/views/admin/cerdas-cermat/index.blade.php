@@ -46,6 +46,26 @@
                 </div>
             @endif
 
+            <div class="mb-8 p-6 bg-white overflow-hidden shadow-md rounded-xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 group">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center mb-2">
+                            <div class="bg-rose-50 p-2 rounded-lg group-hover:bg-rose-100 transition-colors mr-3">
+                                <i data-lucide="users" class="w-6 h-6 text-rose-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900">Manajemen Sesi & Peserta</h3>
+                        </div>
+                        <p class="text-gray-500 text-sm">Kontrol sesi aktif, reset status login peserta, dan pantau progress pengerjaan layar Juri & Peserta di sini.</p>
+                    </div>
+                    
+                    <a href="{{ route('admin.cerdas-cermat.sessions') }}"
+                        class="inline-flex items-center justify-center shrink-0 w-full sm:w-auto px-6 py-3 bg-rose-600 text-white border border-transparent rounded-lg font-bold hover:bg-rose-700 transition-all duration-200">
+                        <span>Buka Panel Sesi</span>
+                        <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+
             <!-- Tabs -->
             <div class="mb-6 border-b-2 border-scout-secondary overflow-x-auto">
                 <nav class="-mb-px flex space-x-8" aria-label="Tabs">

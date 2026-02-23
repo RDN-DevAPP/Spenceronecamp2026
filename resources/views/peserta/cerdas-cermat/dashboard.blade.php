@@ -108,7 +108,33 @@
                     </h3>
 
                     <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-300">
+                        <!-- Mobile View -->
+                        <div class="md:hidden divide-y divide-gray-200">
+                            @foreach($leaderboardRound1 as $index => $item)
+                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
+                                                {{ $index + 1 }}
+                                            </span>
+                                            @if($index < 5)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800 uppercase tracking-wide">
+                                                    Lolos
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <span class="text-lg font-black text-scout-primary">{{ $item->score_round_1 }}</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <div class="font-bold text-gray-900 text-sm">{{ $item->reguProfile->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500">Regu {{ $item->reguProfile->nomor_regu }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Desktop View -->
+                        <table class="hidden md:table min-w-full divide-y divide-gray-300">
                             <thead class="bg-scout-primary text-white">
                                 <tr>
                                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Peringkat
@@ -124,7 +150,7 @@
                                             {{ $index + 1 }}
                                             @if($index < 5)
                                                 <span
-                                                    class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos</span>
+                                                    class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos</span>
                                             @endif
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -153,7 +179,33 @@
                     </h3>
 
                     <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-300">
+                        <!-- Mobile View -->
+                        <div class="md:hidden divide-y divide-gray-200">
+                            @foreach($leaderboardRound2 as $index => $item)
+                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
+                                                {{ $index + 1 }}
+                                            </span>
+                                            @if($index < 3)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800 uppercase tracking-wide">
+                                                    Lolos Final
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <span class="text-lg font-black text-scout-primary">{{ $item->score_round_2 }}</span>
+                                    </div>
+                                    <div class="mt-1">
+                                        <div class="font-bold text-gray-900 text-sm">{{ $item->reguProfile->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500">Regu {{ $item->reguProfile->nomor_regu }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Desktop View -->
+                        <table class="hidden md:table min-w-full divide-y divide-gray-300">
                             <thead class="bg-scout-primary text-white">
                                 <tr>
                                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Peringkat</th>
@@ -167,7 +219,7 @@
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ $index + 1 }}
                                             @if($index < 3)
-                                                <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos Final</span>
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos Final</span>
                                             @endif
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -196,7 +248,38 @@
                     </h3>
 
                     <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-300">
+                        <!-- Mobile View -->
+                        <div class="md:hidden divide-y divide-gray-200">
+                            @foreach($leaderboardFinal as $index => $item)
+                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
+                                                {{ $index + 1 }}
+                                            </span>
+                                            @if($index === 0)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-100 text-yellow-800 uppercase tracking-wide">JUARA 1</span>
+                                            @elseif($index === 1)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-gray-100 text-gray-800 uppercase tracking-wide">JUARA 2</span>
+                                            @elseif($index === 2)
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-800 uppercase tracking-wide">JUARA 3</span>
+                                            @endif
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-[10px] text-gray-500 uppercase tracking-wide font-bold">Total Skor</div>
+                                            <span class="text-xl font-black text-scout-primary">{{ $item->total_score }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1">
+                                        <div class="font-bold text-gray-900 text-sm">{{ $item->reguProfile->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500">Regu {{ $item->reguProfile->nomor_regu }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Desktop View -->
+                        <table class="hidden md:table min-w-full divide-y divide-gray-300">
                             <thead class="bg-scout-primary text-white">
                                 <tr>
                                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Peringkat</th>
@@ -210,11 +293,11 @@
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ $index + 1 }}
                                             @if($index === 0)
-                                                <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">JUARA 1</span>
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">JUARA 1</span>
                                             @elseif($index === 1)
-                                                <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">JUARA 2</span>
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">JUARA 2</span>
                                             @elseif($index === 2)
-                                                <span class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">JUARA 3</span>
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">JUARA 3</span>
                                             @endif
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

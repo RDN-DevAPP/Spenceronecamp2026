@@ -18,24 +18,9 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: linear-gradient(135deg, #1a1410 0%, #2d1f1a 25%, #3d2a1f 50%, #4a3426 75%, #5d4037 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background-color: #FFF8E1;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235D4037' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
             height: 100vh;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
         }
 
         .cursor-bubble {
@@ -43,42 +28,44 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 1;
-            mix-blend-mode: screen;
-            animation: bubble-float 3s ease-in-out infinite;
+            /* mix-blend-mode: multiply; */
+            animation: pop 1s ease-out forwards;
         }
 
-        @keyframes bubble-float {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.8;
             }
 
-            50% {
-                transform: translateY(-20px) scale(1.1);
+            100% {
+                transform: scale(1.5) translateY(-20px);
+                opacity: 0;
             }
         }
 
         .glass-card {
-            background: rgba(30, 20, 15, 0.6);
+            background: rgba(45, 31, 26, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            border: 1px solid rgba(212, 165, 116, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
         }
 
         .input-glass {
-            background: rgba(20, 15, 10, 0.5);
+            background: rgba(30, 20, 15, 0.6);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(212, 165, 116, 0.3);
             transition: all 0.3s ease;
         }
 
         .input-glass:focus {
-            background: rgba(30, 20, 15, 0.7);
-            border-color: rgba(212, 165, 116, 0.6);
+            background: rgba(45, 31, 26, 0.8);
+            border-color: rgba(212, 165, 116, 0.8);
             outline: none;
-            box-shadow: 0 0 20px rgba(212, 165, 116, 0.3);
+            box-shadow: 0 0 15px rgba(212, 165, 116, 0.2);
         }
 
         .btn-gradient {
@@ -105,7 +92,7 @@
 
         .btn-gradient:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(139, 111, 71, 0.5);
+            box-shadow: 0 10px 20px rgba(139, 111, 71, 0.4);
         }
 
         .logo-container {
@@ -120,7 +107,7 @@
             }
 
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-5px);
             }
         }
 
@@ -139,11 +126,11 @@
             }
 
             25% {
-                transform: translateX(-10px);
+                transform: translateX(-5px);
             }
 
             75% {
-                transform: translateX(10px);
+                transform: translateX(5px);
             }
         }
 
@@ -151,9 +138,9 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(212, 165, 116, 0.4);
+            border: 2px solid rgba(212, 165, 116, 0.5);
             border-radius: 4px;
-            background: rgba(20, 15, 10, 0.5);
+            background: rgba(30, 20, 15, 0.6);
             cursor: pointer;
             position: relative;
             transition: all 0.3s ease;
@@ -186,7 +173,7 @@
             <!-- Logo & Title -->
             <div class="text-center mb-6 logo-container">
                 <div
-                    class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30">
+                    class="w-16 h-16 mx-auto mb-3 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
                     <i data-lucide="tent" class="w-8 h-8 text-white"></i>
                 </div>
                 <h1 class="text-2xl font-bold text-white mb-1">Login</h1>
@@ -226,7 +213,7 @@
                         Username
                     </label>
                     <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus
-                        class="input-glass w-full px-3 py-2.5 rounded-lg text-white placeholder-white/60 text-sm"
+                        class="input-glass w-full px-3 py-2.5 rounded-lg text-white placeholder-white/50 text-sm focus:bg-white/10"
                         placeholder="Masukkan username">
                 </div>
 
@@ -237,7 +224,7 @@
                         Password
                     </label>
                     <input type="password" id="password" name="password" required
-                        class="input-glass w-full px-3 py-2.5 rounded-lg text-white placeholder-white/60 text-sm"
+                        class="input-glass w-full px-3 py-2.5 rounded-lg text-white placeholder-white/50 text-sm focus:bg-white/10"
                         placeholder="Masukkan password">
                 </div>
 
@@ -258,9 +245,13 @@
             </form>
 
             <!-- Footer -->
-            <div class="mt-6 text-center">
+            <div class="mt-6 flex flex-col items-center space-y-3">
+                <a href="{{ route('register.regu') }}"
+                    class="text-amber-400 hover:text-amber-300 text-sm font-semibold transition duration-200">
+                    Daftar Regu Baru
+                </a>
                 <a href="{{ route('home') }}"
-                    class="text-white/80 hover:text-white text-xs inline-flex items-center transition">
+                    class="text-white/70 hover:text-white text-xs inline-flex items-center transition duration-200">
                     <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
                     Kembali ke Beranda
                 </a>
@@ -275,13 +266,10 @@
         // Cursor Bubble Effect
         const container = document.getElementById('bubbles-container');
         const colors = [
-            'rgba(74, 52, 38, 0.5)',      // Cokelat tua gelap
-            'rgba(109, 76, 61, 0.5)',     // Cokelat medium gelap
-            'rgba(139, 111, 71, 0.5)',    // Emas gelap
+            'rgba(139, 111, 71, 0.4)',    // Emas gelap
             'rgba(212, 165, 116, 0.4)',   // Khaki/Tan
-            'rgba(93, 64, 55, 0.5)',      // Cokelat
-            'rgba(77, 54, 38, 0.5)',      // Cokelat sangat gelap
-            'rgba(121, 85, 72, 0.4)',     // Cokelat medium
+            'rgba(109, 76, 61, 0.3)',     // Cokelat medium gelap
+            'rgba(74, 52, 38, 0.3)',      // Cokelat tua gelap
         ];
 
         let bubbles = [];

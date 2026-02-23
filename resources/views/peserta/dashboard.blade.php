@@ -23,29 +23,78 @@
 
                     <!-- Section: Anggota Regu -->
                     <div class="card-scout p-6 rounded-lg md:col-span-2">
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-scout-secondary/30 pb-4">
                             <div class="flex items-center">
-                                <div class="bg-scout-secondary p-2 rounded-full mr-3 text-scout-primary">
-                                    <i data-lucide="users" class="w-6 h-6"></i>
+                                <div class="bg-scout-accent p-3 rounded-full mr-4 text-scout-primary shadow-md border-2 border-scout-primary">
+                                    <i data-lucide="users" class="w-8 h-8"></i>
                                 </div>
-                                <h2 class="text-xl font-bold text-scout-primary">Anggota Regu</h2>
+                                <div>
+                                    <h2 class="text-2xl font-black text-scout-primary uppercase tracking-tight">{{ $regu->nama_regu }}</h2>
+                                    <div class="flex items-center space-x-2 text-sm font-bold text-scout-primary/70">
+                                        <span class="bg-scout-secondary px-2 py-0.5 rounded text-[10px] uppercase">{{ $regu->jenis }}</span>
+                                        <span>•</span>
+                                        <span class="tracking-widest">{{ $regu->nomor_regu }}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <a href="{{ route('peserta.anggota.create') }}" class="btn-scout-primary py-1 px-3 text-sm rounded shadow flex items-center hover:bg-scout-accent hover:text-scout-primary transition">
-                                <i data-lucide="plus" class="w-4 h-4 mr-1"></i> Tambah
-                            </a>
+                            <div class="flex items-center space-x-3">
+                                <a href="{{ route('peserta.anggota.create') }}" class="btn-scout-primary py-2 px-4 text-sm font-bold rounded-full shadow-lg flex items-center hover:bg-scout-accent hover:text-scout-primary transition border-2 border-scout-primary">
+                                    <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i> Tambah Anggota
+                                </a>
+                            </div>
                         </div>
 
                         @if ($anggota->isEmpty())
                             <p class="text-gray-500 italic">Belum ada data anggota. Silakan tambahkan anggota.</p>
                         @else
                             <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200">
+                                <!-- Mobile View -->
+                                <div class="md:hidden">
+                                    @foreach ($anggota as $i => $a)
+                                        <div class="p-4 border-b border-gray-200 hover:bg-scout-light transition-colors {{ $loop->last ? 'border-b-0' : '' }}">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <div class="flex items-center">
+                                                    <span class="inline-flex items-center justify-center w-6 h-6 text-xs font-bold leading-none text-scout-primary bg-scout-secondary rounded-full mr-2">
+                                                        {{ $i + 1 }}
+                                                    </span>
+                                                    <span class="text-base font-bold text-scout-primary">{{ $a->nama }}</span>
+                                                </div>
+                                                <div class="flex flex-col items-end space-y-1">
+                                                    @if($a->jabatan === 'Pinru')
+                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-red-600 text-white">Pinru</span>
+                                                    @elseif($a->jabatan === 'Wapinru')
+                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-amber-500 text-white">Wapinru</span>
+                                                    @else
+                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-green-600 text-white">Anggota</span>
+                                                    @endif
+                                                    <span class="text-[10px] font-bold text-scout-primary/60 uppercase">TKU: {{ $a->tingkatan_tku ?? '-' }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-end space-x-3 mt-3 pt-2 border-t border-gray-100">
+                                                <a href="{{ route('peserta.anggota.edit', $a->id) }}" class="text-yellow-600 hover:text-yellow-700 font-semibold text-sm flex items-center">
+                                                    <i data-lucide="edit-2" class="w-4 h-4 mr-1"></i> Edit
+                                                </a>
+                                                <form action="{{ route('peserta.anggota.destroy', $a->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus anggota ini?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-700 font-semibold text-sm flex items-center">
+                                                        <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                
+                                <!-- Desktop View -->
+                                <table class="hidden md:table min-w-full divide-y divide-gray-200">
                                     <thead class="bg-scout-light">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jabatan</th>
-                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-b">No</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-b">Nama</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-b">TKU</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider border-b">Jabatan</th>
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-700 uppercase tracking-wider border-b">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
@@ -53,13 +102,14 @@
                                             <tr class="hover:bg-gray-50 transition-colors">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $i + 1 }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-scout-primary">{{ $a->nama }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-scout-primary uppercase">{{ $a->tingkatan_tku ?? '-' }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                     @if($a->jabatan === 'Pinru')
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Pinru</span>
+                                                        <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-red-600 text-white shadow-sm">Pinru</span>
                                                     @elseif($a->jabatan === 'Wapinru')
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Wapinru</span>
+                                                        <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-amber-500 text-white shadow-sm">Wapinru</span>
                                                     @else
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Anggota</span>
+                                                        <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-green-600 text-white shadow-sm">Anggota</span>
                                                     @endif
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
@@ -390,14 +440,51 @@
                             <h2 class="text-xl font-bold text-scout-primary">Rekap Nilai Lomba</h2>
                         </div>
 
-                        @if($scores->isEmpty())
+                        @if($mataLombas->isEmpty())
                             <div class="text-center py-8 text-gray-500 bg-white rounded-lg border-2 border-dashed border-gray-300">
                                 <i data-lucide="clock" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
-                                <p>Belum ada nilai yang masuk.</p>
+                                <p>Belum ada kompetisi yang terdaftar.</p>
                             </div>
                         @else
                             <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200 border border-gray-200">
+                                <!-- Mobile View -->
+                                <div class="md:hidden border border-gray-200 rounded-lg bg-white overflow-hidden">
+                                    <div class="bg-scout-light px-4 py-3 flex justify-between items-center border-b border-gray-200 font-bold">
+                                        <span class="text-gray-700 text-sm">Total Nilai Lomba</span>
+                                        <span class="text-scout-primary text-lg">{{ number_format($scores->sum('nilai'), 2) }}</span>
+                                    </div>
+                                    <div class="divide-y divide-gray-100">
+                                        @foreach ($mataLombas as $i => $lomba)
+                                            @php
+                                                $score = $scores->get($lomba->id);
+                                            @endphp
+                                            <div class="p-4 hover:bg-amber-50 transition-colors">
+                                                <div class="flex justify-between items-start mb-1">
+                                                    <div class="flex items-center">
+                                                        <span class="text-xs font-bold text-gray-400 mr-2 w-4">{{ $i + 1 }}.</span>
+                                                        <span class="text-sm font-bold text-scout-primary">{{ $lomba->nama }}</span>
+                                                    </div>
+                                                    @if($score)
+                                                        <span class="text-base font-black text-gray-900 bg-gray-100 px-2 py-0.5 rounded">{{ number_format($score->nilai, 2) }}</span>
+                                                    @else
+                                                        <span class="text-base font-black text-gray-400 bg-gray-50 px-2 py-0.5 rounded">-</span>
+                                                    @endif
+                                                </div>
+                                                @if($score && $score->catatan)
+                                                    <div class="mt-2 pl-6">
+                                                        <div class="text-xs text-gray-500 bg-gray-50 p-2 rounded-md border border-gray-100 italic flex items-start">
+                                                            <i data-lucide="message-square" class="w-3 h-3 mr-1 mt-0.5 flex-shrink-0"></i>
+                                                            {{ $score->catatan }}
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <!-- Desktop View -->
+                                <table class="hidden md:table min-w-full divide-y divide-gray-200 border border-gray-200">
                                     <thead class="bg-scout-light">
                                         <tr>
                                             <th scope="col"
@@ -415,15 +502,18 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        @foreach ($scores as $i => $score)
+                                        @foreach ($mataLombas as $i => $lomba)
+                                            @php
+                                                $score = $scores->get($lomba->id);
+                                            @endphp
                                             <tr class="hover:bg-amber-50 transition-colors">
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $i + 1 }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-scout-primary">
-                                                    {{ $score->mataLomba->nama ?? 'Unknown' }}</td>
+                                                    {{ $lomba->nama }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                                                    {{ number_format($score->nilai, 2) }}</td>
+                                                    {{ $score ? number_format($score->nilai, 2) : '-' }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 italic">
-                                                    {{ $score->catatan ?? '-' }}</td>
+                                                    {{ $score && $score->catatan ? $score->catatan : '-' }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>

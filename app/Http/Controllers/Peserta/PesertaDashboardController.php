@@ -24,20 +24,23 @@ class PesertaDashboardController extends Controller
             return view('peserta.dashboard', [
                 'regu' => null,
                 'anggota' => [],
+                'mataLombas' => [],
                 'scores' => [],
             ]);
         }
 
         $anggota = $regu->anggotaRegu()->orderBy('urutan')->get();
 
-        // Sort scores by mataLomba.urutan
-        $scores = $regu->scores->sortBy(function ($score) {
-            return $score->mataLomba->urutan ?? 999;
-        });
+        // Get all Mata Lomba
+        $mataLombas = \App\Models\MataLomba::orderBy('urutan')->get();
+
+        // Get scores for the regu, keyed by mata_lomba_id for easy lookup
+        $scores = $regu->scores->keyBy('mata_lomba_id');
 
         return view('peserta.dashboard', [
             'regu' => $regu,
             'anggota' => $anggota,
+            'mataLombas' => $mataLombas,
             'scores' => $scores,
         ]);
     }
@@ -58,6 +61,7 @@ class PesertaDashboardController extends Controller
 
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
+            'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
             'jabatan' => ['required', 'in:Pinru,Wapinru,Anggota'],
         ]);
 
@@ -70,7 +74,7 @@ class PesertaDashboardController extends Controller
 
         $regu->anggotaRegu()->create([
             'nama' => $validated['nama'],
-            // 'nomor_punggung' removed as per request
+            'tingkatan_tku' => $validated['tingkatan_tku'],
             'jabatan' => $validated['jabatan'],
             'urutan' => $regu->anggotaRegu()->count() + 1,
         ]);
@@ -98,6 +102,7 @@ class PesertaDashboardController extends Controller
 
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
+            'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
             'jabatan' => ['required', 'in:Pinru,Wapinru,Anggota'],
         ]);
 
@@ -111,6 +116,7 @@ class PesertaDashboardController extends Controller
 
         $anggota->update([
             'nama' => $validated['nama'],
+            'tingkatan_tku' => $validated['tingkatan_tku'],
             'jabatan' => $validated['jabatan'],
         ]);
 

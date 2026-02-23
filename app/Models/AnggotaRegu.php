@@ -16,6 +16,7 @@ class AnggotaRegu extends Model
         'regu_profile_id',
         'nama',
         'nomor_punggung',
+        'tingkatan_tku',
         'jabatan',
         'urutan',
     ];

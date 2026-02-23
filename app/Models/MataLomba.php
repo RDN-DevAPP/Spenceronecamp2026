@@ -18,10 +18,18 @@ class MataLomba extends Model
         'urutan',
         'deskripsi',
         'nilai_maksimal',
+        'petunjuk_teknis',
+        'ketentuan_pelaksanaan',
+        'kriteria_penilaian',
     ];
 
     public function scores(): HasMany
     {
         return $this->hasMany(Score::class, 'mata_lomba_id');
+    }
+
+    public function scoringCriteria(): HasMany
+    {
+        return $this->hasMany(ScoringCriteria::class, 'mata_lomba_id');
     }
 }

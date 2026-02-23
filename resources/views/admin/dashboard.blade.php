@@ -7,205 +7,289 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
 
-            <!-- Cerdas Cermat Section -->
-            <div class="mb-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <i data-lucide="brain-circuit" class="w-6 h-6 mr-2 text-scout-primary"></i>
-                    Manajemen Cerdas Cermat
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Bank Soal Card -->
-                    <div
-                        class="bg-white overflow-hidden shadow-md rounded-xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 group">
-                        <div class="p-6">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="bg-indigo-50 p-3 rounded-lg group-hover:bg-indigo-100 transition-colors">
-                                    <i data-lucide="book-open" class="w-8 h-8 text-indigo-600"></i>
-                                </div>
-                                <span
-                                    class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full font-semibold">Bank
-                                    Soal</span>
+            <!-- Controls / Filters Row -->
+            <div class="mb-8 w-full max-w-3xl mx-auto">
+                <!-- Global Settings -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-2 border-scout-secondary/30">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i data-lucide="settings" class="w-5 h-5 mr-2 text-gray-600"></i>
+                        Pengaturan Publik
+                    </h2>
+                    <form action="{{ route('admin.toggle.reveal') }}" method="POST">
+                        @csrf
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-medium text-gray-900">Buka Sensor Juara Umum</h3>
+                                <p class="text-xs text-gray-500 mt-1">Tampilkan regu 3 besar.</p>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-1">Bank Soal</h3>
-                            <p class="text-gray-500 text-sm mb-6">Kelola database pertanyaan, kategori, dan jawaban untuk
-                                lomba.</p>
-
-                            <a href="{{ route('admin.cerdas-cermat.index') }}"
-                                class="inline-flex items-center justify-center w-full px-4 py-3 bg-white border-2 border-indigo-600 rounded-lg font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all duration-200">
-                                <span>Atur Soal</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                            </a>
+                            <label for="reveal-toggle" class="relative inline-flex items-center cursor-pointer">
+                                <input type="hidden" name="reveal" value="0">
+                                <input type="checkbox" id="reveal-toggle" name="reveal" value="1" class="sr-only peer" onchange="this.form.submit()" {{ $revealLeaderboard == '1' ? 'checked' : '' }}>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-4 ring-transparent peer-focus:ring-scout-accent/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-scout-primary"></div>
+                            </label>
                         </div>
-                    </div>
-
-                    <!-- Sesi & Peserta Card -->
-                    <div
-                        class="bg-white overflow-hidden shadow-md rounded-xl border border-gray-100 hover:shadow-lg transition-shadow duration-300 group">
-                        <div class="p-6">
-                            <div class="flex items-start justify-between mb-4">
-                                <div class="bg-rose-50 p-3 rounded-lg group-hover:bg-rose-100 transition-colors">
-                                    <i data-lucide="users" class="w-8 h-8 text-rose-600"></i>
-                                </div>
-                                <span class="bg-rose-100 text-rose-800 text-xs px-2 py-1 rounded-full font-semibold">Sesi
-                                    Lomba</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-1">Sesi & Peserta</h3>
-                            <p class="text-gray-500 text-sm mb-6">Kontrol sesi aktif, reset status peserta, dan pantau
-                                progress.</p>
-
-                            <a href="{{ route('admin.cerdas-cermat.sessions') }}"
-                                class="inline-flex items-center justify-center w-full px-4 py-3 bg-white border-2 border-rose-600 rounded-lg font-semibold text-rose-600 hover:bg-rose-600 hover:text-white transition-all duration-200">
-                                <span>Kelola Sesi</span>
-                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
-            <!-- Filters -->
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h2 class="text-xl font-semibold mb-4">Filter Nilai</h2>
-                <form method="GET" action="{{ route('admin.dashboard') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label for="mata_lomba_id" class="block text-sm font-medium text-gray-700">Mata Lomba</label>
-                        <select name="mata_lomba_id" id="mata_lomba_id"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-accent focus:ring focus:ring-scout-accent focus:ring-opacity-50">
-                            <option value="">Semua Mata Lomba</option>
-                            @foreach($mataLomba as $ml)
-                                <option value="{{ $ml->id }}" {{ request('mata_lomba_id') == $ml->id ? 'selected' : '' }}>
-                                    {{ $ml->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="juri_id" class="block text-sm font-medium text-gray-700">Juri</label>
-                        <select name="juri_id" id="juri_id"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-accent focus:ring focus:ring-scout-accent focus:ring-opacity-50">
-                            <option value="">Semua Juri</option>
-                            @foreach($juri as $j)
-                                <option value="{{ $j->id }}" {{ request('juri_id') == $j->id ? 'selected' : '' }}>
-                                    {{ $j->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="flex items-end">
-                        <button type="submit"
-                            class="bg-scout-primary text-white px-4 py-2 rounded-md hover:bg-scout-primary/90 transition">
-                            Filter
-                        </button>
-                        <a href="{{ route('admin.dashboard') }}" class="ml-2 text-gray-600 hover:text-gray-900">Reset</a>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Scores Table -->
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Data Penilaian</h3>
+            <!-- Juara Umum Leaderboard -->
+            @if(count($juaraUmum) > 0)
+            <div class="bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl shadow-lg mb-8 overflow-hidden">
+                <div class="px-6 py-5 flex justify-between items-center bg-white/10 border-b border-white/20">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <i data-lucide="award" class="w-6 h-6 mr-2 text-yellow-300"></i>
+                        Klasemen Juara Umum
+                    </h3>
                 </div>
-                <div class="border-t border-gray-200">
-                    <!-- Mobile Card View -->
-                    <div class="md:hidden">
-                        @forelse($scores as $score)
-                            <div class="p-4 border-b border-gray-200">
-                                <div class="flex justify-between items-start mb-2">
+                <!-- Desktop View -->
+                <div class="hidden md:block overflow-x-auto bg-white">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50 border-b-2 border-orange-200">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-20">Rank</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Nama Regu</th>
+                                @foreach($allMataLombaFiltered as $ml)
+                                <th scope="col" class="px-4 py-4 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">{{ $ml->nama }}</th>
+                                @endforeach
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-orange-700 uppercase tracking-wider">Total Poin</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @foreach($juaraUmum as $ju)
+                                <tr class="hover:bg-orange-50/50 transition-colors {{ $loop->iteration <= 3 ? 'bg-orange-50/30' : '' }}">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex justify-center">
+                                            @if($ju['peringkat'] == 1)
+                                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 text-white font-bold shadow-md ring-4 ring-yellow-100">1</span>
+                                            @elseif($ju['peringkat'] == 2)
+                                                <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 text-white font-bold shadow-md ring-4 ring-gray-100">2</span>
+                                            @elseif($ju['peringkat'] == 3)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 text-white font-bold shadow-md ring-4 ring-orange-100">3</span>
+                                            @else
+                                                <span class="font-bold text-gray-600">{{ $ju['peringkat'] }}</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-base font-bold text-gray-900">{{ $ju['reguProfile']->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500 mt-1">{{ ucfirst($ju['reguProfile']->jenis) }} - Regu {{ $ju['reguProfile']->nomor_regu }}</div>
+                                    </td>
+                                    @foreach($allMataLombaFiltered as $ml)
+                                    <td class="px-4 py-4 whitespace-nowrap text-center">
+                                        @if(isset($ju['lomba_poin'][$ml->id]))
+                                            @if($ju['lomba_poin'][$ml->id] == 3)
+                                                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-100 text-yellow-700 font-bold text-xs ring-1 ring-yellow-300" title="Juara 1">3</span>
+                                            @elseif($ju['lomba_poin'][$ml->id] == 2)
+                                                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-700 font-bold text-xs ring-1 ring-gray-300" title="Juara 2">2</span>
+                                            @elseif($ju['lomba_poin'][$ml->id] == 1)
+                                                <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-800 font-bold text-xs ring-1 ring-orange-300" title="Juara 3">1</span>
+                                            @endif
+                                        @else
+                                            <span class="text-gray-300">-</span>
+                                        @endif
+                                    </td>
+                                    @endforeach
+                                    <td class="px-6 py-4 whitespace-nowrap text-center bg-orange-50/50">
+                                        <div class="text-2xl font-black text-orange-600">{{ $ju['poin'] }}</div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile View -->
+                <div class="md:hidden bg-white">
+                    @foreach($juaraUmum as $ju)
+                        <div class="p-4 border-b border-gray-100 {{ $loop->iteration <= 3 ? 'bg-orange-50/30' : '' }}">
+                            <div class="flex justify-between items-center mb-3">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0">
+                                        @if($ju['peringkat'] == 1)
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 text-white font-bold shadow-md ring-2 ring-yellow-200">1</span>
+                                        @elseif($ju['peringkat'] == 2)
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 text-white font-bold shadow-md ring-2 ring-gray-200">2</span>
+                                        @elseif($ju['peringkat'] == 3)
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 text-white font-bold shadow-md ring-2 ring-orange-200">3</span>
+                                        @else
+                                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-50 text-gray-600 font-bold border border-gray-200">{{ $ju['peringkat'] }}</span>
+                                        @endif
+                                    </div>
                                     <div>
-                                        <div class="text-sm font-bold text-gray-900">{{ $score->reguProfile->nama_regu }}</div>
-                                        <div class="text-xs text-gray-500">{{ ucfirst($score->reguProfile->jenis) }} - Regu
-                                            {{ $score->reguProfile->nomor_regu }}
+                                        <div class="text-sm font-bold text-gray-900">{{ $ju['reguProfile']->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500">{{ ucfirst($ju['reguProfile']->jenis) }} - Regu {{ $ju['reguProfile']->nomor_regu }}</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Total Poin</div>
+                                    <div class="text-xl font-black text-orange-600">{{ $ju['poin'] }}</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2 bg-gray-50 rounded-lg p-3 border border-gray-100">
+                                @foreach($allMataLombaFiltered as $ml)
+                                    @if(isset($ju['lomba_poin'][$ml->id]))
+                                    <div class="text-center p-1">
+                                        <div class="text-[9px] text-gray-500 font-medium mb-1 truncate" title="{{ $ml->nama }}">{{ Str::limit($ml->nama, 10) }}</div>
+                                        @if($ju['lomba_poin'][$ml->id] == 3)
+                                            <div class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-100 text-yellow-700 font-bold text-xs ring-1 ring-yellow-300" title="Juara 1">3</div>
+                                        @elseif($ju['lomba_poin'][$ml->id] == 2)
+                                            <div class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-700 font-bold text-xs ring-1 ring-gray-300" title="Juara 2">2</div>
+                                        @elseif($ju['lomba_poin'][$ml->id] == 1)
+                                            <div class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-orange-100 text-orange-800 font-bold text-xs ring-1 ring-orange-300" title="Juara 3">1</div>
+                                        @endif
+                                    </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            <!-- Leaderboard Tables -->
+            @forelse($leaderboards as $lombaId => $lombaData)
+            @php
+                $lomba = $lombaData['mata_lomba'];
+                $lb = $lombaData['leaderboard'];
+                $juriCols = $lombaData['juri_columns'];
+                // Ensure up to 3 Juri columns for display as requested
+                $juriColsForDisplay = $juriCols->take(3)->values();
+            @endphp
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
+                <div class="px-6 py-5 flex justify-between items-center bg-gray-50 border-b border-gray-200">
+                    <h3 class="text-lg leading-6 font-bold text-gray-900 flex items-center">
+                        <i data-lucide="trophy" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                        Leaderboard - {{ $lomba->nama }}
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <!-- Mobile View -->
+                    <div class="md:hidden">
+                        @forelse($lb as $row)
+                            <div class="p-4 border-b border-gray-200 {{ $loop->iteration <= 3 ? 'bg-amber-50/30' : '' }}">
+                                <div class="flex justify-between items-center mb-3">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex-shrink-0">
+                                            @if($row['peringkat'] == 1)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-yellow-100 text-yellow-800 font-bold border border-yellow-300 shadow-sm">1</span>
+                                            @elseif($row['peringkat'] == 2)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-800 font-bold border border-gray-300 shadow-sm">2</span>
+                                            @elseif($row['peringkat'] == 3)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 text-orange-800 font-bold border border-orange-300 shadow-sm">3</span>
+                                            @else
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 text-gray-600 font-bold border border-gray-200">
+                                                    {{ $row['peringkat'] }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-bold text-gray-900">{{ $row['reguProfile']->nama_regu }}</div>
+                                            <div class="text-xs text-gray-500">{{ ucfirst($row['reguProfile']->jenis) }} - Regu {{ $row['reguProfile']->nomor_regu }}</div>
                                         </div>
                                     </div>
-                                    <div class="text-lg font-bold text-scout-primary">{{ $score->nilai }}</div>
+                                    <div class="text-right">
+                                        <div class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Total</div>
+                                        <div class="text-lg font-bold text-scout-primary">{{ number_format($row['total_nilai'], 0, ',', '.') }}</div>
+                                    </div>
                                 </div>
-                                <div class="flex justify-between items-center text-sm">
-                                    <div class="text-gray-600">
-                                        <div class="font-medium">{{ $score->mataLomba->nama }}</div>
-
-                                        <div class="text-xs text-gray-500">Juri: {{ $score->juri->name }}</div>
-                                    </div>
-                                    <div class="text-gray-400 text-xs">
-                                        {{ $score->created_at->format('d M H:i') }}
-                                    </div>
+                                <div class="grid grid-cols-3 gap-2 mt-2 bg-gray-50 rounded-lg p-2 border border-gray-100">
+                                    @for($i = 0; $i < 3; $i++)
+                                        <div class="text-center">
+                                            <div class="text-xs text-gray-500 font-medium mb-1">Juri {{ $i + 1 }}</div>
+                                            @if(isset($juriColsForDisplay[$i]) && isset($row['juri_scores'][$juriColsForDisplay[$i]]))
+                                                <div class="text-sm font-semibold text-gray-800">{{ $row['juri_scores'][$juriColsForDisplay[$i]] }}</div>
+                                            @else
+                                                <div class="text-sm text-gray-400">-</div>
+                                            @endif
+                                        </div>
+                                    @endfor
                                 </div>
                             </div>
                         @empty
-                            <div class="p-4 text-center text-gray-500">Belum ada data penilaian.</div>
+                            <div class="p-8 text-center text-gray-500">
+                                <i data-lucide="clipboard-x" class="w-10 h-10 text-gray-300 mx-auto mb-2"></i>
+                                <p>Belum ada regu yang dinilai.</p>
+                            </div>
                         @endforelse
                     </div>
 
-                    <!-- Desktop Table View -->
-                    <div class="hidden md:block overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Regu</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Mata Lomba</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Juri</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Nilai</th>
-                                    <th scope="col"
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Waktu</th>
-                                    <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">Aksi</span>
-                                    </th>
+                    <!-- Desktop View -->
+                    <table class="hidden md:table min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-20">
+                                    <div class="flex justify-center">Peringkat</div>
+                                </th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Nama Regu
+                                </th>
+                                @for($i = 1; $i <= 3; $i++)
+                                <th scope="col" class="px-4 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Juri {{ $i }}
+                                </th>
+                                @endfor
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-scout-primary uppercase tracking-wider bg-indigo-50/30">
+                                    Total Nilai
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse($lb as $row)
+                                <tr class="hover:bg-gray-50/50 transition-colors {{ $loop->iteration <= 3 ? 'bg-amber-50/20' : '' }}">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex justify-center">
+                                            @if($row['peringkat'] == 1)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 text-white font-bold shadow-sm ring-2 ring-yellow-200 ring-offset-1">1</span>
+                                            @elseif($row['peringkat'] == 2)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 text-white font-bold shadow-sm ring-2 ring-gray-200 ring-offset-1">2</span>
+                                            @elseif($row['peringkat'] == 3)
+                                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-orange-300 to-orange-500 text-white font-bold shadow-sm ring-2 ring-orange-200 ring-offset-1">3</span>
+                                            @else
+                                                <span class="font-bold text-gray-500">{{ $row['peringkat'] }}</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-bold text-gray-900">{{ $row['reguProfile']->nama_regu }}</div>
+                                        <div class="text-xs text-gray-500 mt-0.5">{{ ucfirst($row['reguProfile']->jenis) }} - Regu {{ $row['reguProfile']->nomor_regu }}</div>
+                                    </td>
+                                    @for($i = 0; $i < 3; $i++)
+                                    <td class="px-4 py-4 whitespace-nowrap text-center border-l border-gray-50">
+                                        @if(isset($juriColsForDisplay[$i]) && isset($row['juri_scores'][$juriColsForDisplay[$i]]))
+                                            <span class="text-sm text-gray-700 font-medium inline-block px-3 py-1 bg-gray-50 rounded-md">{{ $row['juri_scores'][$juriColsForDisplay[$i]] }}</span>
+                                        @else
+                                            <span class="text-sm text-gray-400">-</span>
+                                        @endif
+                                    </td>
+                                    @endfor
+                                    <td class="px-6 py-4 whitespace-nowrap text-center bg-indigo-50/10 border-l border-gray-100">
+                                        <div class="text-lg font-black text-scout-primary">{{ number_format($row['total_nilai'], 0, ',', '.') }}</div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($scores as $score)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">{{ $score->reguProfile->nama_regu }}
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <div class="bg-gray-50 p-4 rounded-full mb-3">
+                                                <i data-lucide="clipboard-list" class="w-8 h-8 text-gray-400"></i>
                                             </div>
-                                            <div class="text-sm text-gray-500">{{ ucfirst($score->reguProfile->jenis) }} - Regu
-                                                {{ $score->reguProfile->nomor_regu }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $score->mataLomba->nama }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $score->juri->name }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-bold text-gray-900">{{ $score->nilai }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $score->created_at->format('d M Y H:i') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <form action="{{ route('admin.scores.destroy', $score->id) }}" method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus penilaian ini?');"
-                                                class="inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">
-                                                    Hapus
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">Belum ada data penilaian.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+                                            <p class="text-sm font-medium">Belum ada data penilaian untuk mata lomba ini.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            @empty
+            <div class="bg-white shadow overflow-hidden sm:rounded-lg p-12 text-center border border-dashed border-gray-300">
+                <i data-lucide="folder-search" class="w-12 h-12 text-gray-300 mx-auto mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-900">Tidak ada data ditemukan.</h3>
+                <p class="text-sm text-gray-500 mt-1">Belum ada mata lomba atau penilaian yang tersedia.</p>
+            </div>
+            @endforelse
 
 
         </div>
