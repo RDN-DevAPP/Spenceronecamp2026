@@ -14,10 +14,26 @@
                 <span class="text-scout-primary/50 text-sm">/</span>
                 <span class="text-scout-primary text-sm font-bold">Edit {{ $mataLomba->nama }}</span>
             </div>
-            <h1 class="text-3xl font-bold text-scout-primary flex items-center gap-3">
-                <i data-lucide="edit-3" class="w-8 h-8 text-scout-accent"></i>
-                Edit Detail Informasi Lomba
-            </h1>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-scout-primary flex items-center gap-3">
+                        <i data-lucide="edit-3" class="w-8 h-8"></i>
+                        Edit: {{ $mataLomba->nama }}
+                    </h1>
+                    <p class="text-scout-primary/70 mt-1 font-medium italic">Perbarui informasi dan juknis lomba</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('admin.kriteria.show', $mataLomba->id) }}"
+                        class="btn-scout-accent px-5 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm text-sm">
+                        <i data-lucide="list-checks" class="w-4 h-4"></i>
+                        Atur Kriteria Penilaian
+                    </a>
+                    <a href="{{ route('admin.informasi-lomba.index') }}" class="text-scout-primary/60 hover:text-scout-primary font-bold flex items-center gap-2 transition-colors px-3">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        Kembali
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="card-scout rounded-2xl p-6 sm:p-8">
@@ -26,6 +42,19 @@
                 @method('PUT')
 
                 <div class="space-y-8">
+                    <!-- Nama -->
+                    <div class="bg-scout-surface/30 p-5 rounded-xl border border-scout-secondary/20">
+                        <label for="nama" class="block text-base font-bold text-scout-primary mb-3 flex items-center gap-2">
+                            <i data-lucide="tag" class="w-5 h-5 text-scout-accent"></i>
+                            Nama Mata Lomba
+                        </label>
+                        <input type="text" name="nama" id="nama" value="{{ old('nama', $mataLomba->nama) }}" required
+                            class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('nama') border-red-500 @enderror">
+                        @error('nama')
+                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Deskripsi Singkat -->
                     <div class="bg-scout-surface/30 p-5 rounded-xl border border-scout-secondary/20">
                         <label for="deskripsi"
@@ -78,6 +107,30 @@
                             <i data-lucide="list-checks" class="w-5 h-5 text-scout-accent"></i>
                             Kriteria Penilaian (Teks Publik)
                         </label>
+                        <div class="mb-4">
+                            <label for="nilai_maksimal" class="block text-sm font-semibold text-scout-primary mb-2">
+                                Nilai Maksimal Lomba
+                            </label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" name="nilai_maksimal" id="nilai_maksimal"
+                                    value="{{ old('nilai_maksimal', (int)$mataLomba->nilai_maksimal) }}"
+                                    {{ $mataLomba->slug === 'cerdas-cermat' ? 'readonly' : '' }}
+                                    class="w-32 px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary font-bold text-lg transition-all @error('nilai_maksimal') border-red-500 @enderror {{ $mataLomba->slug === 'cerdas-cermat' ? 'bg-gray-100 cursor-not-allowed opacity-75' : '' }}"
+                                    placeholder="100">
+                                <span class="text-scout-primary/60 font-medium">Poin</span>
+                            </div>
+                            @error('nilai_maksimal')
+                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
+                            @enderror
+                            <p class="mt-2 text-xs text-scout-primary/50 italic">
+                                @if($mataLomba->slug === 'cerdas-cermat')
+                                    Nilai ini dihitung otomatis dari total skor semua soal. Atur di
+                                    <a href="{{ route('admin.cerdas-cermat.index') }}" class="text-scout-accent font-bold hover:underline">Kelola Soal</a>.
+                                @else
+                                    Nilai ini akan menjadi acuan total akumulasi kriteria penilaian.
+                                @endif
+                            </p>
+                        </div>
                         <textarea name="kriteria_penilaian" id="kriteria_penilaian" rows="4"
                             class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('kriteria_penilaian') border-red-500 @enderror"
                             placeholder="Tuliskan poin-poin yang akan dinilai juri secara deskriptif...">{{ old('kriteria_penilaian', $mataLomba->kriteria_penilaian) }}</textarea>

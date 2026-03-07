@@ -40,13 +40,20 @@ class AdminSponsorshipController extends Controller
             'website_url' => 'nullable|url|max:255',
         ]);
 
-        $data = $request->all();
+        $logoPath = $request->hasFile('logo')
+            ? $request->file('logo')->store('sponsorships', 'public')
+            : null;
 
-        if ($request->hasFile('logo')) {
-            $data['logo'] = $request->file('logo')->store('sponsorships', 'public');
-        }
-
-        Sponsorship::create($data);
+        Sponsorship::create([
+            'name' => $request->name,
+            'tier' => $request->tier,
+            'website_url' => $request->website_url,
+            'logo' => $logoPath,
+            'pic_name' => $request->pic_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'is_approved' => true,
+        ]);
 
         return redirect()->route('admin.sponsorships.index')
             ->with('success', 'Sponsorship created successfully.');
@@ -72,7 +79,14 @@ class AdminSponsorshipController extends Controller
             'website_url' => 'nullable|url|max:255',
         ]);
 
-        $data = $request->all();
+        $data = [
+            'name' => $request->name,
+            'tier' => $request->tier,
+            'website_url' => $request->website_url,
+            'pic_name' => $request->pic_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+        ];
 
         if ($request->hasFile('logo')) {
             // Delete old logo

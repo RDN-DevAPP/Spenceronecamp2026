@@ -14,6 +14,7 @@ class MataLomba extends Model
 
     protected $fillable = [
         'nama',
+        'kode',
         'slug',
         'urutan',
         'deskripsi',
@@ -31,5 +32,10 @@ class MataLomba extends Model
     public function scoringCriteria(): HasMany
     {
         return $this->hasMany(ScoringCriteria::class, 'mata_lomba_id');
+    }
+
+    public function juris(): HasMany
+    {
+        return $this->hasMany(User::class, 'mata_lomba_id');
     }
 }

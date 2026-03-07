@@ -10,15 +10,6 @@ use Illuminate\Http\Request;
 class AdminKriteriaController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $mataLombas = MataLomba::where('slug', '!=', 'cerdas-cermat')->get();
-        return view('admin.kriteria.index', compact('mataLombas'));
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create(MataLomba $mataLomba)

@@ -30,8 +30,17 @@
                         <div class="flex items-center gap-4 sm:gap-6">
                             <div class="p-3 bg-scout-primary/10 rounded-2xl group-hover:bg-scout-primary group-hover:text-white transition-colors duration-300"
                                 :class="{ 'bg-scout-primary text-white': activeLomba === '{{ $lomba->slug }}' }">
-                                <i data-lucide="{{ $lomba->slug === 'cerdas-cermat' ? 'brain' : ($lomba->slug === 'tapak-kemah' ? 'tent' : ($lomba->slug === 'masak-konvensional' ? 'chef-hat' : ($lomba->slug === 'upcycle-art' ? 'recycle' : ($lomba->slug === 'poster-digital' ? 'image' : 'users')))) }}"
-                                    class="w-6 h-6 sm:w-8 sm:h-8"></i>
+                                @php
+                                    $icon = match($lomba->slug) {
+                                        'cerdas-cermat' => 'brain',
+                                        'tapak-kemah' => 'tent',
+                                        'masak-konvensional' => 'chef-hat',
+                                        'upcycle-art' => 'recycle',
+                                        'desain-poster-digital' => 'image',
+                                        default => 'users',
+                                    };
+                                @endphp
+                                <i data-lucide="{{ $icon }}" class="w-6 h-6 sm:w-8 sm:h-8"></i>
                             </div>
                             <div>
                                 <h3 class="text-xl sm:text-2xl font-black text-scout-primary leading-tight">{{ $lomba->nama }}</h3>

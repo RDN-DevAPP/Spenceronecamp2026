@@ -180,9 +180,24 @@
                                 class="input-glass w-full px-4 py-3 rounded-xl text-white placeholder-white/40 focus:bg-white/10"
                                 placeholder="...">
                             <p id="name-hint" class="text-white/40 text-[10px] mt-1 italic">Pilih kategori regu terlebih
-                                dahulu
-                            </p>
+                                dahulu</p>
                         </div>
+                    </div>
+
+                    <div id="regu-selection-container" class="hidden">
+                        <label for="regu_profile_id" class="block text-white font-semibold mb-2 text-sm">PILIH REGU
+                            TERDAFTAR (HASIL PENGACAKAN)</label>
+                        <select id="regu_profile_id" name="regu_profile_id" onchange="fetchTeamMembers(this.value)"
+                            class="input-glass w-full px-4 py-3 rounded-xl text-white focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                            <option value="">-- Buat Regu Baru --</option>
+                            @foreach($availableTeams as $regu)
+                                <option value="{{ $regu->id }}" data-jenis="{{ $regu->jenis }}">
+                                    {{ $regu->nama_regu }} (Nomor {{ $regu->nomor_regu }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="text-white/40 text-[10px] mt-1 italic">Jika Anda adalah anggota dari regu hasil
+                            pengacakan, silakan pilih nama regu Anda di atas.</p>
                     </div>
 
                     <div class="grid grid-cols-1 gap-6">
@@ -231,20 +246,8 @@
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto custom-scrollbar">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-white/60 text-[10px] uppercase tracking-wider">
-                                    <th class="px-4 py-3 font-medium">No</th>
-                                    <th class="px-4 py-3 font-medium">Nama Lengkap</th>
-                                    <th class="px-4 py-3 font-medium">Tingkatan TKU</th>
-                                    <th class="px-4 py-3 font-medium">Jabatan</th>
-                                </tr>
-                            </thead>
-                            <tbody id="member-rows" class="divide-y divide-white/5">
-                                <!-- Dynamic Rows Here -->
-                            </tbody>
-                        </table>
+                    <div id="member-cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Dynamic Cards Here -->
                     </div>
                 </div>
 
@@ -275,6 +278,8 @@
             const gender = document.querySelector('input[name="jenis"]:checked')?.value;
             const hint = document.getElementById('name-hint');
             const input = document.getElementById('nama_regu');
+            const selectionContainer = document.getElementById('regu-selection-container');
+            const reguSelect = document.getElementById('regu_profile_id');
 
             if (gender === 'putra') {
                 hint.textContent = 'Tips: Regu Putra menggunakan nama Hewan (misal: Harimau, Elang)';
@@ -285,54 +290,215 @@
                 hint.className = 'text-pink-400 text-[10px] mt-1 italic';
                 input.placeholder = 'Contoh: Mawar';
             }
+
+            // Show selection and filter options
+            if (gender) {
+                selectionContainer.classList.remove('hidden');
+                Array.from(reguSelect.options).forEach(option => {
+                    if (option.value === "") {
+                        option.hidden = false;
+                    } else {
+                        option.hidden = option.getAttribute('data-jenis') !== gender;
+                    }
+                });
+                reguSelect.value = ""; // Reset selection when category changes
+                resetFormState(); // Reset read-only states
+            }
+        }
+
+        let isRandomizedMode = false;
+
+        function resetFormState() {
+            isRandomizedMode = false;
+            const inputNamaRegu = document.getElementById('nama_regu');
+            const selectJumlah = document.getElementById('jumlah_anggota');
+
+            inputNamaRegu.readOnly = false;
+            selectJumlah.disabled = false;
+
+            const hiddenJumlah = document.getElementById('hidden_jumlah_anggota');
+            if (hiddenJumlah) hiddenJumlah.remove();
+
+            generateRows();
+        }
+
+        function fetchTeamMembers(id) {
+            if (!id) {
+                resetFormState();
+                return;
+            }
+
+            fetch(`/api/randomize-regu/${id}/members`)
+                .then(response => response.json())
+                .then(data => {
+                    isRandomizedMode = true;
+
+                    // Update Regu Name
+                    const inputNamaRegu = document.getElementById('nama_regu');
+                    inputNamaRegu.value = data.nama_regu;
+                    inputNamaRegu.readOnly = false; // Allow modification
+
+                    // Update Member Rows
+                    const selectJumlah = document.getElementById('jumlah_anggota');
+                    selectJumlah.value = data.members.length;
+                    selectJumlah.disabled = true;
+
+                    // Add hidden input because disabled select won't be submitted
+                    let hiddenJumlah = document.getElementById('hidden_jumlah_anggota');
+                    if (!hiddenJumlah) {
+                        hiddenJumlah = document.createElement('input');
+                        hiddenJumlah.type = 'hidden';
+                        hiddenJumlah.id = 'hidden_jumlah_anggota';
+                        hiddenJumlah.name = 'jumlah_anggota';
+                        selectJumlah.parentNode.appendChild(hiddenJumlah);
+                    }
+                    hiddenJumlah.value = data.members.length;
+
+                    populateMembers(data.members);
+                })
+                .catch(error => {
+                    console.error('Error fetching members:', error);
+                    alert('Gagal mengambil data regu. Silakan coba lagi.');
+                });
+        }
+
+        function populateMembers(members) {
+            const container = document.getElementById('member-cards-container');
+            container.innerHTML = '';
+
+            members.forEach((m, i) => {
+                const card = document.createElement('div');
+                card.className = 'input-glass p-4 rounded-2xl border border-white/10 space-y-4 hover:border-amber-500/30 transition-all';
+
+                let icon = 'user';
+                let colorClass = 'text-white/40';
+                let labelColor = 'text-white/60';
+
+                if (m.jabatan === 'pinru') {
+                    icon = 'crown';
+                    colorClass = 'text-amber-400';
+                    labelColor = 'text-amber-400 font-bold';
+                } else if (m.jabatan === 'wapinru') {
+                    icon = 'award';
+                    colorClass = 'text-amber-200';
+                    labelColor = 'text-amber-200 font-bold';
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="${icon}" class="w-4 h-4 ${colorClass}"></i>
+                            <span class="text-[10px] font-black uppercase tracking-widest ${labelColor}">
+                                Anggota ${i + 1} ${m.jabatan ? `- ${m.jabatan}` : ''}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
+                            <input type="text" name="anggota[${i}][nama]" required
+                                value="${m.nama}"
+                                ${isRandomizedMode ? 'readonly' : ''}
+                                class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10 ${isRandomizedMode ? 'opacity-70 cursor-not-allowed' : ''}"
+                                placeholder="Nama Lengkap">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Tingkatan TKU</label>
+                                <select name="anggota[${i}][tingkatan_tku]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-xs focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                                    <option value="ramu" ${m.tingkatan_tku === 'ramu' ? 'selected' : ''}>Ramu</option>
+                                    <option value="rakit" ${m.tingkatan_tku === 'rakit' ? 'selected' : ''}>Rakit</option>
+                                    <option value="terap" ${m.tingkatan_tku === 'terap' ? 'selected' : ''}>Terap</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Jabatan</label>
+                                <select name="anggota[${i}][jabatan]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-xs font-bold uppercase focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                                    <option value="pinru" ${m.jabatan === 'pinru' ? 'selected' : ''}>PINRU</option>
+                                    <option value="wapinru" ${m.jabatan === 'wapinru' ? 'selected' : ''}>WAPINRU</option>
+                                    <option value="anggota" ${m.jabatan === 'anggota' || !m.jabatan ? 'selected' : ''}>ANGGOTA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
         }
 
         function generateRows() {
             const count = document.getElementById('jumlah_anggota').value;
-            const container = document.getElementById('member-rows');
+            const container = document.getElementById('member-cards-container');
             container.innerHTML = '';
 
             for (let i = 0; i < count; i++) {
-                const row = document.createElement('tr');
-                row.className = 'group hover:bg-white/5 transition-colors';
+                const card = document.createElement('div');
+                card.className = 'input-glass p-4 rounded-2xl border border-white/10 space-y-4 hover:border-amber-500/30 transition-all';
 
-                let jabatan = 'Anggota';
+                let jabatan = 'ANGGOTA';
+                let jabatanValue = 'anggota';
                 let icon = 'user';
-                let colorClass = 'text-white/60';
+                let colorClass = 'text-white/40';
+                let labelColor = 'text-white/60';
 
                 if (i === 0) {
                     jabatan = 'PINRU';
+                    jabatanValue = 'pinru';
                     icon = 'crown';
-                    colorClass = 'text-amber-400 font-bold';
+                    colorClass = 'text-amber-400';
+                    labelColor = 'text-amber-400 font-bold';
                 } else if (i === 1) {
                     jabatan = 'WAPINRU';
+                    jabatanValue = 'wapinru';
                     icon = 'award';
-                    colorClass = 'text-amber-200 font-bold';
+                    colorClass = 'text-amber-200';
+                    labelColor = 'text-amber-200 font-bold';
                 }
 
-                row.innerHTML = `
-                    <td class="px-4 py-4 text-white font-medium">${i + 1}</td>
-                    <td class="px-4 py-4">
-                        <input type="text" name="anggota[${i}][nama]" required
-                            class="input-glass w-full px-3 py-2 rounded-lg text-white text-sm focus:bg-white/10"
-                            placeholder="Nama Lengkap">
-                    </td>
-                    <td class="px-4 py-4">
-                        <select name="anggota[${i}][tingkatan_tku]" required
-                            class="input-glass w-full px-3 py-2 rounded-lg text-white text-sm focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
-                            <option value="ramu">Ramu</option>
-                            <option value="rakit">Rakit</option>
-                            <option value="terap">Terap</option>
-                        </select>
-                    </td>
-                    <td class="px-4 py-4">
-                        <div class="flex items-center space-x-2 ${colorClass}">
-                            <i data-lucide="${icon}" class="w-4 h-4"></i>
-                            <span class="text-xs font-bold uppercase">${jabatan}</span>
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-white/5 pb-2">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="${icon}" class="w-4 h-4 ${colorClass}"></i>
+                            <span class="text-[10px] font-black uppercase tracking-widest ${labelColor}">
+                                Anggota ${i + 1} - ${jabatan}
+                            </span>
                         </div>
-                    </td>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
+                            <input type="text" name="anggota[${i}][nama]" required
+                                class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10"
+                                placeholder="Masukkan nama lengkap">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Tingkatan TKU</label>
+                                <select name="anggota[${i}][tingkatan_tku]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-xs focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                                    <option value="ramu">Ramu</option>
+                                    <option value="rakit">Rakit</option>
+                                    <option value="terap">Terap</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Jabatan</label>
+                                <input type="hidden" name="anggota[${i}][jabatan]" value="${jabatanValue}">
+                                <div class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-wider">
+                                    ${jabatan}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
-                container.appendChild(row);
+                container.appendChild(card);
             }
             lucide.createIcons();
         }

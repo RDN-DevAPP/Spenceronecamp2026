@@ -7,6 +7,7 @@
     <title>Login - LT-I Spencerone Camp 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
@@ -250,6 +251,10 @@
                     class="text-amber-400 hover:text-amber-300 text-sm font-semibold transition duration-200">
                     Daftar Regu Baru
                 </a>
+                <a href="{{ route('register.juri') }}"
+                    class="text-amber-400/70 hover:text-amber-300 text-sm font-semibold transition duration-200">
+                    Daftar Juri
+                </a>
                 <a href="{{ route('home') }}"
                     class="text-white/70 hover:text-white text-xs inline-flex items-center transition duration-200">
                     <i data-lucide="arrow-left" class="w-3.5 h-3.5 mr-1"></i>
@@ -329,6 +334,39 @@
                 input.style.transform = 'scale(1)';
             });
         });
+
+        // Registration Success Alert
+        @if(session('reg_username') && session('reg_password'))
+            Swal.fire({
+                title: 'Registrasi Berhasil! 🎉',
+                html: `
+                        <div class="text-left mt-4 p-4 bg-gray-50 rounded-xl border-2 border-dashed border-amber-200">
+                            <p class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-3">Simpan Data Akun Anda:</p>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                    <span class="text-xs font-bold text-scout-primary">Username:</span>
+                                    <span class="text-sm font-mono font-black text-scout-accent">{{ session('reg_username') }}</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2.5 bg-white rounded-lg border border-gray-100 shadow-sm">
+                                    <span class="text-xs font-bold text-scout-primary">Password:</span>
+                                    <span class="text-sm font-mono font-black text-scout-accent">{{ session('reg_password') }}</span>
+                                </div>
+                            </div>
+                            <p class="mt-4 text-[10px] text-red-500 font-bold italic text-center italic">
+                                *Harap catat atau screenshot halaman ini sebelum ditutup!
+                            </p>
+                        </div>
+                    `,
+                icon: 'success',
+                confirmButtonText: 'Saya Sudah Mencatatnya',
+                confirmButtonColor: '#8B6F47',
+                background: '#ffffff',
+                customClass: {
+                    title: 'text-2xl font-black text-scout-primary',
+                    popup: 'rounded-3xl border-4 border-scout-accent/20'
+                }
+            });
+        @endif
     </script>
 </body>
 

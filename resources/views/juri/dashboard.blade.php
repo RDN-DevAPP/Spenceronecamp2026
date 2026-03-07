@@ -124,19 +124,28 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 @foreach ($mataLomba as $lomba)
                     @php
-                        $stats = $scoringStats[$lomba->id];
-                        $isComplete = $stats['scored'] === $stats['total'] && $stats['total'] > 0;
-                        $isPartial = $stats['scored'] > 0 && $stats['scored'] < $stats['total'];
+                        $stats = $scoringStats[$lomba->id] ?? ['scored' => 0, 'total' => 0, 'percentage' => 0];
+                        $isComplete = $stats['percentage'] >= 100;
+                        $isPartial = $stats['percentage'] > 0 && $stats['percentage'] < 100;
+
+                        $icon = match ($lomba->slug) {
+                            'cerdas-cermat' => 'brain',
+                            'tapak-kemah' => 'tent',
+                            'masak-konvensional' => 'chef-hat',
+                            'upcycle-art' => 'recycle',
+                            'desain-poster-digital' => 'image',
+                            default => 'users',
+                        };
                     @endphp
                     <div class="card-scout rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <!-- Card Header -->
                         <div class="bg-scout-primary text-white p-4 sm:p-5 border-b-4 border-scout-accent relative overflow-hidden">
                             <div class="absolute top-0 right-0 p-2 opacity-10 transform translate-x-2 -translate-y-2">
-                                <i data-lucide="award" class="w-16 h-16"></i>
+                                <i data-lucide="{{ $icon }}" class="w-16 h-16"></i>
                             </div>
                             <div class="flex items-start justify-between mb-2 relative z-10">
                                 <div class="flex items-center flex-1">
-                                    <i data-lucide="trophy" class="w-6 h-6 mr-3 text-scout-accent flex-shrink-0"></i>
+                                    <i data-lucide="{{ $icon }}" class="w-6 h-6 mr-3 text-scout-accent flex-shrink-0"></i>
                                     <h3 class="text-base sm:text-lg font-bold leading-tight text-white">{{ $lomba->nama }}</h3>
                                 </div>
                                 <span class="text-xs bg-scout-accent text-white px-2 py-1 rounded-full font-bold ml-2 shadow-sm">

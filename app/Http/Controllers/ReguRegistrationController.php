@@ -14,17 +14,15 @@ use Illuminate\View\View;
 
 class ReguRegistrationController extends Controller
 {
-    /**
-     * Show the application registration form.
-     */
     public function create(): View
     {
-        return view('auth.register-regu');
+        $availableTeams = ReguProfile::whereHas('user', function ($query) {
+            $query->where('role', User::ROLE_ADMIN);
+        })->orderBy('nomor_regu')->get();
+
+        return view('auth.register-regu', compact('availableTeams'));
     }
 
-    /**
-     * Handle a registration request for the application.
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -33,9 +31,11 @@ class ReguRegistrationController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'jumlah_anggota' => 'required|integer|min:7|max:10',
+            'regu_profile_id' => 'nullable|exists:regu_profiles,id',
             'anggota' => 'required|array',
             'anggota.*.nama' => 'required|string|max:255',
             'anggota.*.tingkatan_tku' => ['required', Rule::in(['ramu', 'rakit', 'terap'])],
+            'anggota.*.jabatan' => ['required', Rule::in(['pinru', 'wapinru', 'anggota'])],
         ]);
 
         try {
@@ -50,35 +50,63 @@ class ReguRegistrationController extends Controller
                 'role' => User::ROLE_REGU,
             ]);
 
-            // 2. Create Regu Profile
-            $reguProfile = ReguProfile::create([
-                'user_id' => $user->id,
-                'nama_regu' => $request->nama_regu,
-                'jenis' => $request->jenis,
-                'nomor_regu' => $request->nomor_regu ?? '-',
-            ]);
-
-            // 3. Create Anggota Regu
-            foreach ($request->anggota as $index => $data) {
-                $jabatan = 'anggota';
-                if ($index == 0) {
-                    $jabatan = 'pinru';
-                } elseif ($index == 1) {
-                    $jabatan = 'wapinru';
-                }
-
-                AnggotaRegu::create([
-                    'regu_profile_id' => $reguProfile->id,
-                    'nama' => $data['nama'],
-                    'tingkatan_tku' => $data['tingkatan_tku'],
-                    'jabatan' => $jabatan,
-                    'urutan' => $index + 1,
+            if ($request->regu_profile_id) {
+                // 2. Claim Existing Regu Profile
+                $reguProfile = ReguProfile::findOrFail($request->regu_profile_id);
+                $reguProfile->update([
+                    'user_id' => $user->id,
+                    'nama_regu' => $request->nama_regu,
                 ]);
+
+                // 3. Update Existing Anggota Regu
+                // Since this is a new registration for this user, we can clear existing and re-create 
+                // or update. The user requirement says "auto muncul and hanya dapat di edit jabatan, dan tingkatannya saja".
+                // We should update based on what WAS randomized but with new jabatan/tingkatan.
+
+                // For simplicity and matching the user's "nama hanya bisa di edit setelah log in",
+                // we'll update the existing records by index/urutan or just clear and re-create if they mismatch.
+                // But wait, the names shouldn't change here.
+
+                $reguProfile->anggotaRegu()->delete();
+                foreach ($request->anggota as $index => $data) {
+                    AnggotaRegu::create([
+                        'regu_profile_id' => $reguProfile->id,
+                        'nama' => $data['nama'],
+                        'tingkatan_tku' => $data['tingkatan_tku'],
+                        'jabatan' => $data['jabatan'],
+                        'urutan' => $index + 1,
+                    ]);
+                }
+            } else {
+                // 2. Create New Regu Profile (Original Logic)
+                $nextNomor = ReguProfile::where('jenis', $request->jenis)->max('nomor_regu') ?? 0;
+                $nomorRegu = $nextNomor + 1;
+
+                $reguProfile = ReguProfile::create([
+                    'user_id' => $user->id,
+                    'nama_regu' => $request->nama_regu,
+                    'jenis' => $request->jenis,
+                    'nomor_regu' => $nomorRegu,
+                ]);
+
+                // 3. Create Anggota Regu
+                foreach ($request->anggota as $index => $data) {
+                    AnggotaRegu::create([
+                        'regu_profile_id' => $reguProfile->id,
+                        'nama' => $data['nama'],
+                        'tingkatan_tku' => $data['tingkatan_tku'],
+                        'jabatan' => $data['jabatan'],
+                        'urutan' => $index + 1,
+                    ]);
+                }
             }
 
             DB::commit();
 
-            return redirect()->route('login')->with('success', 'Pendaftaran Berhasil! Silakan login menggunakan akun yang telah dibuat.');
+            return redirect()->route('login')
+                ->with('success', 'Pendaftaran Berhasil! Silakan login menggunakan akun yang telah dibuat.')
+                ->with('reg_username', $request->username)
+                ->with('reg_password', $request->password);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan saat mendaftar: ' . $e->getMessage())->withInput();

@@ -9,6 +9,8 @@ use App\Http\Controllers\InformasiLombaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SponsorshipRegistrationController;
 use App\Http\Controllers\ReguRegistrationController;
+use App\Http\Controllers\JuriRegistrationController;
+use App\Http\Controllers\DaftarReguController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class)->name('home');
@@ -17,12 +19,18 @@ Route::get('/informasi-lomba', InformasiLombaController::class)->name('informasi
 Route::get('/sponsorship/daftar', [SponsorshipRegistrationController::class, 'create'])->name('sponsorship.daftar');
 Route::post('/sponsorship/daftar', [SponsorshipRegistrationController::class, 'store'])->name('sponsorship.store');
 
+// Public Pages
+Route::get('/daftar-regu', DaftarReguController::class)->name('daftar-regu');
+
 // Auth
 Route::middleware('guest')->group(function () {
     Route::get('/login', fn() => view('auth.login'))->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
     Route::get('/register-regu', [ReguRegistrationController::class, 'create'])->name('register.regu');
     Route::post('/register-regu', [ReguRegistrationController::class, 'store'])->name('register.regu.submit');
+    Route::get('/register-juri', [JuriRegistrationController::class, 'create'])->name('register.juri');
+    Route::post('/register-juri', [JuriRegistrationController::class, 'store'])->name('register.juri.submit');
+    Route::get('/api/randomize-regu/{id}/members', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'getTeamMembers'])->name('api.randomize-regu.members');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -62,7 +70,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('cerdas-cermat', \App\Http\Controllers\Admin\AdminCerdasCermatController::class)
         ->parameters(['cerdas-cermat' => 'question']);
 
-    Route::get('kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'index'])->name('kriteria.index');
     Route::get('mata-lomba/{mataLomba}/kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'show'])->name('kriteria.show');
     Route::get('mata-lomba/{mataLomba}/kriteria/create', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'create'])->name('kriteria.create');
     Route::post('mata-lomba/{mataLomba}/kriteria', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'store'])->name('kriteria.store');
@@ -72,11 +79,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('kriteria/{kriteria}', [\App\Http\Controllers\Admin\AdminKriteriaController::class, 'destroy'])->name('kriteria.destroy');
 
     Route::resource('users', \App\Http\Controllers\Admin\AdminUserController::class);
+    Route::put('users/{user}/mata-lomba', [\App\Http\Controllers\Admin\AdminUserController::class, 'updateMataLomba'])->name('users.update-mata-lomba');
+
+    // Mata Lomba management
+    Route::put('mata-lomba/{mata_lomba}', [\App\Http\Controllers\Admin\AdminMataLombaController::class, 'update'])->name('mata-lomba.update');
+    Route::delete('mata-lomba/{mata_lomba}', [\App\Http\Controllers\Admin\AdminMataLombaController::class, 'destroy'])->name('mata-lomba.destroy');
 
     // Scores
     Route::get('/scores', [\App\Http\Controllers\Admin\AdminScoreController::class, 'index'])->name('scores.index');
     Route::delete('/scores/{score}', [\App\Http\Controllers\Admin\AdminScoreController::class, 'destroy'])->name('scores.destroy');
     Route::post('/toggle-reveal-juara-umum', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'toggleRevealJuaraUmum'])->name('toggle.reveal');
+    Route::post('/toggle-show-financial-report', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'toggleShowFinancialReport'])->name('toggle.financial-report');
 
     // Informasi Lomba
     Route::get('informasi-lomba', [\App\Http\Controllers\Admin\AdminInformasiLombaController::class, 'index'])->name('informasi-lomba.index');
@@ -86,6 +99,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Jadwal
     Route::post('jadwal/settings', [\App\Http\Controllers\Admin\AdminJadwalController::class, 'updateSettings'])->name('jadwal.settings');
     Route::resource('jadwal', \App\Http\Controllers\Admin\AdminJadwalController::class);
+
+    // Laporan Keuangan
+    Route::resource('financial-reports', \App\Http\Controllers\Admin\AdminFinancialReportController::class);
+
+    // Daftar Siswa
+    Route::get('siswa', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'index'])->name('siswa.index');
+    Route::post('siswa', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'store'])->name('siswa.store');
+    Route::post('siswa/import-csv', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'importCsv'])->name('siswa.import-csv');
+    Route::put('siswa/{siswa}', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'update'])->name('siswa.update');
+    Route::delete('siswa/delete-all/{kelas}', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'deleteAll'])->name('siswa.delete-all');
+    Route::delete('siswa/{siswa}', [\App\Http\Controllers\Admin\AdminSiswaController::class, 'destroy'])->name('siswa.destroy');
+
+    // Pengacakan Regu
+    Route::get('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'index'])->name('randomize-regu.index');
+    Route::post('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'randomize'])->name('randomize-regu.randomize');
+    Route::delete('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'reset'])->name('randomize-regu.reset');
 });
 
 // Peserta (Regu)

@@ -29,7 +29,10 @@ class PesertaDashboardController extends Controller
             ]);
         }
 
-        $anggota = $regu->anggotaRegu()->orderBy('urutan')->get();
+        $anggota = $regu->anggotaRegu()
+            ->orderByRaw("CASE WHEN jabatan = 'pinru' THEN 1 WHEN jabatan = 'wapinru' THEN 2 ELSE 3 END")
+            ->orderByRaw("CASE WHEN tingkatan_tku = 'terap' THEN 1 WHEN tingkatan_tku = 'rakit' THEN 2 WHEN tingkatan_tku = 'ramu' THEN 3 ELSE 4 END")
+            ->get();
 
         // Get all Mata Lomba
         $mataLombas = \App\Models\MataLomba::orderBy('urutan')->get();
@@ -62,10 +65,10 @@ class PesertaDashboardController extends Controller
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
             'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
-            'jabatan' => ['required', 'in:Pinru,Wapinru,Anggota'],
+            'jabatan' => ['required', 'in:pinru,wapinru,anggota'],
         ]);
 
-        if (in_array($validated['jabatan'], ['Pinru', 'Wapinru'])) {
+        if (in_array($validated['jabatan'], ['pinru', 'wapinru'])) {
             $exists = $regu->anggotaRegu()->where('jabatan', $validated['jabatan'])->exists();
             if ($exists) {
                 return back()->withInput()->with('error', "Jabatan {$validated['jabatan']} sudah terisi di regu ini.");
@@ -103,11 +106,11 @@ class PesertaDashboardController extends Controller
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
             'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
-            'jabatan' => ['required', 'in:Pinru,Wapinru,Anggota'],
+            'jabatan' => ['required', 'in:pinru,wapinru,anggota'],
         ]);
 
-        // Check unique constraints for Pinru and Wapinru if changing role
-        if (in_array($validated['jabatan'], ['Pinru', 'Wapinru']) && $anggota->jabatan !== $validated['jabatan']) {
+        // Check unique constraints for pinru and wapinru if changing role
+        if (in_array($validated['jabatan'], ['pinru', 'wapinru']) && $anggota->jabatan !== $validated['jabatan']) {
             $exists = $regu->anggotaRegu()->where('jabatan', $validated['jabatan'])->exists();
             if ($exists) {
                 return back()->withInput()->with('error', "Jabatan {$validated['jabatan']} sudah terisi di regu ini.");

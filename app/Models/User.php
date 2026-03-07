@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,6 +31,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'mata_lomba_id',
     ];
 
     /**
@@ -57,6 +60,16 @@ class User extends Authenticatable
     public function reguProfile(): HasOne
     {
         return $this->hasOne(ReguProfile::class);
+    }
+
+    public function mataLomba(): BelongsTo
+    {
+        return $this->belongsTo(MataLomba::class);
+    }
+
+    public function mataLombas(): BelongsToMany
+    {
+        return $this->belongsToMany(MataLomba::class, 'user_mata_lomba')->withTimestamps();
     }
 
     public function isAdmin(): bool

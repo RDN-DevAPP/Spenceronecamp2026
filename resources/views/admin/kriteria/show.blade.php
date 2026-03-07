@@ -9,40 +9,76 @@
         <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <a href="{{ route('admin.kriteria.index') }}"
+                    <a href="{{ route('admin.informasi-lomba.edit', $mataLomba->id) }}"
                         class="text-scout-primary/70 hover:text-scout-accent transition-colors font-semibold text-sm flex items-center gap-1">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kelola Kriteria
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Edit Informasi Lomba
                     </a>
                     <span class="text-scout-primary/50 text-sm">/</span>
                     <span class="text-scout-primary text-sm font-bold">{{ $mataLomba->nama }}</span>
                 </div>
+                @php
+                    $icon = match ($mataLomba->slug) {
+                        'cerdas-cermat' => 'brain',
+                        'tapak-kemah' => 'tent',
+                        'masak-konvensional' => 'chef-hat',
+                        'upcycle-art' => 'recycle',
+                        'desain-poster-digital' => 'image',
+                        default => 'users',
+                    };
+                @endphp
                 <h1 class="text-3xl font-bold text-scout-primary flex items-center gap-3">
-                    <i data-lucide="target" class="w-8 h-8"></i>
+                    <i data-lucide="{{ $icon }}" class="w-8 h-8"></i>
                     Kriteria {{ $mataLomba->nama }}
                 </h1>
             </div>
             <div class="flex gap-3">
-                <a href="{{ route('admin.kriteria.create', $mataLomba->id) }}"
-                    class="btn-scout-primary px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Tambah Kriteria
-                </a>
+                @if($mataLomba->slug !== 'cerdas-cermat')
+                    <a href="{{ route('admin.kriteria.create', $mataLomba->id) }}"
+                        class="btn-scout-primary px-4 py-2 rounded-lg font-semibold flex items-center justify-center gap-2">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Tambah Kriteria
+                    </a>
+                @endif
             </div>
         </div>
 
         <!-- Alert / Summary -->
         <div class="bg-white border-2 border-scout-secondary rounded-xl p-6 mb-6 shadow-sm">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                    <p class="text-sm font-semibold text-scout-primary/70">Total Kriteria</p>
-                    <p class="text-2xl font-bold text-scout-primary">{{ $criteria->count() }}</p>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-scout-primary/70">Akumulasi Nilai Maks</p>
-                    <p class="text-2xl font-bold text-scout-accent">{{ $criteria->sum('nilai_max') }} /
-                        {{ $mataLomba->nilai_maksimal }}</p>
-                </div>
+                @if($mataLomba->slug === 'cerdas-cermat')
+                    <div>
+                        <p class="text-sm font-semibold text-scout-primary/70">Total Soal</p>
+                        <p class="text-2xl font-bold text-scout-primary">{{ \App\Models\CerdasCermatQuestion::count() }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-scout-primary/70">Total Nilai Maksimal</p>
+                        <p class="text-2xl font-bold text-scout-accent">{{ (int) $mataLomba->nilai_maksimal }}</p>
+                    </div>
+                @else
+                    <div>
+                        <p class="text-sm font-semibold text-scout-primary/70">Total Kriteria</p>
+                        <p class="text-2xl font-bold text-scout-primary">{{ $criteria->count() }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-scout-primary/70">Akumulasi Nilai Maks</p>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl font-bold text-scout-accent">{{ $criteria->sum('nilai_max') }}</span>
+                            <span class="text-scout-primary/30">/</span>
+                            <form action="{{ route('admin.informasi-lomba.update', $mataLomba->id) }}" method="POST"
+                                class="flex items-center gap-1">
+                                @csrf @method('PUT')
+                                <input type="number" name="nilai_maksimal" value="{{ (int) $mataLomba->nilai_maksimal }}"
+                                    class="w-16 px-1.5 py-0.5 text-lg font-bold border-b-2 border-scout-secondary focus:border-scout-primary transition-colors text-scout-primary bg-transparent focus:outline-none">
+                                <button type="submit" class="p-1 text-scout-primary hover:text-scout-accent transition-colors"
+                                    title="Update Nilai Maksimal">
+                                    <i data-lucide="check" class="w-4 h-4"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
             </div>
-            @if($criteria->sum('nilai_max') != $mataLomba->nilai_maksimal && $criteria->count() > 0)
+
+            @if($mataLomba->slug !== 'cerdas-cermat' && $criteria->sum('nilai_max') != $mataLomba->nilai_maksimal && $criteria->count() > 0)
                 <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 text-sm rounded-r-lg">
                     <div class="flex items-start gap-2">
                         <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
@@ -54,8 +90,22 @@
             @endif
         </div>
 
-        <!-- List Kriteria: Mobile Card / Desktop Table -->
-        @if($criteria->isEmpty())
+        @if($mataLomba->slug === 'cerdas-cermat')
+            <div class="text-center py-16 bg-white rounded-xl border-2 border-scout-secondary shadow-sm">
+                <div class="bg-scout-secondary/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="brain" class="w-10 h-10 text-scout-primary"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-scout-primary mb-3">Lomba Cerdas Cermat</h3>
+                <p class="text-scout-primary/70 max-w-lg mx-auto mb-8 leading-relaxed">
+                    Sistem penilaian untuk Cerdas Cermat dikelola melalui manajemen soal. Penilaian juri dilakukan secara
+                    otomatis per soal atau manual per uraian sesuai bobot yang ditentukan pada setiap butir soal.
+                </p>
+                <a href="{{ route('admin.cerdas-cermat.index') }}"
+                    class="btn-scout-accent px-8 py-3 rounded-xl font-bold flex items-center justify-center gap-2 inline-flex shadow-lg shadow-scout-accent/20">
+                    <i data-lucide="settings-2" class="w-5 h-5"></i> Ke Manajemen Soal & Skor
+                </a>
+            </div>
+        @elseif($criteria->isEmpty())
             <div class="text-center py-12 bg-white rounded-xl border-2 border-dashed border-scout-secondary">
                 <i data-lucide="clipboard-x" class="w-16 h-16 text-scout-secondary mx-auto mb-4"></i>
                 <h3 class="text-lg font-bold text-scout-primary">Belum Ada Kriteria Penilaian</h3>
@@ -99,8 +149,8 @@
                                 class="flex-1 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-sm font-bold transition flex items-center justify-center gap-1">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus
                             </button>
-                            <form id="delete-form-{{ $k->id }}" action="{{ route('admin.kriteria.destroy', $k->id) }}"
-                                method="POST" class="hidden">
+                            <form id="delete-form-{{ $k->id }}" action="{{ route('admin.kriteria.destroy', $k->id) }}" method="POST"
+                                class="hidden">
                                 @csrf
                                 @method('DELETE')
                             </form>
@@ -156,8 +206,7 @@
                                                 <i data-lucide="trash-2" class="w-4 h-4"></i>
                                             </button>
                                             <form id="desktop-delete-form-{{ $k->id }}"
-                                                action="{{ route('admin.kriteria.destroy', $k->id) }}" method="POST"
-                                                class="hidden">
+                                                action="{{ route('admin.kriteria.destroy', $k->id) }}" method="POST" class="hidden">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>

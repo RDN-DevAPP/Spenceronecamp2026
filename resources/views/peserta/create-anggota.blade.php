@@ -45,9 +45,9 @@
                             <label for="jabatan" class="block text-sm font-medium text-gray-700">Jabatan</label>
                             <select name="jabatan" id="jabatan" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border bg-white">
-                                <option value="Anggota" {{ old('jabatan') == 'Anggota' ? 'selected' : '' }}>Anggota</option>
-                                <option value="Pinru" {{ old('jabatan') == 'Pinru' ? 'selected' : '' }}>Pinru</option>
-                                <option value="Wapinru" {{ old('jabatan') == 'Wapinru' ? 'selected' : '' }}>Wapinru</option>
+                                <option value="anggota" {{ old('jabatan') == 'anggota' ? 'selected' : '' }}>Anggota</option>
+                                <option value="pinru" {{ old('jabatan') == 'pinru' ? 'selected' : '' }}>Pinru</option>
+                                <option value="wapinru" {{ old('jabatan') == 'wapinru' ? 'selected' : '' }}>Wapinru</option>
                             </select>
                             <p class="mt-1 text-xs text-gray-500">Pastikan hanya ada 1 Pinru dan 1 Wapinru dalam regu.</p>
                         </div>

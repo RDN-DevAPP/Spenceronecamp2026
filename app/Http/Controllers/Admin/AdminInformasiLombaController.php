@@ -22,11 +22,17 @@ class AdminInformasiLombaController extends Controller
     public function update(Request $request, MataLomba $mataLomba)
     {
         $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nilai_maksimal' => 'nullable|numeric|min:0',
             'deskripsi' => 'nullable|string',
             'petunjuk_teknis' => 'nullable|string',
             'ketentuan_pelaksanaan' => 'nullable|string',
             'kriteria_penilaian' => 'nullable|string',
         ]);
+
+        if (isset($validated['kode'])) {
+            $validated['kode'] = strtoupper($validated['kode']);
+        }
 
         $mataLomba->update($validated);
 

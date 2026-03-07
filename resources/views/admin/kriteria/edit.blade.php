@@ -8,9 +8,9 @@
         <!-- Header -->
         <div class="mb-6">
             <div class="flex items-center gap-2 mb-2">
-                <a href="{{ route('admin.kriteria.index') }}"
+                <a href="{{ route('admin.informasi-lomba.index') }}"
                     class="text-scout-primary/70 hover:text-scout-accent transition-colors font-semibold text-sm flex items-center gap-1">
-                    Kelola Kriteria
+                    Kelola Info Lomba
                 </a>
                 <span class="text-scout-primary/50 text-sm">/</span>
                 <a href="{{ route('admin.kriteria.show', $mataLomba->id) }}"

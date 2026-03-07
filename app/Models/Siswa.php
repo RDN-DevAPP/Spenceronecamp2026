@@ -6,24 +6,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AnggotaRegu extends Model
+class Siswa extends Model
 {
     use HasFactory;
 
-    protected $table = 'anggota_regu';
-
     protected $fillable = [
-        'regu_profile_id',
         'nama',
         'kelas',
-        'nomor_punggung',
-        'tingkatan_tku',
-        'jabatan',
-        'urutan',
+        'jenis_kelamin',
+        'regu_profile_id',
     ];
 
     public function reguProfile(): BelongsTo
     {
         return $this->belongsTo(ReguProfile::class);
+    }
+
+    public function isPutra(): bool
+    {
+        return $this->jenis_kelamin === 'L';
+    }
+
+    public function isPutri(): bool
+    {
+        return $this->jenis_kelamin === 'P';
     }
 }

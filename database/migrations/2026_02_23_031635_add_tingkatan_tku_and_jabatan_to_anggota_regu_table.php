@@ -11,6 +11,15 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('anggota_regu', function (Blueprint $table) {
+            if (Schema::hasColumn('anggota_regu', 'tingkatan_tku')) {
+                $table->dropColumn('tingkatan_tku');
+            }
+            if (Schema::hasColumn('anggota_regu', 'jabatan')) {
+                $table->dropColumn('jabatan');
+            }
+        });
+
+        Schema::table('anggota_regu', function (Blueprint $table) {
             $table->enum('tingkatan_tku', ['ramu', 'rakit', 'terap'])->nullable()->after('nomor_punggung');
             $table->enum('jabatan', ['pinru', 'wapinru', 'anggota'])->nullable()->after('tingkatan_tku');
         });

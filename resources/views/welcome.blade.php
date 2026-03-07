@@ -56,12 +56,18 @@
                     <span class="text-xs sm:text-sm uppercase font-semibold tracking-wider text-scout-accent">Detik</span>
                 </div>
             </div>
-
             <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('informasi-lomba') }}"
-                    class="btn-scout-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg transform transition hover:scale-105 border-2 border-scout-secondary flex items-center justify-center">
-                    <i data-lucide="info" class="w-4 h-4 sm:w-5 sm:h-5 mr-2"></i> Panduan Lomba
-                </a>
+                @if($showFinancialReport == '1' && $activeReport)
+                    <a href="{{ Storage::url($activeReport->file_path) }}" target="_blank"
+                        class="btn-scout-accent px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg transform transition hover:scale-105 border-2 border-scout-primary flex items-center justify-center">
+                        <i data-lucide="banknote" class="w-4 h-4 sm:w-5 sm:h-5 mr-2"></i> {{ $activeReport->title }}
+                    </a>
+                @else
+                    <a href="{{ route('informasi-lomba') }}"
+                        class="btn-scout-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg transform transition hover:scale-105 border-2 border-scout-secondary flex items-center justify-center">
+                        <i data-lucide="info" class="w-4 h-4 sm:w-5 sm:h-5 mr-2"></i> Panduan Lomba
+                    </a>
+                @endif
             </div>
         </div>
     </div>
@@ -270,43 +276,10 @@
 @endsection
 
     @push('scripts')
-        <script>
-            window.pageData = function () {
-                const countdown = Vue.reactive({
-                    days: 0,
-                    hours: 0,
-                    minutes: 0,
-                    seconds: 0
-                });
-                const targetDate = new Date('{{ $countdownTarget }}').getTime();
-
-                const updateCountdown = () => {
-                    const now = new Date().getTime();
-                    const distance = targetDate - now;
-
-                    if (distance > 0) {
-                        countdown.days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        countdown.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        countdown.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        countdown.seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    }
-                };
-
-                const maskName = (name) => {
-                    return '***';
-                };
-
-                return {
-                    allRegu: @json($allRegu ?? []),
-                    juaraUmum: @json($juaraUmum ?? []),
-                    revealLeaderboard: @json($revealLeaderboard == '1'),
-                    countdown,
-                    maskName,
-                    onMounted: () => {
-                        setInterval(updateCountdown, 1000);
-                        updateCountdown();
-                    }
-                }
-            }
+        <script>         window.pageData = function () {             const countdown = Vue.reactive({                 days: 0,                 hours: 0,                 minutes: 0,                 seconds: 0             });             const targetDate = new Date('{{ $countdownTarget }}').getTime();
+                 const updateCountdown = () => {                 const now = new Date().getTime();                 const distance = targetDate - now;
+                     if (distance > 0) {                     countdown.days = Math.floor(distance / (1000 * 60 * 60 * 24));                     countdown.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));                     countdown.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));                     countdown.seconds = Math.floor((distance % (1000 * 60)) / 1000);                 }             };
+                 const maskName = (name) => {                 return '***';             };
+                 return {                 allRegu: @json($allRegu ?? []),                 juaraUmum: @json($juaraUmum ?? []),                 revealLeaderboard: @json($revealLeaderboard == '1'),                 countdown,                 maskName,                 onMounted: () => {                     setInterval(updateCountdown, 1000);                     updateCountdown();                 }             }         }
         </script>
     @endpush

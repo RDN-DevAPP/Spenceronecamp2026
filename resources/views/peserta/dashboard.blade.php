@@ -49,38 +49,45 @@
                         @else
                             <div class="overflow-x-auto">
                                 <!-- Mobile View -->
-                                <div class="md:hidden">
+                                <div class="md:hidden divide-y divide-gray-100">
                                     @foreach ($anggota as $i => $a)
-                                        <div class="p-4 border-b border-gray-200 hover:bg-scout-light transition-colors {{ $loop->last ? 'border-b-0' : '' }}">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <div class="flex items-center">
-                                                    <span class="inline-flex items-center justify-center w-6 h-6 text-xs font-bold leading-none text-scout-primary bg-scout-secondary rounded-full mr-2">
+                                        <div class="p-4 hover:bg-scout-light/30 transition-colors">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <div class="flex items-center min-w-0 mr-2">
+                                                    <span class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-black text-scout-primary bg-scout-secondary rounded-full mr-2 shrink-0 shadow-sm border border-scout-primary/20">
                                                         {{ $i + 1 }}
                                                     </span>
-                                                    <span class="text-base font-bold text-scout-primary">{{ $a->nama }}</span>
+                                                    <h3 class="text-sm font-bold text-scout-primary truncate" title="{{ $a->nama }}">
+                                                        {{ $a->nama }}
+                                                    </h3>
                                                 </div>
-                                                <div class="flex flex-col items-end space-y-1">
-                                                    @if($a->jabatan === 'Pinru')
-                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-red-600 text-white">Pinru</span>
-                                                    @elseif($a->jabatan === 'Wapinru')
-                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-amber-500 text-white">Wapinru</span>
+                                                <div class="flex shrink-0">
+                                                    @if($a->jabatan === 'pinru')
+                                                        <span class="px-2 py-0.5 text-[9px] font-black uppercase rounded bg-red-600 text-white shadow-sm italic">Pinru</span>
+                                                    @elseif($a->jabatan === 'wapinru')
+                                                        <span class="px-2 py-0.5 text-[9px] font-black uppercase rounded bg-amber-500 text-white shadow-sm italic">Wapinru</span>
                                                     @else
-                                                        <span class="px-2 py-0.5 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-green-600 text-white">Anggota</span>
+                                                        <span class="px-2 py-0.5 text-[9px] font-black uppercase rounded bg-green-600 text-white shadow-sm italic">Anggota</span>
                                                     @endif
-                                                    <span class="text-[10px] font-bold text-scout-primary/60 uppercase">TKU: {{ $a->tingkatan_tku ?? '-' }}</span>
                                                 </div>
                                             </div>
-                                            <div class="flex justify-end space-x-3 mt-3 pt-2 border-t border-gray-100">
-                                                <a href="{{ route('peserta.anggota.edit', $a->id) }}" class="text-yellow-600 hover:text-yellow-700 font-semibold text-sm flex items-center">
-                                                    <i data-lucide="edit-2" class="w-4 h-4 mr-1"></i> Edit
-                                                </a>
-                                                <form action="{{ route('peserta.anggota.destroy', $a->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus anggota ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-700 font-semibold text-sm flex items-center">
-                                                        <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Hapus
-                                                    </button>
-                                                </form>
+                                            
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center text-[10px] font-bold text-scout-primary/50 uppercase tracking-tighter bg-gray-50 px-2 py-1 rounded border border-gray-100">
+                                                    <i data-lucide="award" class="w-3 h-3 mr-1"></i> TKU: {{ $a->tingkatan_tku ?? '-' }}
+                                                </div>
+                                                <div class="flex items-center space-x-4">
+                                                    <a href="{{ route('peserta.anggota.edit', $a->id) }}" class="text-yellow-600 hover:text-yellow-700 transition-transform active:scale-95">
+                                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                                    </a>
+                                                    <form action="{{ route('peserta.anggota.destroy', $a->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus anggota ini?');" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-red-500 hover:text-red-700 transition-transform active:scale-95">
+                                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -104,9 +111,9 @@
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-scout-primary">{{ $a->nama }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-scout-primary uppercase">{{ $a->tingkatan_tku ?? '-' }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                    @if($a->jabatan === 'Pinru')
+                                                    @if($a->jabatan === 'pinru')
                                                         <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-red-600 text-white shadow-sm">Pinru</span>
-                                                    @elseif($a->jabatan === 'Wapinru')
+                                                    @elseif($a->jabatan === 'wapinru')
                                                         <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-amber-500 text-white shadow-sm">Wapinru</span>
                                                     @else
                                                         <span class="px-3 py-1 inline-flex text-[10px] leading-none font-black uppercase rounded-full bg-green-600 text-white shadow-sm">Anggota</span>
@@ -148,7 +155,7 @@
                             <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                                 <div class="bg-scout-primary px-4 py-3 flex items-center justify-between">
                                     <h3 class="font-bold text-white text-lg flex items-center">
-                                        <i data-lucide="file-image" class="w-5 h-5 mr-2"></i> Poster Digital
+                                        <i data-lucide="image" class="w-5 h-5 mr-2"></i> Poster Digital
                                     </h3>
                                     @if ($regu->poster_digital_path)
                                         <div class="text-right">
@@ -273,7 +280,7 @@
                             <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                                 <div class="bg-scout-primary px-4 py-3 flex items-center justify-between">
                                     <h3 class="font-bold text-white text-lg flex items-center">
-                                        <i data-lucide="utensils" class="w-5 h-5 mr-2"></i> Masak Konvensional
+                                        <i data-lucide="chef-hat" class="w-5 h-5 mr-2"></i> Masak Konvensional
                                     </h3>
                                     @if ($regu->foto_masakan_path)
                                         <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-0.5 rounded-full flex items-center border border-green-200">

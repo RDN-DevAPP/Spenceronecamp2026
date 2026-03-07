@@ -7,6 +7,7 @@ use App\Models\MataLomba;
 use App\Models\ReguProfile;
 use App\Models\Score;
 use App\Models\Sponsorship;
+use App\Models\FinancialReport;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -144,7 +145,10 @@ class WelcomeController extends Controller
         }
 
         $revealLeaderboard = Setting::where('key', 'reveal_juara_umum')->first()->value ?? '0';
+        $showFinancialReport = Setting::where('key', 'show_financial_report')->first()->value ?? '0';
 
-        return view('welcome', compact('mataLomba', 'allRegu', 'sponsorships', 'juaraUmum', 'revealLeaderboard', 'countdownTarget', 'eventSettings'));
+        $activeReport = FinancialReport::where('is_active', true)->latest()->first();
+
+        return view('welcome', compact('mataLomba', 'allRegu', 'sponsorships', 'juaraUmum', 'revealLeaderboard', 'countdownTarget', 'eventSettings', 'activeReport', 'showFinancialReport'));
     }
 }

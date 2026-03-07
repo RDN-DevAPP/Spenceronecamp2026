@@ -17,8 +17,16 @@ class JuriDashboardController extends Controller
     public function index(): View
     {
         $juriId = auth()->id();
+        $user = auth()->user();
 
-        $mataLomba = MataLomba::orderBy('urutan')->get();
+        // Only show the mata lomba assigned to this juri (many-to-many)
+        $assignedIds = $user->mataLombas()->pluck('mata_lomba.id');
+        if ($assignedIds->isNotEmpty()) {
+            $mataLomba = MataLomba::whereIn('id', $assignedIds)->orderBy('urutan')->get();
+        } else {
+            // Fallback: show all if no mata_lomba assigned (legacy juri)
+            $mataLomba = MataLomba::orderBy('urutan')->get();
+        }
 
         // Get scoring statistics for each lomba
         $reguCount = ReguProfile::count();

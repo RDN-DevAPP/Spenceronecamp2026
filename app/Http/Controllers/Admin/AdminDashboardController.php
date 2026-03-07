@@ -136,8 +136,9 @@ class AdminDashboardController extends Controller
 
 
         $revealLeaderboard = Setting::where('key', 'reveal_juara_umum')->first()->value ?? '0';
+        $showFinancialReport = Setting::where('key', 'show_financial_report')->first()->value ?? '0';
 
-        return view('admin.dashboard', compact('leaderboards', 'juaraUmum', 'allMataLomba', 'allMataLombaFiltered', 'revealLeaderboard'));
+        return view('admin.dashboard', compact('leaderboards', 'juaraUmum', 'allMataLomba', 'allMataLombaFiltered', 'revealLeaderboard', 'showFinancialReport'));
     }
 
     public function toggleRevealJuaraUmum(Request $request)
@@ -146,6 +147,14 @@ class AdminDashboardController extends Controller
         $setting->update(['value' => $request->reveal ? '1' : '0']);
 
         return back()->with('success', 'Status penampilan Juara Umum berhasil diperbarui.');
+    }
+
+    public function toggleShowFinancialReport(Request $request)
+    {
+        $setting = Setting::firstOrCreate(['key' => 'show_financial_report']);
+        $setting->update(['value' => $request->show ? '1' : '0']);
+
+        return back()->with('success', 'Tampilan laporan keuangan di beranda berhasil diperbarui.');
     }
 
 

@@ -65,7 +65,14 @@ class JuriCerdasCermatController extends Controller
         $totalScore = 0;
 
         foreach ($scores as $answerId => $score) {
-            $answer = CerdasCermatAnswer::findOrFail($answerId);
+            $answer = CerdasCermatAnswer::with('question')->findOrFail($answerId);
+
+            // Validate score vs question max point
+            $maxScore = $answer->question->score;
+            if ($score > $maxScore) {
+                return redirect()->back()->with('error', "Nilai untuk soal '" . substr($answer->question->question, 0, 30) . "...' tidak boleh melebihi $maxScore.");
+            }
+
             $answer->update(['score' => $score]);
             $totalScore += $score;
         }

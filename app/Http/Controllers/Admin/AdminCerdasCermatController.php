@@ -53,6 +53,8 @@ class AdminCerdasCermatController extends Controller
             'options' => $validated['type'] === 'Pilihan Ganda' ? $validated['options'] : null,
         ]);
 
+        $this->syncNilaiMaksimal($mataLomba);
+
         return redirect()->route('admin.cerdas-cermat.index', ['tab' => $validated['type']])
             ->with('success', 'Soal berhasil ditambahkan.');
     }
@@ -81,6 +83,9 @@ class AdminCerdasCermatController extends Controller
             'options' => $validated['type'] === 'Pilihan Ganda' ? $validated['options'] : null,
         ]);
 
+        $mataLomba = MataLomba::where('slug', 'cerdas-cermat')->firstOrFail();
+        $this->syncNilaiMaksimal($mataLomba);
+
         return redirect()->route('admin.cerdas-cermat.index', ['tab' => $validated['type']])
             ->with('success', 'Soal berhasil diperbarui.');
     }
@@ -89,6 +94,9 @@ class AdminCerdasCermatController extends Controller
     {
         $type = $question->type;
         $question->delete();
+
+        $mataLomba = MataLomba::where('slug', 'cerdas-cermat')->firstOrFail();
+        $this->syncNilaiMaksimal($mataLomba);
 
         return redirect()->route('admin.cerdas-cermat.index', ['tab' => $type])
             ->with('success', 'Soal berhasil dihapus.');
@@ -100,6 +108,10 @@ class AdminCerdasCermatController extends Controller
 
         if ($type) {
             CerdasCermatQuestion::where('type', $type)->delete();
+
+            $mataLomba = MataLomba::where('slug', 'cerdas-cermat')->firstOrFail();
+            $this->syncNilaiMaksimal($mataLomba);
+
             return redirect()->route('admin.cerdas-cermat.index', ['tab' => $type])
                 ->with('success', "Semua soal $type berhasil dihapus.");
         }
@@ -171,6 +183,9 @@ class AdminCerdasCermatController extends Controller
                 fclose($handle);
             }
             DB::commit();
+
+            $this->syncNilaiMaksimal($mataLomba);
+
             return redirect()->route('admin.cerdas-cermat.index', ['tab' => $type])
                 ->with('success', 'Soal berhasil diimport (CSV).');
         } catch (\Exception $e) {
@@ -222,5 +237,11 @@ class AdminCerdasCermatController extends Controller
         );
 
         return redirect()->back()->with('success', 'Pengaturan waktu berhasil diperbarui.');
+    }
+
+    private function syncNilaiMaksimal(MataLomba $mataLomba)
+    {
+        $totalScore = CerdasCermatQuestion::sum('score');
+        $mataLomba->update(['nilai_maksimal' => $totalScore]);
     }
 }

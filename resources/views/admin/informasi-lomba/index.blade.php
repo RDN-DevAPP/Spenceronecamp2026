@@ -31,27 +31,67 @@
                     <div class="flex items-start justify-between mb-4">
                         <div
                             class="w-12 h-12 bg-scout-primary/10 rounded-xl flex items-center justify-center text-scout-primary group-hover:bg-scout-primary group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="{{ $lomba->slug === 'cerdas-cermat' ? 'brain' : ($lomba->slug === 'tapak-kemah' ? 'tent' : ($lomba->slug === 'masak-konvensional' ? 'chef-hat' : ($lomba->slug === 'upcycle-art' ? 'recycle' : ($lomba->slug === 'poster-digital' ? 'image' : 'users')))) }}"
-                                class="w-6 h-6"></i>
+                            @php
+                                $icon = match ($lomba->slug) {
+                                    'cerdas-cermat' => 'brain',
+                                    'tapak-kemah' => 'tent',
+                                    'masak-konvensional' => 'chef-hat',
+                                    'upcycle-art' => 'recycle',
+                                    'desain-poster-digital' => 'image',
+                                    default => 'users',
+                                };
+                            @endphp
+                            <i data-lucide="{{ $icon }}" class="w-6 h-6"></i>
                         </div>
                         <span
                             class="bg-scout-secondary/30 text-scout-primary text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Lomba
                             #{{ $lomba->urutan }}</span>
                     </div>
 
-                    <h3 class="text-xl font-bold text-scout-primary mb-2">{{ $lomba->nama }}</h3>
-                    <p class="text-sm text-scout-primary/70 line-clamp-2 mb-6 h-10">
+                    <h3 class="text-xl font-bold text-scout-primary mb-1">{{ $lomba->nama }}</h3>
+
+                    <!-- Kode Mata Lomba -->
+                    <div class="mb-3">
+                        <form action="{{ route('admin.informasi-lomba.update', $lomba->id) }}" method="POST"
+                            class="flex flex-wrap items-center gap-2">
+                            @csrf
+                            @method('PUT')
+                            <div class="flex items-center gap-1">
+                                <span class="text-[10px] text-scout-primary/60 font-semibold uppercase">KODE:</span>
+                                <input type="text" name="kode" value="{{ $lomba->kode }}" maxlength="6" minlength="6"
+                                    pattern="[A-Za-z0-9]{6}" placeholder="------"
+                                    class="w-20 px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider border border-scout-secondary rounded-lg text-center text-scout-primary bg-white focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-primary transition"
+                                    oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-[10px] text-scout-primary/60 font-semibold uppercase">MAKS:</span>
+                                @if($lomba->slug === 'cerdas-cermat')
+                                    <span
+                                        class="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded border border-blue-200">
+                                        {{ (int) $lomba->nilai_maksimal }} (Auto)
+                                    </span>
+                                @else
+                                    <input type="number" name="nilai_maksimal" value="{{ (int) $lomba->nilai_maksimal }}"
+                                        class="w-16 px-2 py-1 text-[10px] font-bold border border-scout-secondary rounded-lg text-center text-scout-primary bg-white focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-primary transition">
+                                @endif
+                            </div>
+                            @if($lomba->slug !== 'cerdas-cermat')
+                                <button type="submit"
+                                    class="p-1 px-2 bg-scout-primary text-white rounded-lg text-xs font-bold hover:bg-scout-primary/80 transition shadow-sm">
+                                    <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                                </button>
+                            @endif
+                        </form>
+                    </div>
+
+                    <p class="text-sm text-scout-primary/70 line-clamp-2 mb-4 h-10">
                         {{ $lomba->deskripsi ?? 'Belum ada deskripsi.' }}
                     </p>
 
                     <div class="flex flex-col gap-2">
                         <a href="{{ route('admin.informasi-lomba.edit', $lomba->id) }}"
                             class="w-full btn-scout-primary py-2.5 rounded-lg font-bold text-sm tracking-wide flex items-center justify-center gap-2">
-                            <i data-lucide="edit" class="w-4 h-4"></i> Edit Informasi
-                        </a>
-                        <a href="{{ route('admin.kriteria.show', $lomba->id) }}"
-                            class="w-full py-2.5 rounded-lg font-bold text-sm tracking-wide bg-white text-scout-primary border-2 border-scout-secondary hover:border-scout-primary text-center transition flex items-center justify-center gap-2">
-                            <i data-lucide="list-checks" class="w-4 h-4"></i> Atur Kriteria Skor
+                            <i data-lucide="edit" class="w-4 h-4"></i> Kelola Lomba
                         </a>
                     </div>
                 </div>
