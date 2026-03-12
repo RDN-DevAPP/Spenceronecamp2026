@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LT-I Spencerone Camp 2026 - SMPN 1 Cerbon</title>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Define initTailwind BEFORE loading the script -->
+    <script>
+        function initTailwind() {
+            if (typeof tailwind === 'undefined') {
+                console.error('Tailwind CSS failed to load');
+                return;
+            }
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            scout: {
+                                primary: '#5D4037',
+                                secondary: '#D7CCC8',
+                                accent: '#FFC107',
+                                light: '#FFF8E1',
+                                surface: '#FFF8E1'
+                            }
+                        },
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Tailwind CSS with Onload Handler -->
+    <script src="https://cdn.tailwindcss.com" onload="initTailwind()"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFF8E1;
+            color: #3E2723;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235D4037' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #5D4037;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #FFF8E1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #5D4037;
+            border-radius: 4px;
+            border: 2px solid #FFF8E1;
+        }
+
+        .card-scout {
+            background-color: #FFF8E1;
+            border: 2px solid #D7CCC8;
+            box-shadow: 0 4px 6px -1px rgba(93, 64, 55, 0.1), 0 2px 4px -1px rgba(93, 64, 55, 0.06);
+        }
+
+        .card-scout:hover {
+            border-color: #5D4037;
+            box-shadow: 0 10px 15px -3px rgba(93, 64, 55, 0.1), 0 4px 6px -2px rgba(93, 64, 55, 0.05);
+        }
+
+        .btn-scout-primary {
+            background-color: #5D4037;
+            color: #FFF8E1;
+        }
+
+        .btn-scout-primary:hover {
+            background-color: #4E342E;
+            box-shadow: 0 4px 6px -1px rgba(93, 64, 55, 0.2);
+        }
+
+        .btn-scout-accent {
+            background-color: #FFC107;
+            color: #5D4037;
+        }
+
+        .btn-scout-accent:hover {
+            background-color: #FFB300;
+            box-shadow: 0 4px 6px -1px rgba(255, 193, 7, 0.3);
+        }
+    </style>
+    </head>
+
+<body>
+
+    <div id="app" class="min-h-screen flex flex-col">
+
+        <!-- NAVIGATION BAR -->
+        <nav class="bg-scout-primary text-scout-light shadow-lg sticky top-0 z-50 border-b-2 border-scout-secondary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <a href="http://localhost:8000" class="flex items-center space-x-3 cursor-pointer">
+                <div
+                    class="w-9 h-9 bg-scout-accent rounded-full flex items-center justify-center text-scout-primary font-bold shadow-sm border-2 border-scout-primary">
+                    <i data-lucide="tent" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-xl block leading-none tracking-tight">LT-I 2026</span>
+                    <span class="text-xs text-scout-secondary font-semibold">Gudep 03.059-03.060</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-4">
+                    <a href="http://localhost:8000"
+                        class="bg-scout-secondary text-scout-primary px-4 py-2 rounded-md text-sm font-semibold transition duration-200">
+                        Beranda
+                    </a>
+                    <a href="http://localhost:8000/informasi-lomba"
+                        class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary px-4 py-2 rounded-md text-sm font-semibold transition duration-200">
+                        Info Lomba
+                    </a>
+                    <a href="http://localhost:8000/jadwal"
+                        class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary px-4 py-2 rounded-md text-sm font-semibold transition duration-200">
+                        Jadwal
+                    </a>
+                    <a href="http://localhost:8000/sponsorship/daftar"
+                        class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary px-4 py-2 rounded-md text-sm font-semibold transition duration-200">
+                        Daftar Sponsorship
+                    </a>
+
+                                            <a href="http://localhost:8000/login"
+                            class="bg-scout-accent text-scout-primary px-5 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md border-2 border-scout-accent hover:border-yellow-500">
+                            Login
+                        </a>
+                                    </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="-mr-2 flex md:hidden">
+                <button @click="toggleMobileMenu"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-scout-secondary hover:text-scout-primary hover:bg-scout-secondary focus:outline-none border-2 border-transparent hover:border-scout-primary transition duration-200">
+                    <i data-lucide="menu" v-show="!mobileMenuOpen" class="w-6 h-6"></i>
+                    <i data-lucide="x" v-show="mobileMenuOpen" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div v-show="mobileMenuOpen" class="md:hidden bg-scout-primary border-b-2 border-scout-secondary shadow-xl">
+        <div class="px-2 pt-2 pb-3 space-y-2 sm:px-3">
+            <a href="http://localhost:8000"
+                class="bg-scout-secondary text-scout-primary block px-4 py-3 rounded-md text-base font-semibold w-full text-left transition duration-200">
+                Beranda
+            </a>
+            <a href="http://localhost:8000/informasi-lomba"
+                class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary block px-4 py-3 rounded-md text-base font-semibold w-full text-left transition duration-200">
+                Info Lomba
+            </a>
+            <a href="http://localhost:8000/jadwal"
+                class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary block px-4 py-3 rounded-md text-base font-semibold w-full text-left transition duration-200">
+                Jadwal
+            </a>
+            <a href="http://localhost:8000/sponsorship/daftar"
+                class="text-scout-light hover:bg-scout-secondary hover:text-scout-primary block px-4 py-3 rounded-md text-base font-semibold w-full text-left transition duration-200">
+                Daftar Sponsorship
+            </a>
+
+                            <a href="http://localhost:8000/login"
+                    class="text-scout-accent hover:bg-scout-secondary hover:text-scout-primary font-bold block px-4 py-3 rounded-md text-base w-full text-left transition duration-200 border-2 border-transparent hover:border-scout-accent">
+                    Login
+                </a>
+                    </div>
+    </div>
+</nav>
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-grow">
+                <!-- Hero Section -->
+    <div class="relative bg-scout-primary overflow-hidden border-b-4 border-scout-secondary">
+        <div class="absolute inset-0">
+            <img class="w-full h-full object-cover opacity-30 filter sepia"
+                src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                alt="Scout Camping">
+            <div class="absolute inset-0 bg-scout-primary mix-blend-multiply opacity-60"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto py-12 sm:py-24 px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+            <div class="mb-6 sm:mb-8">
+                <div
+                    class="w-16 h-16 sm:w-20 sm:h-20 bg-scout-accent rounded-full flex items-center justify-center text-scout-primary shadow-lg border-4 border-scout-primary">
+                    <i data-lucide="tent" class="w-8 h-8 sm:w-10 sm:h-10"></i>
+                </div>
+            </div>
+            <h1
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-scout-light mb-3 sm:mb-4 drop-shadow-md">
+                Spencerone Camp 2026
+            </h1>
+            <p class="mt-3 sm:mt-4 text-base sm:text-xl text-scout-accent max-w-3xl font-semibold drop-shadow-sm px-2">
+                "Scout for Future: Cerdas, Tangkas, dan Berkarakter di Era Digital"
+            </p>
+            <p
+                class="mt-4 sm:mt-6 text-sm sm:text-lg text-scout-secondary font-medium flex flex-col sm:flex-row items-center gap-1 sm:gap-0">
+                <span class="flex items-center"><i data-lucide="map-pin" class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2"></i>
+                    24 - 25 April 2026</span>
+                <span class="hidden sm:inline mx-2">|</span>
+                <span>Lingkungan SMP Negeri 1 Cebon</span>
+            </p>
+
+            <!-- Countdown Timer -->
+            <div class="mt-10 grid grid-cols-4 gap-2 sm:gap-4 text-scout-light">
+                <div
+                    class="bg-scout-primary/40 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border-2 border-scout-secondary/50 shadow-sm">
+                    <span class="block text-2xl sm:text-4xl font-extrabold">{{ countdown.days }}</span>
+                    <span class="text-xs sm:text-sm uppercase font-semibold tracking-wider text-scout-accent">Hari</span>
+                </div>
+                <div
+                    class="bg-scout-primary/40 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border-2 border-scout-secondary/50 shadow-sm">
+                    <span class="block text-2xl sm:text-4xl font-extrabold">{{ countdown.hours }}</span>
+                    <span class="text-xs sm:text-sm uppercase font-semibold tracking-wider text-scout-accent">Jam</span>
+                </div>
+                <div
+                    class="bg-scout-primary/40 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border-2 border-scout-secondary/50 shadow-sm">
+                    <span class="block text-2xl sm:text-4xl font-extrabold">{{ countdown.minutes }}</span>
+                    <span class="text-xs sm:text-sm uppercase font-semibold tracking-wider text-scout-accent">Menit</span>
+                </div>
+                <div
+                    class="bg-scout-primary/40 backdrop-blur-md p-2 sm:p-4 rounded-lg sm:rounded-xl border-2 border-scout-secondary/50 shadow-sm">
+                    <span class="block text-2xl sm:text-4xl font-extrabold">{{ countdown.seconds }}</span>
+                    <span class="text-xs sm:text-sm uppercase font-semibold tracking-wider text-scout-accent">Detik</span>
+                </div>
+            </div>
+            <div class="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+                <!-- DEBUG BLOCK FOR TROUBLESHOOTING. REMOVE LATER -->
+                <div style="display:none;" id="debug-info">
+                    Show Report: 0 <br>
+                    Active Report:
+                    NULL
+                    <br>
+                    Condition Met: NO <br>
+                    DB Path: D:\Dokumen\DUAN\Progreming\LT 1\database\database.sqlite
+                </div>
+
+                                    <a href="http://localhost:8000/informasi-lomba"
+                        class="btn-scout-primary px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg transform transition hover:scale-105 border-2 border-scout-secondary flex items-center justify-center">
+                        <i data-lucide="info" class="w-4 h-4 sm:w-5 sm:h-5 mr-2"></i> Panduan Lomba
+                    </a>
+                            </div>
+        </div>
+    </div>
+
+    <!-- Score Dashboard Section -->
+    <div class="py-12 sm:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2
+                    class="text-sm sm:text-base text-scout-primary font-bold tracking-wider uppercase mb-2 flex items-center justify-center">
+                    <span class="w-8 sm:w-12 h-0.5 bg-scout-secondary mr-3 sm:mr-4"></span>
+                    Dashboard Rekap Nilai
+                    <span class="w-8 sm:w-12 h-0.5 bg-scout-secondary ml-3 sm:ml-4"></span>
+                </h2>
+                <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl leading-8 font-extrabold tracking-tight px-4">
+                    Peringkat Tim Terbaik
+                </p>
+            </div>
+
+            <!-- Score Table/Cards -->
+            <div class="mb-12">
+                <div class="text-center mb-6">
+                    <h3 class="text-xl sm:text-2xl font-bold text-scout-primary uppercase tracking-wide">
+                        🏆 Klasemen Juara Umum 🏆
+                    </h3>
+                    <p class="text-gray-500 text-sm mt-1">Regu 3 Besar Disensor untuk Kejutan!</p>
+                </div>
+                <div class="card-scout rounded-2xl overflow-hidden shadow-lg border-2 border-orange-200">
+                    <!-- Desktop Table JU-->
+                    <div class="hidden md:block overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gradient-to-r from-orange-400 to-yellow-500">
+                                <tr>
+                                    <th
+                                        class="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider w-24">
+                                        Peringkat
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                        Nama Regu
+                                    </th>
+                                    <th
+                                        class="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider w-32">
+                                        Total Poin
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr v-for="ju in juaraUmum" :key="ju.reguProfile.id"
+                                    class="hover:bg-orange-50 transition-colors"
+                                    :class="ju.peringkat <= 3 ? 'bg-orange-50/30' : ''">
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        <div class="flex items-center justify-center">
+                                            <span v-if="ju.peringkat === 1" class="text-3xl drop-shadow-md">🏆</span>
+                                            <span v-else-if="ju.peringkat === 2" class="text-2xl drop-shadow-md">🥈</span>
+                                            <span v-else-if="ju.peringkat === 3" class="text-2xl drop-shadow-md">🥉</span>
+                                            <span v-else class="text-lg font-bold text-gray-700">{{ ju.peringkat }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-base font-bold text-gray-900">
+                                            {{ (!revealLeaderboard && ju.peringkat <= 3) ?
+                                                maskName(ju.reguProfile.nama_regu) : ju.reguProfile.nama_regu }} </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center bg-orange-50/50">
+                                        <div class="text-2xl font-black text-orange-600">
+                                            {{ (!revealLeaderboard && ju.peringkat <= 3) ? '***' : ju.poin }} </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile Cards JU -->
+                    <div class="md:hidden space-y-4 p-4">
+                        <div v-for="ju in juaraUmum" :key="ju.reguProfile.id"
+                            class="bg-scout-surface rounded-xl p-4 border-2 border-orange-200/50 hover:border-orange-400 transition-all shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span v-if="ju.peringkat === 1" class="text-3xl mr-3 drop-shadow-md">🏆</span>
+                                    <span v-else-if="ju.peringkat === 2" class="text-2xl mr-3 drop-shadow-md">🥈</span>
+                                    <span v-else-if="ju.peringkat === 3" class="text-2xl mr-3 drop-shadow-md">🥉</span>
+                                    <span v-else class="text-xl font-bold text-gray-700 mr-3">#{{ ju.peringkat }}</span>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-900">
+                                            {{ (!revealLeaderboard && ju.peringkat <= 3) ?
+                                                maskName(ju.reguProfile.nama_regu) : ju.reguProfile.nama_regu }} </h3>
+                                    </div>
+                                </div>
+                                <div class="text-right pl-4">
+                                    <div class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Poin</div>
+                                    <div class="text-2xl font-black text-orange-600">
+                                        {{ (!revealLeaderboard && ju.peringkat <= 3) ? '***' : ju.poin }} </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Sponsorship Section -->
+        <div class="py-12 sm:py-16 bg-scout-surface">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8 sm:mb-12">
+                    <h2
+                        class="text-sm sm:text-base text-scout-primary font-bold tracking-wider uppercase mb-2 flex items-center justify-center">
+                        <span class="w-8 sm:w-12 h-0.5 bg-scout-secondary mr-3 sm:mr-4"></span>
+                        Sponsor & Pendukung
+                        <span class="w-8 sm:w-12 h-0.5 bg-scout-secondary ml-3 sm:ml-4"></span>
+                    </h2>
+                    <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl leading-8 font-extrabold tracking-tight px-4">
+                        Terima Kasih Kepada
+                    </p>
+                </div>
+
+                <!-- Platinum Sponsor -->
+                
+                <!-- Gold Sponsors -->
+                
+                <!-- Silver Sponsors -->
+                                    <div>
+                        <h3
+                            class="text-center text-sm sm:text-base font-bold text-scout-primary mb-4 sm:mb-6 flex items-center justify-center">
+                            <i data-lucide="star" class="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-gray-400"></i>
+                            Silver Sponsors
+                        </h3>
+                        <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+                                                            <div class="card-scout rounded-lg p-3 sm:p-4 w-[45%] sm:w-[30%] lg:w-[22%] max-w-[200px] min-w-[140px] hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+                                    onclick=window.open(&quot;http://127.0.0.1:8000/&quot;)>
+                                    <div class="bg-white rounded p-3 flex items-center justify-center h-16 sm:h-20">
+                                                                                    <img src="/storage/sponsorships/S3kwpWzhaZh6cqMFTuenMIwAkXFqDBDlFdxVbFV0.png" alt="RDNdev-app"
+                                                class="max-h-full max-w-full object-contain">
+                                                                            </div>
+                                </div>
+                                                    </div>
+                    </div>
+                            </div>
+        </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-scout-primary text-scout-light border-t-4 border-scout-secondary relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"
+        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M54.627 0l.83.828-1.415 1.415L51.8 0h2.827zM5.373 0l-.83.828L5.96 2.243 8.2 0H5.374zM48.97 0l3.657 3.657-1.414 1.414L46.143 0h2.828zM11.03 0L7.372 3.657 8.787 5.07 13.857 0H11.03zm32.284 0L49.8 6.485 48.386 7.9l-7.9-7.9h2.828zM16.686 0L10.2 6.485 11.614 7.9l7.9-7.9h-2.828zM37.657 0l7.9 7.9-1.414 1.414L34.83 0h2.828zM22.343 0l-7.9 7.9 1.414 1.414L25.17 0h-2.828zM32 0l1.414 1.414L30.586 4.243 29.172 2.828 30.586 1.414 32 0zM28 0l-1.414 1.414 2.828 2.828 1.414-1.414L29.414 1.414 28 0z\' fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');">
+    </div>
+    <div
+        class="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 md:flex md:items-center md:justify-between relative z-10">
+        <div class="flex justify-center space-x-6 sm:space-x-8 md:order-2 mb-6 md:mb-0">
+            <a href="#" class="text-scout-secondary hover:text-scout-accent transition transform hover:scale-110">
+                <span class="sr-only">Instagram</span>
+                <i data-lucide="instagram" class="h-6 w-6 sm:h-8 sm:w-8"></i>
+            </a>
+            <a href="#" class="text-scout-secondary hover:text-scout-accent transition transform hover:scale-110">
+                <span class="sr-only">Facebook</span>
+                <i data-lucide="facebook" class="h-6 w-6 sm:h-8 sm:w-8"></i>
+            </a>
+        </div>
+        <div class="md:order-1">
+            <div class="flex items-center justify-center md:justify-start mb-3 sm:mb-4">
+                <div
+                    class="w-8 h-8 sm:w-10 sm:h-10 bg-scout-accent rounded-full flex items-center justify-center text-scout-primary shadow-sm border-2 border-scout-primary mr-2 sm:mr-3">
+                    <i data-lucide="tent" class="w-4 h-4 sm:w-6 sm:h-6"></i>
+                </div>
+                <span class="font-bold text-lg sm:text-xl">LT-I Spencerone Camp 2026</span>
+            </div>
+            <p class="text-center md:text-left text-sm sm:text-base text-scout-secondary font-medium px-4 md:px-0">
+                &copy; 2026 Gugus Depan 03.059-03.060 SMP Negeri 1 Cerbon. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+    </div>
+
+            <script>         window.pageData = function () {             const countdown = Vue.reactive({                 days: 0,                 hours: 0,                 minutes: 0,                 seconds: 0             });             const targetDate = new Date('2026-04-24T08:00:00').getTime();
+                 const updateCountdown = () => {                 const now = new Date().getTime();                 const distance = targetDate - now;
+                     if (distance > 0) {                     countdown.days = Math.floor(distance / (1000 * 60 * 60 * 24));                     countdown.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));                     countdown.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));                     countdown.seconds = Math.floor((distance % (1000 * 60)) / 1000);                 }             };
+                 const maskName = (name) => {                 return '***';             };
+                 return {                 allRegu: [{"id":12,"nama_regu":"Regu Harimau","jenis":"putra","nomor_regu":1,"total_nilai":0,"rank":1}],                 juaraUmum: [{"reguProfile":{"id":12,"user_id":18,"nama_regu":"Regu Harimau","jenis":"putra","nomor_regu":1,"poster_digital_path":null,"created_at":"2026-02-24T08:49:03.000000Z","updated_at":"2026-02-24T08:49:03.000000Z","foto_tenda_path":null,"foto_masakan_path":null,"foto_karya_path":null,"poster_creator_id":null,"upcycle_creator_id":null},"poin":0,"emas":0,"perak":0,"perunggu":0,"peringkat":1}],                 revealLeaderboard: false,                 countdown,                 maskName,                 onMounted: () => {                     setInterval(updateCountdown, 1000);                     updateCountdown();                 }             }         }
+        </script>
+    
+    <script>
+        const { createApp, ref, reactive, onMounted, nextTick, watch } = Vue;
+
+        const app = createApp({
+            setup() {
+                const mobileMenuOpen = ref(false);
+
+                const toggleMobileMenu = () => {
+                    mobileMenuOpen.value = !mobileMenuOpen.value;
+                    nextTick(() => {
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                    });
+                };
+
+                // Expose any page specific data if defined
+                const pageData = window.pageData ? window.pageData() : {};
+
+                onMounted(() => {
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                    if (pageData.onMounted) {
+                        pageData.onMounted();
+                    }
+                });
+
+                watch(mobileMenuOpen, () => {
+                    nextTick(() => {
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                    });
+                });
+
+                return {
+                    mobileMenuOpen,
+                    toggleMobileMenu,
+                    ...pageData
+                };
+            }
+        });
+
+        app.mount('#app');
+
+        // Global Confirmation Dialog for Deletion
+        window.confirmDelete = function (formId) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5D4037',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        };
+    </script>
+
+    
+    
+    </body>
+
+</html>

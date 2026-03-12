@@ -122,18 +122,33 @@
                             </div>
                             <div class="bg-white/50 p-6 rounded-2xl border border-scout-secondary/20 shadow-sm">
                                 <ul class="space-y-3">
-                                    @php
-                                        $kriteriaLines = array_filter(explode("\n", str_replace(['\n', "\r"], ["\n", ""], $lomba->kriteria_penilaian ?? '')));
-                                    @endphp
-                                    @forelse($kriteriaLines as $line)
+                                    @if($lomba->slug === 'cerdas-cermat')
                                         <li class="flex items-start gap-3">
                                             <i data-lucide="check-circle" class="w-4 h-4 text-scout-accent flex-shrink-0 mt-1"></i>
-                                            <span class="text-sm font-medium text-gray-700">{{ trim($line) }}</span>
+                                            <span class="text-sm font-medium text-gray-700 italic">Akumulasi skor otomatis dari setiap butir soal (Pilihan Ganda, Isian Singkat, dan Uraian).</span>
                                         </li>
-                                    @empty
-                                        <li class="italic text-gray-400 text-sm">Belum ada kriteria penilaian yang diunggah.</li>
-                                    @endforelse
+                                    @else
+                                        @forelse($lomba->scoringCriteria as $criteria)
+                                            <li class="flex items-center justify-between gap-3 p-2 bg-white/30 rounded-lg border border-scout-secondary/5 group hover:bg-white transition-colors">
+                                                <div class="flex items-start gap-3">
+                                                    <i data-lucide="check-circle" class="w-4 h-4 text-scout-accent flex-shrink-0 mt-1"></i>
+                                                    <span class="text-sm font-bold text-gray-700 leading-tight">{{ $criteria->nama_kriteria }}</span>
+                                                </div>
+                                                <span class="text-[10px] font-black bg-scout-secondary/20 text-scout-primary px-2 py-0.5 rounded-full whitespace-nowrap">
+                                                    Max: {{ (int)$criteria->nilai_max }}
+                                                </span>
+                                            </li>
+                                        @empty
+                                            <li class="italic text-gray-400 text-sm">Belum ada kriteria penilaian yang diunggah.</li>
+                                        @endforelse
+                                    @endif
                                 </ul>
+                                @if($lomba->slug !== 'cerdas-cermat' && $lomba->scoringCriteria->count() > 0)
+                                    <div class="mt-4 pt-4 border-t border-scout-secondary/10 flex justify-between items-center">
+                                        <span class="text-xs font-bold text-scout-primary/40 uppercase">Total Target Skor:</span>
+                                        <span class="text-lg font-black text-scout-accent">{{ (int)$lomba->nilai_maksimal }} <small class="text-[10px] opacity-50">PTS</small></span>
+                                    </div>
+                                @endif
                             </div>
                         </section>
                     </div>

@@ -28,6 +28,8 @@ class CerdasCermatSession extends Model
         'end_time_round_3',
         'is_verified_round_2',
         'is_graded_round_2',
+        'is_finalized_round_2',
+        'is_finalized_round_3',
     ];
 
     protected $casts = [

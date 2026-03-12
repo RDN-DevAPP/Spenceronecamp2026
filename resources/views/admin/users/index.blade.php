@@ -87,41 +87,32 @@
                                             class="text-scout-accent hover:text-amber-700 text-xs font-bold mr-3 inline-flex items-center gap-1">
                                             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit
                                         </button>
-                                        <form id="del-kode-{{ $ml->id }}" action="{{ route('admin.mata-lomba.destroy', $ml) }}"
-                                            method="POST" class="inline">
-                                            @csrf @method('DELETE')
-                                            <button type="button" onclick="confirmDelete('del-kode-{{ $ml->id }}')"
-                                                class="text-red-500 hover:text-red-700 text-xs font-bold inline-flex items-center gap-1">
-                                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
-                                            </button>
-                                        </form>
                                     </td>
 
                                     {{-- Edit Mode (Hidden) --}}
-                                    <form action="{{ route('admin.mata-lomba.update', $ml) }}" method="POST"
-                                        class="contents edit-kode-{{ $ml->id }}" style="display:none">
-                                        @csrf @method('PUT')
-                                        <td class="px-4 py-2 edit-kode-{{ $ml->id }}" style="display:none">
-                                            <input type="text" name="nama" value="{{ $ml->nama }}" required
-                                                class="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-accent">
-                                        </td>
-                                        <td class="px-4 py-2 edit-kode-{{ $ml->id }}" style="display:none">
-                                            <input type="text" name="kode" value="{{ $ml->kode }}" maxlength="6" minlength="6"
-                                                pattern="[A-Za-z0-9]{6}" required
-                                                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
-                                                class="w-24 mx-auto block px-2 py-1.5 border border-gray-300 rounded-md text-xs font-mono font-bold uppercase tracking-widest text-center focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-accent">
-                                        </td>
-                                        <td class="px-4 py-2 text-right edit-kode-{{ $ml->id }}" style="display:none">
-                                            <button type="submit"
-                                                class="text-xs font-bold text-white bg-scout-accent px-2.5 py-1.5 rounded-md hover:bg-amber-700 transition mr-1">
-                                                Simpan
-                                            </button>
-                                            <button type="button" onclick="toggleEditKode({{ $ml->id }})"
-                                                class="text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-1.5 rounded-md hover:bg-gray-200 transition">
-                                                Batal
-                                            </button>
-                                        </td>
-                                    </form>
+                                    <td class="px-4 py-2 edit-kode-{{ $ml->id }}" style="display:none">
+                                        <form id="edit-form-{{ $ml->id }}" action="{{ route('admin.mata-lomba.update', $ml) }}" method="POST" class="hidden">
+                                            @csrf @method('PUT')
+                                        </form>
+                                        <input type="text" name="nama" form="edit-form-{{ $ml->id }}" value="{{ $ml->nama }}" required
+                                            class="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-accent">
+                                    </td>
+                                    <td class="px-4 py-2 edit-kode-{{ $ml->id }}" style="display:none">
+                                        <input type="text" name="kode" form="edit-form-{{ $ml->id }}" value="{{ $ml->kode }}" maxlength="6" minlength="6"
+                                            pattern="[A-Za-z0-9]{6}" required
+                                            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')"
+                                            class="w-24 mx-auto block px-2 py-1.5 border border-gray-300 rounded-md text-xs font-mono font-bold uppercase tracking-widest text-center focus:ring-2 focus:ring-scout-accent/30 focus:border-scout-accent">
+                                    </td>
+                                    <td class="px-4 py-2 text-right edit-kode-{{ $ml->id }}" style="display:none">
+                                        <button type="submit" form="edit-form-{{ $ml->id }}"
+                                            class="text-xs font-bold text-white bg-scout-accent px-2.5 py-1.5 rounded-md hover:bg-amber-700 transition mr-1">
+                                            Simpan
+                                        </button>
+                                        <button type="button" onclick="toggleEditKode({{ $ml->id }})"
+                                            class="text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-1.5 rounded-md hover:bg-gray-200 transition">
+                                            Batal
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

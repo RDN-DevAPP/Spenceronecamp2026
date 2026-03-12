@@ -40,9 +40,9 @@ class PesertaCerdasCermatController extends Controller
         $leaderboardFinal = null;
 
         if ($session->status === 'finished') {
-            // Show Final Leaderboard
+            // Show Final Leaderboard (exclude round 3 score from peserta - admin only)
             $leaderboardFinal = CerdasCermatSession::with('reguProfile')
-                ->selectRaw('*, (COALESCE(score_round_1, 0) + COALESCE(score_round_2, 0) + COALESCE(score_round_3, 0)) as total_score')
+                ->selectRaw('*, (COALESCE(score_round_1, 0) + COALESCE(score_round_2, 0)) as total_score')
                 ->orderByDesc('total_score')
                 ->get();
         } elseif (in_array($session->status, ['round_2_done', 'round_3_ongoing'])) {
@@ -103,6 +103,11 @@ class PesertaCerdasCermatController extends Controller
 
         // Ensure we have the latest data to prevent race conditions
         $session->refresh();
+
+        // Check if Juri has started Round 1
+        if (!\App\Models\CerdasCermatSetting::getValue('round_1_started', false)) {
+            return redirect()->route('peserta.cerdas-cermat.index')->with('error', 'Menunggu Juri memulai Babak 1.');
+        }
 
         // Update status if it's their first time entering
         if ($session->status === 'registered') {
@@ -220,6 +225,11 @@ class PesertaCerdasCermatController extends Controller
             return redirect()->route('peserta.cerdas-cermat.index')->with('error', 'Menunggu verifikasi Juri untuk lanjut ke Babak 2. Silakan lapor ke meja Juri.');
         }
 
+        // Check if Juri has started Round 2
+        if (!\App\Models\CerdasCermatSetting::getValue('round_2_started', false)) {
+            return redirect()->route('peserta.cerdas-cermat.index')->with('error', 'Menunggu Juri memulai Babak 2.');
+        }
+
         // Ensure we have the latest data
         $session->refresh();
 
@@ -332,6 +342,11 @@ class PesertaCerdasCermatController extends Controller
             return redirect()->route('peserta.cerdas-cermat.index')->with('error', 'Maaf, Anda tidak lolos ke Babak Final. Peringkat Anda tidak masuk 3 besar.');
         }
 
+        // Check if Juri has started Round 3
+        if (!\App\Models\CerdasCermatSetting::getValue('round_3_started', false)) {
+            return redirect()->route('peserta.cerdas-cermat.index')->with('error', 'Menunggu Juri memulai Babak 3.');
+        }
+
         // Ensure we have the latest data
         $session->refresh();
 
@@ -397,5 +412,14 @@ class PesertaCerdasCermatController extends Controller
         ]);
 
         return redirect()->route('peserta.cerdas-cermat.index')->with('success', 'Jawaban Babak Final berhasil dikirim. Silakan tunggu pengumuman.');
+    }
+
+    public function checkStatus()
+    {
+        return response()->json([
+            'round_1_started' => (bool) \App\Models\CerdasCermatSetting::getValue('round_1_started', false),
+            'round_2_started' => (bool) \App\Models\CerdasCermatSetting::getValue('round_2_started', false),
+            'round_3_started' => (bool) \App\Models\CerdasCermatSetting::getValue('round_3_started', false),
+        ]);
     }
 }

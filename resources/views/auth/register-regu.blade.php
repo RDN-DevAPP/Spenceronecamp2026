@@ -333,9 +333,14 @@
                 .then(data => {
                     isRandomizedMode = true;
 
-                    // Update Regu Name
+                    // Update Regu Name if it's empty or still a placeholder
                     const inputNamaRegu = document.getElementById('nama_regu');
-                    inputNamaRegu.value = data.nama_regu;
+                    const currentValue = inputNamaRegu.value.trim();
+                    const isPlaceholder = currentValue.match(/^Regu (Putra|Putri) \d+$/i) || currentValue === "";
+
+                    if (isPlaceholder) {
+                        inputNamaRegu.value = data.nama_regu;
+                    }
                     inputNamaRegu.readOnly = false; // Allow modification
 
                     // Update Member Rows
@@ -395,13 +400,25 @@
                     </div>
                     
                     <div class="space-y-3">
-                        <div>
-                            <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
-                            <input type="text" name="anggota[${i}][nama]" required
-                                value="${m.nama}"
-                                ${isRandomizedMode ? 'readonly' : ''}
-                                class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10 ${isRandomizedMode ? 'opacity-70 cursor-not-allowed' : ''}"
-                                placeholder="Nama Lengkap">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
+                                <input type="text" name="anggota[${i}][nama]" required
+                                    value="${m.nama}"
+                                    ${isRandomizedMode ? 'readonly' : ''}
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10 ${isRandomizedMode ? 'opacity-70 cursor-not-allowed' : ''}"
+                                    placeholder="Nama Lengkap">
+                            </div>
+
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Kelas</label>
+                                <select name="anggota[${i}][kelas]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                                    <option value="7" ${m.kelas == '7' ? 'selected' : ''}>7</option>
+                                    <option value="8" ${m.kelas == '8' ? 'selected' : ''}>8</option>
+                                    <option value="9" ${m.kelas == '9' ? 'selected' : ''}>9</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
@@ -471,11 +488,22 @@
                     </div>
                     
                     <div class="space-y-3">
-                        <div>
-                            <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
-                            <input type="text" name="anggota[${i}][nama]" required
-                                class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10"
-                                placeholder="Masukkan nama lengkap">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Nama Lengkap</label>
+                                <input type="text" name="anggota[${i}][nama]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10"
+                                    placeholder="Masukkan nama lengkap">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-white/40 uppercase mb-1">Kelas</label>
+                                <select name="anggota[${i}][kelas]" required
+                                    class="input-glass w-full px-3 py-2 rounded-xl text-white text-sm focus:bg-white/10 outline-none [&>option]:bg-[#2d1f1a] [&>option]:text-white">
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">

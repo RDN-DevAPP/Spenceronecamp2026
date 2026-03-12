@@ -12,7 +12,7 @@ class InformasiLombaController extends Controller
      */
     public function __invoke(): View
     {
-        $mataLombas = MataLomba::orderBy('urutan')->get();
+        $mataLombas = MataLomba::with('scoringCriteria')->orderBy('urutan')->get();
         return view('informasi-lomba', compact('mataLombas'));
     }
 }

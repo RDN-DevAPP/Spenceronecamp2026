@@ -12,7 +12,7 @@
                 <h2 class="text-xl font-bold text-white">Pendaftaran Lomba Cerdas Cermat</h2>
             </div>
 
-            <div class="p-8">
+            <div class="p-6 sm:p-8">
                 <div class="mb-8 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -34,7 +34,7 @@
 
                 <form action="{{ route('peserta.cerdas-cermat.register') }}" method="POST" id="registrationForm">
                     @csrf
-                    <div class="space-y-6">
+                    <div class="space-y-5">
                         @if($anggota->isEmpty())
                             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                                 <strong class="font-bold">Perhatian!</strong>
@@ -43,14 +43,18 @@
                             </div>
                         @else
                             @for ($i = 1; $i <= 3; $i++)
-                                <div>
-                                    <label for="name_{{ $i }}" class="block text-sm font-medium text-gray-700">Nama Peserta
-                                        {{ $i }}</label>
+                                <div
+                                    class="p-4 rounded-lg border {{ $i % 2 === 0 ? 'bg-gray-50 border-gray-200' : 'bg-white border-gray-200' }}">
+                                    <label for="name_{{ $i }}" class="block text-sm font-bold text-gray-700 mb-2">
+                                        <span
+                                            class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-scout-primary text-white text-xs font-bold mr-2">{{ $i }}</span>
+                                        Nama Peserta {{ $i }}
+                                    </label>
                                     <select name="name_{{ $i }}" id="name_{{ $i }}" required onchange="updateDropdowns()"
-                                        class="member-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50">
+                                        class="member-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-3 text-base">
                                         <option value="">-- Pilih Anggota --</option>
                                         @foreach ($anggota as $member)
-                                            <option value="{{ $member->nama }}">{{ $member->nama }}</option>
+                                            <option value="{{ $member->nama }}">{{ $member->nama }} ({{ $member->jabatan }})</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -85,7 +89,6 @@
 
                         if (selectedValues.includes(option.value) && option.value !== currentVal) {
                             option.style.display = 'none';
-                            // Also disable it to be sure, though display none usually hides it from view
                             option.disabled = true;
                         } else {
                             option.style.display = 'block';

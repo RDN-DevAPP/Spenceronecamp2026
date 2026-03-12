@@ -118,18 +118,19 @@ class AdminRandomizeReguController extends Controller
     {
         // Group by kelas and shuffle each group
         $perKelas = [];
-        foreach ([7, 8, 9] as $kelas) {
+        foreach ([9, 8, 7] as $kelas) {
             $perKelas[$kelas] = $siswaCollection->where('kelas', $kelas)->shuffle()->values();
         }
 
         // Create regu profiles
         $regus = [];
         for ($i = 1; $i <= $jumlahRegu; $i++) {
+            $nomorRegu = ($jenis === 'putra') ? (2 * $i - 1) : (2 * $i);
             $regu = ReguProfile::create([
                 'user_id' => User::where('role', 'admin')->first()->id, // temporary owner
                 'nama_regu' => 'Regu ' . ucfirst($jenis) . ' ' . $i,
                 'jenis' => $jenis,
-                'nomor_regu' => $i,
+                'nomor_regu' => $nomorRegu,
             ]);
             $regus[$i] = [
                 'profile' => $regu,
@@ -140,7 +141,7 @@ class AdminRandomizeReguController extends Controller
 
         // Phase 1: Distribute round-robin per kelas to ensure each regu has at least one from each class
         $reguIndex = 0;
-        foreach ([7, 8, 9] as $kelas) {
+        foreach ([9, 8, 7] as $kelas) {
             $students = $perKelas[$kelas];
 
             foreach ($students as $siswa) {

@@ -59,7 +59,7 @@
                 </div>
             @else
                 @if(isset($isVisual) && $isVisual)
-                    <!-- Visual Gallery View -->
+                    <!-- Visual Gallery View (Redirects to score-regu for one-by-one) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                         @foreach ($regu as $r)
                             @php
@@ -69,8 +69,8 @@
                             @endphp
                             
                             <!-- Visual Card -->
-                            <div @click="openModal({{ $r->id }})" 
-                               class="group relative bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 overflow-hidden flex flex-col h-full transform hover:-translate-y-1 cursor-pointer">
+                            <a href="{{ route('juri.lomba.score.regu', ['slug' => $lomba->slug, 'reguId' => $r->id]) }}" 
+                               class="group relative bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 overflow-hidden flex flex-col h-full transform hover:-translate-y-1">
                                 
                                 <div class="absolute top-0 left-0 w-full h-1.5 {{ $isScored ? 'bg-green-500' : 'bg-scout-accent' }} transition-colors z-10"></div>
                                 
@@ -100,151 +100,20 @@
                                     @endif
                                     
                                     <div class="flex justify-between items-center mb-1">
-                                        <h3 class="font-bold text-gray-900 group-hover:text-scout-primary transition-colors line-clamp-1">
+                                        <h3 class="font-bold text-gray-900 group-hover:text-scout-primary transition-colors line-clamp-1 text-sm sm:text-base">
                                             {{ $r->nama_regu }}
                                         </h3>
                                     </div>
-                                    <div class="flex items-center text-xs text-gray-500 justify-between">
-                                        <span>Regu {{ $r->nomor_regu }} &bull; {{ ucfirst($r->jenis) }}</span>
+                                    <div class="flex items-center text-[10px] sm:text-xs text-gray-500 justify-between">
+                                        <span>B{{ $r->nomor_regu }} &bull; {{ ucfirst($r->jenis) }}</span>
                                         @if($isScored)
-                                            <span class="font-bold text-scout-primary">Nilai: {{ $existingScore->nilai }}</span>
+                                            <span class="font-bold text-scout-primary">Skor: {{ $existingScore->nilai }}</span>
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
-
-                    <!-- Modals (One for each Regu) -->
-                    @foreach ($regu as $r)
-                        @php
-                            $existingScore = $existingScores->get($r->id);
-                            $photoPath = $r->getCompetitionPhoto($lomba->nama);
-                            $hasCriteria = $criteria && $criteria->isNotEmpty();
-                        @endphp
-                        
-                        <div id="modal-{{ $r->id }}" style="display: none;" 
-                             class="fixed inset-0 z-[100] items-center justify-center bg-black/90 p-2 sm:p-6 backdrop-blur-sm">
-                             
-                            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-7xl max-h-[95vh] sm:max-h-[90vh] flex flex-col lg:flex-row overflow-hidden relative">
-                                
-                                <button type="button" @click="closeModal({{ $r->id }})" class="absolute top-4 right-4 z-50 bg-white/50 hover:bg-white text-gray-900 rounded-full p-2 backdrop-blur shadow-sm transition-colors border border-gray-200">
-                                    <i data-lucide="x" class="w-6 h-6"></i>
-                                </button>
-                                
-                                <!-- Left side: Photo Preview -->
-                                <div class="w-full lg:w-3/5 bg-gray-900 border-r border-gray-200 flex flex-col relative h-[40vh] lg:h-auto overflow-hidden">
-                                    @if($photoPath)
-                                        <div class="flex-1 w-full h-full relative group">
-                                            <img src="{{ asset('storage/' . $photoPath) }}" class="w-full h-full object-contain">
-                                            <div class="absolute bottom-4 right-4">
-                                                <a href="{{ asset('storage/' . $photoPath) }}" target="_blank" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-lg backdrop-blur flex items-center text-sm font-semibold transition">
-                                                    <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> Buka Tab Baru
-                                                </a>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="flex-1 flex flex-col items-center justify-center text-gray-500">
-                                            <i data-lucide="image-off" class="w-16 h-16 mb-4 opacity-50 text-gray-400"></i>
-                                            <p class="font-semibold text-gray-400">Peserta belum mengunggah foto</p>
-                                        </div>
-                                    @endif
-                                </div>
-                                
-                                <!-- Right side: Form Penilaian -->
-                                <div class="w-full lg:w-2/5 flex flex-col bg-gray-50 h-[55vh] lg:h-auto overflow-y-auto">
-                                    <div class="p-6 border-b border-gray-200 bg-white sticky top-0 z-10 shadow-sm">
-                                        <h2 class="text-xl font-bold text-scout-primary">{{ $r->nama_regu }}</h2>
-                                        <p class="text-sm text-gray-500">Regu {{ $r->nomor_regu }} ({{ ucfirst($r->jenis) }})</p>
-                                    </div>
-                                    
-                                    <form method="POST" action="{{ route('juri.scores.store') }}" class="p-6 flex-1 flex flex-col">
-                                        @csrf
-                                        <input type="hidden" name="mata_lomba_id" value="{{ $lomba->id }}">
-                                        <input type="hidden" name="regu_profile_id" value="{{ $r->id }}">
-
-                                        @if ($hasCriteria)
-                                            <!-- Criteria Based Scoring -->
-                                            <div class="mb-6 flex-1">
-                                                @php
-                                                    $existingCriteriaScores = [];
-                                                    if ($existingScore && $existingScore->scoreDetails) {
-                                                        foreach ($existingScore->scoreDetails as $detail) {
-                                                            $existingCriteriaScores[$detail->scoring_criteria_id] = $detail->nilai;
-                                                        }
-                                                    }
-                                                @endphp
-
-                                                <div class="space-y-4">
-                                                    @foreach ($criteria as $index => $criterion)
-                                                        @php
-                                                            $existingValue = $existingCriteriaScores[$criterion->id] ?? '';
-                                                        @endphp
-                                                        <div class="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                                                            <div class="flex justify-between items-start mb-3">
-                                                                <label class="text-sm font-bold text-gray-900">
-                                                                    {{ $criterion->urutan }}. {{ $criterion->nama_kriteria }}
-                                                                </label>
-                                                                <span class="text-xs font-semibold px-2 py-1 bg-gray-100 rounded text-gray-600">
-                                                                    Max: {{ $criterion->nilai_max }}
-                                                                </span>
-                                                            </div>
-
-                                                            <input type="hidden" name="criteria[{{ $index }}][criteria_id]" value="{{ $criterion->id }}">
-
-                                                            <div class="relative">
-                                                                <div class="grid grid-cols-5 gap-2">
-                                                                    @for($i = $criterion->nilai_min; $i <= $criterion->nilai_max; $i++)
-                                                                        <button type="button"
-                                                                            class="w-full h-10 sm:h-12 rounded-lg border-2 font-bold text-sm sm:text-base transition-all duration-200
-                                                                                {{ (old('criteria.' . $index . '.nilai', $existingValue) == $i && $existingValue !== '') ? 'bg-scout-primary border-scout-primary text-white shadow-md transform scale-105' : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-scout-primary/40' }}"
-                                                                            @click="selectScore($event.currentTarget, 'criteria-{{ $r->id }}-{{ $index }}', {{ $i }}, {{ $r->id }})">
-                                                                            {{ $i }}
-                                                                        </button>
-                                                                    @endfor
-                                                                </div>
-                                                                <input type="hidden" id="criteria-{{ $r->id }}-{{ $index }}" name="criteria[{{ $index }}][nilai]"
-                                                                    value="{{ old('criteria.' . $index . '.nilai', $existingValue) }}" class="criteria-input-{{ $r->id }}"
-                                                                    @change="calculateTotal({{ $r->id }})">
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="bg-gray-100 p-4 rounded-lg mb-6 flex justify-between items-center border border-gray-200">
-                                                <span class="font-bold text-gray-700">Total Skor:</span>
-                                                <span class="text-2xl font-bold text-scout-primary" id="total-preview-{{ $r->id }}">{{ $existingScore ? $existingScore->nilai : '0.00' }}</span>
-                                            </div>
-                                            
-                                        @else
-                                            <!-- Simple Scoring inside Modal -->
-                                            <div class="mb-6 flex-1">
-                                                <label class="block text-sm font-bold text-gray-800 mb-2">Nilai Akhir (0-100)</label>
-                                                <input type="number" name="nilai" min="0" max="100" step="0.01"
-                                                    value="{{ old('nilai', $existingScore?->nilai) }}" placeholder="0.00"
-                                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-scout-primary focus:border-scout-primary text-xl font-bold text-scout-primary">
-                                            </div>
-                                        @endif
-
-                                        <div class="mb-6">
-                                            <label class="block text-sm font-bold text-gray-800 mb-2">Catatan</label>
-                                            <textarea name="catatan" rows="2" placeholder="Tulis catatan (opsional)..."
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-scout-primary text-sm">{{ old('catatan', $existingScore?->catatan) }}</textarea>
-                                        </div>
-
-                                        <div class="mt-auto pt-4 border-t border-gray-200">
-                                            <button type="submit" class="w-full py-4 bg-scout-primary text-white rounded-xl font-bold shadow-lg hover:bg-scout-primary/90 transition flex items-center justify-center text-lg">
-                                                <i data-lucide="save" class="w-5 h-5 mr-2"></i>
-                                                Simpan Penilaian
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    
                 @else
                     <!-- STANDARD SCORING GRID (Non Visual) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -279,15 +148,15 @@
                                     <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-1 group-hover:text-scout-primary transition-colors line-clamp-1">
                                         {{ $r->nama_regu }}
                                     </h3>
-                                    <p class="text-sm text-gray-500 mb-4">{{ $r->user->name ?? 'Pembina' }}</p>
+                                    <p class="text-xs sm:text-sm text-gray-500 mb-4 line-clamp-1">{{ $r->user->name ?? 'Pembina' }}</p>
     
                                     <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
                                         <div>
                                             @if($isScored)
-                                                <div class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Total Nilai</div>
+                                                <div class="text-[9px] text-gray-400 uppercase tracking-wider font-bold">Total Nilai</div>
                                                 <div class="text-xl font-bold text-scout-primary">{{ $existingScore->nilai }}</div>
                                             @else
-                                                <span class="text-xs text-gray-400 italic">Belum dinilai - Klik untuk menilai</span>
+                                                <span class="text-[10px] sm:text-xs text-gray-400 italic">Klik untuk menilai</span>
                                             @endif
                                         </div>
                                         <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-scout-primary group-hover:text-white transition-colors">

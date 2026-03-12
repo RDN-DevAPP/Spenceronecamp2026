@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MataLomba;
 use App\Models\ScoringCriteria;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminKriteriaController extends Controller
 {
@@ -26,7 +27,15 @@ class AdminKriteriaController extends Controller
             'nama_kriteria' => 'required|string|max:255',
             'nilai_min' => 'required|numeric|min:0',
             'nilai_max' => 'required|numeric|min:0|gte:nilai_min',
-            'urutan' => 'integer|min:0',
+            'urutan' => [
+                'integer', 
+                'min:0', 
+                Rule::unique('scoring_criteria', 'urutan')->where(function ($query) use ($mataLomba) {
+                    return $query->where('mata_lomba_id', $mataLomba->id);
+                })
+            ],
+        ], [
+            'urutan.unique' => 'Urutan ini sudah digunakan dalam lomba ini.',
         ]);
 
         $mataLomba->scoringCriteria()->create($validated);
@@ -40,7 +49,17 @@ class AdminKriteriaController extends Controller
     public function show(MataLomba $mataLomba)
     {
         $criteria = $mataLomba->scoringCriteria()->orderBy('urutan')->get();
-        return view('admin.kriteria.show', compact('mataLomba', 'criteria'));
+        $cerdasCermatCounts = [];
+
+        if ($mataLomba->slug === 'cerdas-cermat') {
+            $cerdasCermatCounts = [
+                'Pilihan Ganda' => \App\Models\CerdasCermatQuestion::where('type', 'Pilihan Ganda')->count(),
+                'Isian Singkat' => \App\Models\CerdasCermatQuestion::where('type', 'Isian Singkat')->count(),
+                'Uraian' => \App\Models\CerdasCermatQuestion::where('type', 'Uraian')->count(),
+            ];
+        }
+
+        return view('admin.kriteria.show', compact('mataLomba', 'criteria', 'cerdasCermatCounts'));
     }
 
     /**
@@ -63,7 +82,15 @@ class AdminKriteriaController extends Controller
             'nama_kriteria' => 'required|string|max:255',
             'nilai_min' => 'required|numeric|min:0',
             'nilai_max' => 'required|numeric|min:0|gte:nilai_min',
-            'urutan' => 'integer|min:0',
+            'urutan' => [
+                'integer', 
+                'min:0', 
+                Rule::unique('scoring_criteria', 'urutan')->where(function ($query) use ($mataLomba) {
+                    return $query->where('mata_lomba_id', $mataLomba->id);
+                })->ignore($kriteria->id)
+            ],
+        ], [
+            'urutan.unique' => 'Urutan ini sudah digunakan dalam lomba ini.',
         ]);
 
         $kriteria->update($validated);

@@ -26,10 +26,21 @@
                     @csrf
                     @method('PUT')
 
-                    <div>
-                        <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                        <input type="text" name="nama" id="nama" value="{{ old('nama', $anggota->nama) }}" required
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                            <input type="text" name="nama" id="nama" value="{{ old('nama', $anggota->nama) }}" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border">
+                        </div>
+                        <div>
+                            <label for="kelas" class="block text-sm font-medium text-gray-700">Kelas</label>
+                            <select name="kelas" id="kelas" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-scout-primary focus:ring focus:ring-scout-primary focus:ring-opacity-50 py-2 px-3 border bg-white">
+                                <option value="7" {{ old('kelas', $anggota->kelas) == '7' ? 'selected' : '' }}>7</option>
+                                <option value="8" {{ old('kelas', $anggota->kelas) == '8' ? 'selected' : '' }}>8</option>
+                                <option value="9" {{ old('kelas', $anggota->kelas) == '9' ? 'selected' : '' }}>9</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -58,9 +69,9 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-end pt-4">
+                    <div class="flex flex-col sm:flex-row justify-end pt-4 gap-4">
                         <button type="submit"
-                            class="btn-scout-primary py-2 px-6 rounded font-bold shadow-md transition transform hover:scale-105 flex items-center">
+                            class="w-full sm:w-auto btn-scout-primary py-3 px-6 rounded font-bold shadow-md transition transform active:scale-95 flex items-center justify-center">
                             <i data-lucide="save" class="w-4 h-4 mr-2"></i>
                             Simpan Perubahan
                         </button>

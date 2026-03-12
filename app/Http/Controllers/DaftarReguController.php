@@ -10,12 +10,12 @@ class DaftarReguController extends Controller
     public function __invoke(): View
     {
         $reguPutra = ReguProfile::where('jenis', 'putra')
-            ->with('anggotaRegu')
+            ->with(['anggotaRegu', 'user'])
             ->orderBy('nomor_regu')
             ->get();
 
         $reguPutri = ReguProfile::where('jenis', 'putri')
-            ->with('anggotaRegu')
+            ->with(['anggotaRegu', 'user'])
             ->orderBy('nomor_regu')
             ->get();
 

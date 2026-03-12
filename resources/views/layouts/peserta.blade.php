@@ -136,7 +136,7 @@
                         <!-- Mobile Menu Button -->
                         <button @click="toggleMobileMenu"
                             class="md:hidden text-scout-secondary hover:text-white focus:outline-none">
-                            <svg v-if="!isMobileMenuOpen" class="w-8 h-8" fill="none" stroke="currentColor"
+                            <svg v-if="!mobileMenuOpen" class="w-8 h-8" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -152,7 +152,7 @@
             </div>
 
             <!-- Mobile Menu -->
-            <div v-show="isMobileMenuOpen"
+            <div v-show="mobileMenuOpen"
                 class="md:hidden bg-scout-primary border-t border-scout-secondary shadow-xl absolute top-full left-0 w-full z-50 transition-all duration-300 ease-in-out">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <div
@@ -202,11 +202,11 @@
 
         createApp({
             setup() {
-                const isMobileMenuOpen = ref(false);
+                const mobileMenuOpen = ref(false);
 
                 const toggleMobileMenu = () => {
-                    isMobileMenuOpen.value = !isMobileMenuOpen.value;
-                    if (isMobileMenuOpen.value) {
+                    mobileMenuOpen.value = !mobileMenuOpen.value;
+                    if (mobileMenuOpen.value) {
                         nextTick(() => {
                             if (typeof lucide !== 'undefined') {
                                 lucide.createIcons();
@@ -220,7 +220,7 @@
                         lucide.createIcons();
                     }
                 });
-                return { isMobileMenuOpen, toggleMobileMenu };
+                return { mobileMenuOpen, toggleMobileMenu };
             }
         }).mount('#app');
     </script>

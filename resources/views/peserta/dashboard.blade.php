@@ -37,11 +37,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-3">
-                                <a href="{{ route('peserta.anggota.create') }}" class="btn-scout-primary py-2 px-4 text-sm font-bold rounded-full shadow-lg flex items-center hover:bg-scout-accent hover:text-scout-primary transition border-2 border-scout-primary">
-                                    <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i> Tambah Anggota
-                                </a>
-                            </div>
                         </div>
 
                         @if ($anggota->isEmpty())
@@ -196,13 +191,13 @@
                                     @else
                                         <form method="POST" action="{{ route('peserta.poster.upload') }}" enctype="multipart/form-data">
                                             @csrf
-                                            <label class="flex flex-col items-center justify-center w-full h-40 border-2 border-scout-primary/20 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-scout-primary/5 transition duration-300 group/upload">
+                                            <label class="flex flex-col items-center justify-center w-full h-32 sm:h-40 border-2 border-scout-primary/20 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-scout-primary/5 transition duration-300 group/upload">
                                                 <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                    <div class="p-3 bg-white rounded-full shadow-sm mb-3 group-hover/upload:scale-110 transition duration-300">
-                                                         <i data-lucide="upload-cloud" class="w-6 h-6 text-scout-primary"></i>
+                                                    <div class="p-2 sm:p-3 bg-white rounded-full shadow-sm mb-2 sm:mb-3 group-hover/upload:scale-110 transition duration-300">
+                                                         <i data-lucide="upload-cloud" class="w-5 h-5 sm:w-6 sm:h-6 text-scout-primary"></i>
                                                     </div>
-                                                    <p class="mb-1 text-sm text-gray-500"><span class="font-semibold text-scout-primary">Klik untuk upload</span></p>
-                                                    <p class="text-xs text-gray-400">JPG, PNG, PDF (Max 5MB)</p>
+                                                    <p class="mb-1 text-xs sm:text-sm text-gray-500"><span class="font-semibold text-scout-primary">Klik untuk upload</span></p>
+                                                    <p class="text-[10px] sm:text-xs text-gray-400">Max 5MB</p>
                                                 </div>
                                                 <input type="file" name="poster" accept=".jpg,.jpeg,.png,.pdf" class="hidden" required onchange="this.form.submit()">
                                             </label>
@@ -456,9 +451,9 @@
                             <div class="overflow-x-auto">
                                 <!-- Mobile View -->
                                 <div class="md:hidden border border-gray-200 rounded-lg bg-white overflow-hidden">
-                                    <div class="bg-scout-light px-4 py-3 flex justify-between items-center border-b border-gray-200 font-bold">
-                                        <span class="text-gray-700 text-sm">Total Nilai Lomba</span>
-                                        <span class="text-scout-primary text-lg">{{ number_format($scores->sum('nilai'), 2) }}</span>
+                                    <div class="bg-scout-light px-4 py-3 flex justify-between items-center border-b border-gray-200 font-bold bg-gradient-to-r from-scout-light to-white">
+                                        <span class="text-gray-700 text-xs sm:text-sm uppercase tracking-wider">Total Nilai Lomba</span>
+                                        <span class="text-scout-primary text-base sm:text-lg font-black">{{ number_format($scores->sum('nilai'), 2) }}</span>
                                     </div>
                                     <div class="divide-y divide-gray-100">
                                         @foreach ($mataLombas as $i => $lomba)

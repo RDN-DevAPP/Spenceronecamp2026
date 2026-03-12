@@ -11,12 +11,10 @@ class EnsureUserIsJuri
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if ($user && $user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
 
-        if (!$user || !$user->isJuri()) {
-            abort(403, 'Akses hanya untuk Juri.');
+        // Allow BOTH Admin and Juri
+        if (!$user || (!$user->isJuri() && !$user->isAdmin())) {
+            abort(403, 'Akses hanya untuk Juri atau Admin.');
         }
 
         return $next($request);

@@ -1,0 +1,93 @@
+﻿
+  GET|HEAD        / ....... home ΓÇ║ WelcomeController
+  GET|HEAD        admin/cerdas-cermat admin.cerdas-ΓÇª
+  POST            admin/cerdas-cermat admin.cerdas-ΓÇª
+  GET|HEAD        admin/cerdas-cermat/create admin.ΓÇª
+  DELETE          admin/cerdas-cermat/destroy-all aΓÇª
+  POST            admin/cerdas-cermat/import admin.ΓÇª
+  GET|HEAD        admin/cerdas-cermat/sessions admiΓÇª
+  DELETE          admin/cerdas-cermat/sessions/{id} admin.cerdas-cermat.resetSession ΓÇ║ Admin\AdminCerdasCermatController@resetSessioΓÇª
+  POST            admin/cerdas-cermat/settings admiΓÇª
+  GET|HEAD        admin/cerdas-cermat/{question} adΓÇª
+  PUT|PATCH       admin/cerdas-cermat/{question} adΓÇª
+  DELETE          admin/cerdas-cermat/{question} adΓÇª
+  GET|HEAD        admin/cerdas-cermat/{question}/edit admin.cerdas-cermat.edit ΓÇ║ Admin\AdminCerdasCermatController@eΓÇª
+  GET|HEAD        admin/dashboard admin.dashboard  ΓÇª
+  GET|HEAD        admin/informasi-lomba admin.inforΓÇª
+  PUT             admin/informasi-lomba/{mataLomba} admin.informasi-lomba.update ΓÇ║ Admin\AdminInformasiLombaController@updatΓÇª
+  GET|HEAD        admin/informasi-lomba/{mataLomba}/edit admin.informasi-lomba.edit ΓÇ║ Admin\AdminInformasiLombaControlleΓÇª
+  GET|HEAD        admin/jadwal admin.jadwal.index  ΓÇª
+  POST            admin/jadwal admin.jadwal.store  ΓÇª
+  GET|HEAD        admin/jadwal/create admin.jadwal.ΓÇª
+  POST            admin/jadwal/settings admin.jadwaΓÇª
+  GET|HEAD        admin/jadwal/{jadwal} admin.jadwaΓÇª
+  PUT|PATCH       admin/jadwal/{jadwal} admin.jadwaΓÇª
+  DELETE          admin/jadwal/{jadwal} admin.jadwaΓÇª
+  GET|HEAD        admin/jadwal/{jadwal}/edit admin.ΓÇª
+  GET|HEAD        admin/kriteria admin.kriteria.indΓÇª
+  PUT             admin/kriteria/{kriteria} admin.kΓÇª
+  DELETE          admin/kriteria/{kriteria} admin.kΓÇª
+  GET|HEAD        admin/kriteria/{kriteria}/edit adΓÇª
+  GET|HEAD        admin/mata-lomba/{mataLomba}/kriteria admin.kriteria.show ΓÇ║ Admin\AdminKriteriaControllerΓÇª
+  POST            admin/mata-lomba/{mataLomba}/kriteria admin.kriteria.store ΓÇ║ Admin\AdminKriteriaController@ΓÇª
+  GET|HEAD        admin/mata-lomba/{mataLomba}/kriteria/create admin.kriteria.create ΓÇ║ Admin\AdminKriteriaContrΓÇª
+  GET|HEAD        admin/scores admin.scores.index  ΓÇª
+  DELETE          admin/scores/{score} admin.scoresΓÇª
+  GET|HEAD        admin/sponsorships admin.sponsorsΓÇª
+  POST            admin/sponsorships admin.sponsorsΓÇª
+  GET|HEAD        admin/sponsorships/create admin.sΓÇª
+  GET|HEAD        admin/sponsorships/{sponsorship} ΓÇª
+  PUT|PATCH       admin/sponsorships/{sponsorship} ΓÇª
+  DELETE          admin/sponsorships/{sponsorship} ΓÇª
+  POST            admin/sponsorships/{sponsorship}/approve admin.sponsorships.approve ΓÇ║ Admin\AdminSponsorshipControllerΓÇª
+  GET|HEAD        admin/sponsorships/{sponsorship}/edit admin.sponsorships.edit ΓÇ║ Admin\AdminSponsorshipControllerΓÇª
+  POST            admin/toggle-reveal-juara-umum adΓÇª
+  GET|HEAD        admin/users admin.users.index ΓÇ║ AΓÇª
+  POST            admin/users admin.users.store ΓÇ║ AΓÇª
+  GET|HEAD        admin/users/create admin.users.crΓÇª
+  GET|HEAD        admin/users/{user} admin.users.shΓÇª
+  PUT|PATCH       admin/users/{user} admin.users.upΓÇª
+  DELETE          admin/users/{user} admin.users.deΓÇª
+  GET|HEAD        admin/users/{user}/edit admin.useΓÇª
+  GET|HEAD        informasi-lomba informasi-lomba  ΓÇª
+  GET|HEAD        jadwal . jadwal ΓÇ║ JadwalController
+  GET|HEAD        juri/cerdas-cermat juri.cerdas-ceΓÇª
+  GET|HEAD        juri/cerdas-cermat/qualifiers jurΓÇª
+  POST            juri/cerdas-cermat/{id}/verify-round-2 juri.cerdas-cermat.verify ΓÇ║ Juri\JuriCerdasCermatController@verifyΓÇª
+  GET|HEAD        juri/cerdas-cermat/{session}/{round} juri.cerdas-cermat.show ΓÇ║ Juri\JuriCerdasCermatController@ΓÇª
+  POST            juri/cerdas-cermat/{session}/{round}/grade juri.cerdas-cermat.grade ΓÇ║ Juri\JuriCerdasCermatControΓÇª
+  GET|HEAD        juri/dashboard juri.dashboard ΓÇ║ JΓÇª
+  GET|HEAD        juri/lomba/{slug} juri.lomba.scorΓÇª
+  GET|HEAD        juri/lomba/{slug}/regu/{reguId} jΓÇª
+  POST            juri/scores juri.scores.store ΓÇ║ JΓÇª
+  POST            juri/scores/bulk juri.scores.storΓÇª
+  POST            juri/scores/{score}/approve juri.ΓÇª
+  POST            juri/scores/{score}/reject juri.sΓÇª
+  GET|HEAD        login ...................... login
+  POST            login login.submit ΓÇ║ Auth\AuthConΓÇª
+  POST            logout logout ΓÇ║ Auth\AuthControllΓÇª
+  POST            peserta/anggota peserta.anggota.sΓÇª
+  GET|HEAD        peserta/anggota/create peserta.anΓÇª
+  PUT             peserta/anggota/{id} peserta.anggΓÇª
+  DELETE          peserta/anggota/{id} peserta.anggΓÇª
+  GET|HEAD        peserta/anggota/{id}/edit pesertaΓÇª
+  GET|HEAD        peserta/cerdas-cermat peserta.cerΓÇª
+  POST            peserta/cerdas-cermat/register peΓÇª
+  GET|HEAD        peserta/cerdas-cermat/round-1 pesΓÇª
+  POST            peserta/cerdas-cermat/round-1 pesΓÇª
+  GET|HEAD        peserta/cerdas-cermat/round-2 pesΓÇª
+  POST            peserta/cerdas-cermat/round-2 pesΓÇª
+  GET|HEAD        peserta/cerdas-cermat/round-3 pesΓÇª
+  POST            peserta/cerdas-cermat/round-3 pesΓÇª
+  GET|HEAD        peserta/dashboard peserta.dashboaΓÇª
+  DELETE          peserta/delete-photo peserta.photΓÇª
+  POST            peserta/poster peserta.poster.uplΓÇª
+  POST            peserta/upload-photo peserta.uploΓÇª
+  GET|HEAD        sanctum/csrf-cookie sanctum.csrf-ΓÇª
+  GET|HEAD        sponsorship/daftar sponsorship.daΓÇª
+  POST            sponsorship/daftar sponsorship.stΓÇª
+  GET|HEAD        storage/{path} ..... storage.local
+  GET|HEAD        up ............................... 
+
+                                 Showing [89] routes
+

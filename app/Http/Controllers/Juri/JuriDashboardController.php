@@ -29,7 +29,7 @@ class JuriDashboardController extends Controller
         }
 
         // Get scoring statistics for each lomba
-        $reguCount = ReguProfile::count();
+        $reguCount = ReguProfile::whereHas('user', fn($q) => $q->where('role', 'regu'))->count();
         $scoringStats = [];
 
         foreach ($mataLomba as $lomba) {
@@ -79,6 +79,7 @@ class JuriDashboardController extends Controller
         $isVisual = in_array($slug, $visualSlugs);
 
         $regu = ReguProfile::with('user:id,name,username')
+            ->whereHas('user', fn($q) => $q->where('role', 'regu'))
             ->orderBy('jenis')
             ->orderBy('nomor_regu')
             ->get();
@@ -134,7 +135,8 @@ class JuriDashboardController extends Controller
             ->first();
 
         // Get next and previous regu IDs for navigation
-        $allReguIds = ReguProfile::orderBy('jenis')
+        $allReguIds = ReguProfile::whereHas('user', fn($q) => $q->where('role', 'regu'))
+            ->orderBy('jenis')
             ->orderBy('nomor_regu')
             ->pluck('id')
             ->toArray();

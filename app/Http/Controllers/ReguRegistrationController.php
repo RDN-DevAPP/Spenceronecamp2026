@@ -34,6 +34,7 @@ class ReguRegistrationController extends Controller
             'regu_profile_id' => 'nullable|exists:regu_profiles,id',
             'anggota' => 'required|array',
             'anggota.*.nama' => 'required|string|max:255',
+            'anggota.*.kelas' => 'required|integer|min:7|max:9',
             'anggota.*.tingkatan_tku' => ['required', Rule::in(['ramu', 'rakit', 'terap'])],
             'anggota.*.jabatan' => ['required', Rule::in(['pinru', 'wapinru', 'anggota'])],
         ]);
@@ -59,19 +60,19 @@ class ReguRegistrationController extends Controller
                 ]);
 
                 // 3. Update Existing Anggota Regu
-                // Since this is a new registration for this user, we can clear existing and re-create 
-                // or update. The user requirement says "auto muncul and hanya dapat di edit jabatan, dan tingkatannya saja".
-                // We should update based on what WAS randomized but with new jabatan/tingkatan.
-
-                // For simplicity and matching the user's "nama hanya bisa di edit setelah log in",
-                // we'll update the existing records by index/urutan or just clear and re-create if they mismatch.
-                // But wait, the names shouldn't change here.
-
                 $reguProfile->anggotaRegu()->delete();
-                foreach ($request->anggota as $index => $data) {
+
+                // Sort members by jabatan (pinru, wapinru, then others)
+                $sortedAnggota = collect($request->anggota)->sort(function ($a, $b) {
+                    $order = ['pinru' => 1, 'wapinru' => 2, 'anggota' => 3];
+                    return $order[$a['jabatan']] <=> $order[$b['jabatan']];
+                })->values();
+
+                foreach ($sortedAnggota as $index => $data) {
                     AnggotaRegu::create([
                         'regu_profile_id' => $reguProfile->id,
                         'nama' => $data['nama'],
+                        'kelas' => $data['kelas'],
                         'tingkatan_tku' => $data['tingkatan_tku'],
                         'jabatan' => $data['jabatan'],
                         'urutan' => $index + 1,
@@ -79,8 +80,13 @@ class ReguRegistrationController extends Controller
                 }
             } else {
                 // 2. Create New Regu Profile (Original Logic)
-                $nextNomor = ReguProfile::where('jenis', $request->jenis)->max('nomor_regu') ?? 0;
-                $nomorRegu = $nextNomor + 1;
+                if ($request->jenis === 'putra') {
+                    $max = ReguProfile::where('jenis', 'putra')->max('nomor_regu');
+                    $nomorRegu = $max ? $max + 2 : 1;
+                } else {
+                    $max = ReguProfile::where('jenis', 'putri')->max('nomor_regu');
+                    $nomorRegu = $max ? $max + 2 : 2;
+                }
 
                 $reguProfile = ReguProfile::create([
                     'user_id' => $user->id,
@@ -90,10 +96,17 @@ class ReguRegistrationController extends Controller
                 ]);
 
                 // 3. Create Anggota Regu
-                foreach ($request->anggota as $index => $data) {
+                // Sort members by jabatan (pinru, wapinru, then others)
+                $sortedAnggota = collect($request->anggota)->sort(function ($a, $b) {
+                    $order = ['pinru' => 1, 'wapinru' => 2, 'anggota' => 3];
+                    return $order[$a['jabatan']] <=> $order[$b['jabatan']];
+                })->values();
+
+                foreach ($sortedAnggota as $index => $data) {
                     AnggotaRegu::create([
                         'regu_profile_id' => $reguProfile->id,
                         'nama' => $data['nama'],
+                        'kelas' => $data['kelas'],
                         'tingkatan_tku' => $data['tingkatan_tku'],
                         'jabatan' => $data['jabatan'],
                         'urutan' => $index + 1,

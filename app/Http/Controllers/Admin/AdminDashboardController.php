@@ -18,6 +18,8 @@ class AdminDashboardController extends Controller
      */
     public function index(Request $request): View
     {
+        $lombaFilterId = $request->query('lomba_filter');
+
         $allMataLomba = MataLomba::all();
         $mataLomba = $allMataLomba;
 
@@ -105,13 +107,21 @@ class AdminDashboardController extends Controller
                 $rank++;
             }
 
-            $uniqueJuriIds = collect($scores)->pluck('juri_id')->unique()->values();
+            $assignedJuris = \App\Models\User::where('role', 'juri')
+                ->whereHas('mataLombas', function($q) use ($lomba) {
+                    $q->where('mata_lomba.id', $lomba->id);
+                })
+                ->orderBy('name')
+                ->get();
 
-            $leaderboards[$lomba->id] = [
-                'mata_lomba' => $lomba,
-                'leaderboard' => $reguScores,
-                'juri_columns' => $uniqueJuriIds,
-            ];
+            // Only add to leaderboards display if no filter is set or if it matches the filter
+            if (!$lombaFilterId || $lombaFilterId == $lomba->id) {
+                $leaderboards[$lomba->id] = [
+                    'mata_lomba' => $lomba,
+                    'leaderboard' => $reguScores,
+                    'juri_columns' => $assignedJuris,
+                ];
+            }
         }
 
         // Sort juara umum by poin DESC, then emas DESC, perak DESC, perunggu DESC
@@ -138,7 +148,7 @@ class AdminDashboardController extends Controller
         $revealLeaderboard = Setting::where('key', 'reveal_juara_umum')->first()->value ?? '0';
         $showFinancialReport = Setting::where('key', 'show_financial_report')->first()->value ?? '0';
 
-        return view('admin.dashboard', compact('leaderboards', 'juaraUmum', 'allMataLomba', 'allMataLombaFiltered', 'revealLeaderboard', 'showFinancialReport'));
+        return view('admin.dashboard', compact('leaderboards', 'juaraUmum', 'allMataLomba', 'allMataLombaFiltered', 'revealLeaderboard', 'showFinancialReport', 'lombaFilterId'));
     }
 
     public function toggleRevealJuaraUmum(Request $request)

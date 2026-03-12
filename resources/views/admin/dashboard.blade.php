@@ -32,7 +32,7 @@
 
                     <form action="{{ route('admin.toggle.financial-report') }}" method="POST">
                         @csrf
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100 mb-4">
                             <div>
                                 <h3 class="font-medium text-gray-900">Tombol Laporan Keuangan</h3>
                                 <p class="text-xs text-gray-500 mt-1">Ganti "Info Lomba" di beranda.</p>
@@ -69,7 +69,7 @@
                                     <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-orange-700 uppercase tracking-wider">Total Poin</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
+                            <tbody class="divide-y-2 divide-gray-300">
                                 @foreach($juaraUmum as $ju)
                                     <tr class="hover:bg-orange-50/50 transition-colors {{ $loop->iteration <= 3 ? 'bg-orange-50/30' : '' }}">
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -116,7 +116,7 @@
                     <!-- Mobile View -->
                     <div class="md:hidden bg-white">
                         @foreach($juaraUmum as $ju)
-                            <div class="p-4 border-b border-gray-100 {{ $loop->iteration <= 3 ? 'bg-orange-50/30' : '' }}">
+                            <div class="p-4 border-b-2 border-gray-300 {{ $loop->iteration <= 3 ? 'bg-orange-50/30' : '' }}">
                                 <div class="flex justify-between items-center mb-3">
                                     <div class="flex items-center space-x-4">
                                         <div class="flex-shrink-0">
@@ -161,20 +161,36 @@
                     </div>
                 </div>
             @endif
+            
+            <!-- Filter Mata Lomba -->
+            <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200 gap-3 sm:gap-0">
+                <div class="flex items-center w-full sm:w-auto">
+                    <i data-lucide="filter" class="w-5 h-5 mr-2 text-scout-primary"></i>
+                    <h3 class="text-sm font-semibold text-gray-700">Filter Leaderboard</h3>
+                </div>
+                <form action="{{ route('admin.dashboard') }}" method="GET" class="w-full sm:w-auto flex items-center">
+                    <select name="lomba_filter" id="lomba_filter" class="block w-full sm:w-64 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-scout-primary focus:border-scout-primary sm:text-sm rounded-md truncate" onchange="this.form.submit()">
+                        <option value="" class="truncate">Semua Mata Lomba</option>
+                        @foreach($allMataLomba as $ml)
+                            <option value="{{ $ml->id }}" {{ (isset($lombaFilterId) && $lombaFilterId == $ml->id) ? 'selected' : '' }} class="truncate">
+                                {{ $ml->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
 
             <!-- Leaderboard Tables -->
             @forelse($leaderboards as $lombaId => $lombaData)
                 @php
                     $lomba = $lombaData['mata_lomba'];
                     $lb = $lombaData['leaderboard'];
-                    $juriCols = $lombaData['juri_columns'];
-                    // Ensure up to 3 Juri columns for display as requested
-                    $juriColsForDisplay = $juriCols->take(3)->values();
+                    $juris = $lombaData['juri_columns'];
                 @endphp
                 <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-                    <div class="px-6 py-5 flex justify-between items-center bg-gray-50 border-b border-gray-200">
-                        <h3 class="text-lg leading-6 font-bold text-gray-900 flex items-center">
-                            <i data-lucide="trophy" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                    <div class="px-6 py-5 flex justify-between items-center bg-scout-primary rounded-t-lg border-b border-scout-primary/80">
+                        <h3 class="text-lg leading-6 font-bold text-white flex items-center">
+                            <i data-lucide="medal" class="w-5 h-5 mr-2 text-scout-accent"></i>
                             Leaderboard - {{ $lomba->nama }}
                         </h3>
                     </div>
@@ -182,7 +198,7 @@
                         <!-- Mobile View -->
                         <div class="md:hidden">
                             @forelse($lb as $row)
-                                <div class="p-4 border-b border-gray-200 {{ $loop->iteration <= 3 ? 'bg-amber-50/30' : '' }}">
+                                <div class="p-4 border-b-2 border-gray-300 {{ $loop->iteration <= 3 ? 'bg-amber-50/30' : '' }}">
                                     <div class="flex justify-between items-center mb-3">
                                         <div class="flex items-center space-x-3">
                                             <div class="flex-shrink-0">
@@ -208,17 +224,17 @@
                                             <div class="text-lg font-bold text-scout-primary">{{ number_format($row['total_nilai'], 0, ',', '.') }}</div>
                                         </div>
                                     </div>
-                                    <div class="grid grid-cols-3 gap-2 mt-2 bg-gray-50 rounded-lg p-2 border border-gray-100">
-                                        @for($i = 0; $i < 3; $i++)
-                                            <div class="text-center">
-                                                <div class="text-xs text-gray-500 font-medium mb-1">Juri {{ $i + 1 }}</div>
-                                                @if(isset($juriColsForDisplay[$i]) && isset($row['juri_scores'][$juriColsForDisplay[$i]]))
-                                                    <div class="text-sm font-semibold text-gray-800">{{ $row['juri_scores'][$juriColsForDisplay[$i]] }}</div>
+                                    <div class="grid grid-cols-2 gap-2 mt-2 bg-gray-50 rounded-lg p-2 border border-gray-100">
+                                        @foreach($juris as $juri)
+                                            <div class="text-center bg-white p-2 rounded shadow-sm border border-gray-100">
+                                                <div class="text-[10px] text-gray-500 font-bold mb-1 truncate uppercase tracking-wider" title="{{ $juri->name }}">{{ Str::limit($juri->name, 12) }}</div>
+                                                @if(isset($row['juri_scores'][$juri->id]))
+                                                    <div class="text-sm font-black text-gray-800">{{ $row['juri_scores'][$juri->id] }}</div>
                                                 @else
                                                     <div class="text-sm text-gray-400">-</div>
                                                 @endif
                                             </div>
-                                        @endfor
+                                        @endforeach
                                     </div>
                                 </div>
                             @empty
@@ -239,17 +255,17 @@
                                     <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                                         Nama Regu
                                     </th>
-                                    @for($i = 1; $i <= 3; $i++)
-                                        <th scope="col" class="px-4 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                                            Juri {{ $i }}
+                                    @foreach($juris as $juri)
+                                        <th scope="col" class="px-4 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[100px]">
+                                            <div class="truncate" title="{{ $juri->name }}">{{ Str::limit($juri->name, 15) }}</div>
                                         </th>
-                                    @endfor
+                                    @endforeach
                                     <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-scout-primary uppercase tracking-wider bg-indigo-50/30">
                                         Total Nilai
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white divide-y-2 divide-gray-300">
                                 @forelse($lb as $row)
                                     <tr class="hover:bg-gray-50/50 transition-colors {{ $loop->iteration <= 3 ? 'bg-amber-50/20' : '' }}">
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -269,15 +285,15 @@
                                             <div class="text-sm font-bold text-gray-900">{{ $row['reguProfile']->nama_regu }}</div>
                                             <div class="text-xs text-gray-500 mt-0.5">{{ ucfirst($row['reguProfile']->jenis) }} - Regu {{ $row['reguProfile']->nomor_regu }}</div>
                                         </td>
-                                        @for($i = 0; $i < 3; $i++)
+                                        @foreach($juris as $juri)
                                             <td class="px-4 py-4 whitespace-nowrap text-center border-l border-gray-50">
-                                                @if(isset($juriColsForDisplay[$i]) && isset($row['juri_scores'][$juriColsForDisplay[$i]]))
-                                                    <span class="text-sm text-gray-700 font-medium inline-block px-3 py-1 bg-gray-50 rounded-md">{{ $row['juri_scores'][$juriColsForDisplay[$i]] }}</span>
+                                                @if(isset($row['juri_scores'][$juri->id]))
+                                                    <span class="text-sm text-gray-800 font-bold inline-block px-3 py-1 bg-white rounded-md shadow-sm border border-gray-100 min-w-[2.5rem]">{{ $row['juri_scores'][$juri->id] }}</span>
                                                 @else
                                                     <span class="text-sm text-gray-400">-</span>
                                                 @endif
                                             </td>
-                                        @endfor
+                                        @endforeach
                                         <td class="px-6 py-4 whitespace-nowrap text-center bg-indigo-50/10 border-l border-gray-100">
                                             <div class="text-lg font-black text-scout-primary">{{ number_format($row['total_nilai'], 0, ',', '.') }}</div>
                                         </td>

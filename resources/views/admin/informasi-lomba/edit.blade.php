@@ -100,48 +100,7 @@
                         @enderror
                     </div>
 
-                    <!-- Kriteria Penilaian (Deskriptif) -->
-                    <div class="bg-scout-surface/30 p-5 rounded-xl border border-scout-secondary/20">
-                        <label for="kriteria_penilaian"
-                            class="block text-base font-bold text-scout-primary mb-3 flex items-center gap-2">
-                            <i data-lucide="list-checks" class="w-5 h-5 text-scout-accent"></i>
-                            Kriteria Penilaian (Teks Publik)
-                        </label>
-                        <div class="mb-4">
-                            <label for="nilai_maksimal" class="block text-sm font-semibold text-scout-primary mb-2">
-                                Nilai Maksimal Lomba
-                            </label>
-                            <div class="flex items-center gap-3">
-                                <input type="number" name="nilai_maksimal" id="nilai_maksimal"
-                                    value="{{ old('nilai_maksimal', (int)$mataLomba->nilai_maksimal) }}"
-                                    {{ $mataLomba->slug === 'cerdas-cermat' ? 'readonly' : '' }}
-                                    class="w-32 px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary font-bold text-lg transition-all @error('nilai_maksimal') border-red-500 @enderror {{ $mataLomba->slug === 'cerdas-cermat' ? 'bg-gray-100 cursor-not-allowed opacity-75' : '' }}"
-                                    placeholder="100">
-                                <span class="text-scout-primary/60 font-medium">Poin</span>
-                            </div>
-                            @error('nilai_maksimal')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
-                            <p class="mt-2 text-xs text-scout-primary/50 italic">
-                                @if($mataLomba->slug === 'cerdas-cermat')
-                                    Nilai ini dihitung otomatis dari total skor semua soal. Atur di
-                                    <a href="{{ route('admin.cerdas-cermat.index') }}" class="text-scout-accent font-bold hover:underline">Kelola Soal</a>.
-                                @else
-                                    Nilai ini akan menjadi acuan total akumulasi kriteria penilaian.
-                                @endif
-                            </p>
-                        </div>
-                        <textarea name="kriteria_penilaian" id="kriteria_penilaian" rows="4"
-                            class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('kriteria_penilaian') border-red-500 @enderror"
-                            placeholder="Tuliskan poin-poin yang akan dinilai juri secara deskriptif...">{{ old('kriteria_penilaian', $mataLomba->kriteria_penilaian) }}</textarea>
-                        @error('kriteria_penilaian')
-                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
-                        <p class="mt-2 text-[10px] text-scout-primary/50 italic flex items-center gap-1">
-                            <i data-lucide="help-circle" class="w-3 h-3"></i>
-                            Ini adalah informasi teks yang tampil di halaman pendaftaran, bukan pengaturan rumus skor.
-                        </p>
-                    </div>
+
                 </div>
 
                 <!-- Action Buttons -->

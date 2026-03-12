@@ -47,55 +47,6 @@ class PesertaDashboardController extends Controller
             'scores' => $scores,
         ]);
     }
-    public function createAnggota(Request $request): View
-    {
-        return view('peserta.create-anggota');
-    }
-
-    public function storeAnggota(Request $request)
-    {
-        /** @var \App\Models\User $user */
-        $user = $request->user();
-        $regu = $user->reguProfile;
-
-        if (!$regu) {
-            return redirect()->route('peserta.dashboard')->with('error', 'Profil regu tidak ditemukan.');
-        }
-
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
-            'jabatan' => ['required', 'in:pinru,wapinru,anggota'],
-        ]);
-
-        if (in_array($validated['jabatan'], ['pinru', 'wapinru'])) {
-            $exists = $regu->anggotaRegu()->where('jabatan', $validated['jabatan'])->exists();
-            if ($exists) {
-                return back()->withInput()->with('error', "Jabatan {$validated['jabatan']} sudah terisi di regu ini.");
-            }
-        }
-
-        $regu->anggotaRegu()->create([
-            'nama' => $validated['nama'],
-            'tingkatan_tku' => $validated['tingkatan_tku'],
-            'jabatan' => $validated['jabatan'],
-            'urutan' => $regu->anggotaRegu()->count() + 1,
-        ]);
-
-        return redirect()->route('peserta.dashboard')->with('success', 'Anggota berhasil ditambahkan.');
-    }
-
-    public function editAnggota($id): View
-    {
-        // Ensure the member belongs to the logged-in user's regu
-        $user = request()->user();
-        $regu = $user->reguProfile;
-
-        $anggota = $regu->anggotaRegu()->findOrFail($id);
-
-        return view('peserta.edit-anggota', ['anggota' => $anggota]);
-    }
-
     public function updateAnggota(Request $request, $id)
     {
         $user = $request->user();
@@ -105,6 +56,7 @@ class PesertaDashboardController extends Controller
 
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
+            'kelas' => ['required', 'integer', 'min:7', 'max:9'],
             'tingkatan_tku' => ['required', 'in:ramu,rakit,terap'],
             'jabatan' => ['required', 'in:pinru,wapinru,anggota'],
         ]);
@@ -119,9 +71,24 @@ class PesertaDashboardController extends Controller
 
         $anggota->update([
             'nama' => $validated['nama'],
+            'kelas' => $validated['kelas'],
             'tingkatan_tku' => $validated['tingkatan_tku'],
             'jabatan' => $validated['jabatan'],
         ]);
+
+        // Recalculate order for all members
+        $allMembers = $regu->anggotaRegu()->get();
+        $sortedMembers = $allMembers->sort(function ($a, $b) {
+            $order = ['pinru' => 1, 'wapinru' => 2, 'anggota' => 3];
+            if ($order[$a->jabatan] !== $order[$b->jabatan]) {
+                return $order[$a->jabatan] <=> $order[$b->jabatan];
+            }
+            return $a->urutan <=> $b->urutan;
+        })->values();
+
+        foreach ($sortedMembers as $index => $m) {
+            $m->update(['urutan' => $index + 1]);
+        }
 
         return redirect()->route('peserta.dashboard')->with('success', 'Data anggota berhasil diperbarui.');
     }

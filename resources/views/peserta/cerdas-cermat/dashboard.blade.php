@@ -14,25 +14,43 @@
 
             <div class="p-8">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <!-- Round 1 Score -->
+                    {{-- Round 1 Score - Show only if round 1 is done --}}
                     <div class="bg-green-50 rounded-lg p-6 border border-green-100 text-center">
                         <div class="text-green-800 font-bold text-lg mb-2">Babak 1</div>
-                        <div class="text-3xl font-bold text-green-600 mb-1">{{ $session->score_round_1 }}</div>
-                        <div class="text-xs text-green-700 uppercase tracking-wide">Poin</div>
+                        @if(in_array($session->status, ['round_1_done', 'round_2_ongoing', 'round_2_done', 'round_3_ongoing', 'finished']))
+                            <div class="text-3xl font-bold text-green-600 mb-1">{{ $session->score_round_1 }}</div>
+                            <div class="text-xs text-green-700 uppercase tracking-wide">Poin</div>
+                        @else
+                            <div class="text-lg font-medium text-gray-400 mb-1">-</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">Belum Selesai</div>
+                        @endif
                     </div>
 
-                    <!-- Round 2 Score -->
+                    {{-- Round 2 Score - Show only if graded by juri --}}
                     <div class="bg-yellow-50 rounded-lg p-6 border border-yellow-100 text-center">
                         <div class="text-yellow-800 font-bold text-lg mb-2">Babak 2</div>
-                        <div class="text-3xl font-bold text-yellow-600 mb-1">{{ $session->score_round_2 }}</div>
-                        <div class="text-xs text-yellow-700 uppercase tracking-wide">Poin</div>
+                        @if($session->is_graded_round_2)
+                            <div class="text-3xl font-bold text-yellow-600 mb-1">{{ $session->score_round_2 }}</div>
+                            <div class="text-xs text-yellow-700 uppercase tracking-wide">Poin</div>
+                        @else
+                            <div class="text-lg font-medium text-gray-400 mb-1">-</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-wide">
+                                @if(in_array($session->status, ['round_2_done', 'round_3_ongoing', 'finished']))
+                                    Menunggu Penilaian Juri
+                                @else
+                                    Belum Selesai
+                                @endif
+                            </div>
+                        @endif
                     </div>
 
-                    <!-- Round 3 Score -->
+                    {{-- Round 3 Score - HIDDEN from peserta (admin only) --}}
                     <div class="bg-blue-50 rounded-lg p-6 border border-blue-100 text-center">
                         <div class="text-blue-800 font-bold text-lg mb-2">Babak 3</div>
-                        <div class="text-3xl font-bold text-blue-600 mb-1">{{ $session->score_round_3 }}</div>
-                        <div class="text-xs text-blue-700 uppercase tracking-wide">Poin</div>
+                        <div class="text-lg font-medium text-gray-400 mb-1">
+                            <i data-lucide="eye-off" class="w-6 h-6 inline text-gray-400"></i>
+                        </div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Hanya Admin</div>
                     </div>
                 </div>
 
@@ -41,13 +59,12 @@
                         <i data-lucide="activity" class="w-5 h-5 mr-2 text-scout-primary"></i>
                         Status Tim
                     </h3>
-                    <div class="flex items-center">
+                    <div class="flex items-center flex-wrap gap-3">
                         @if($session->status === 'registered')
                             <span class="px-3 py-1 rounded-full bg-gray-200 text-gray-800 font-bold text-sm">Terdaftar</span>
-                            <span class="ml-4 text-gray-600 text-sm">Menunggu dimulainya Babak 1.</span>
+                            <span class="text-gray-600 text-sm">Menunggu Juri memulai Babak 1.</span>
                         @elseif($session->status === 'round_1_done')
-                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-bold text-sm">Selesai Babak
-                                1</span>
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-bold text-sm">Selesai Babak 1</span>
                             <div class="ml-auto">
                                 <a href="{{ route('peserta.cerdas-cermat.round-2') }}"
                                     class="btn-scout-primary py-2 px-4 rounded shadow text-sm font-bold flex items-center hover:bg-scout-accent hover:text-scout-primary transition">
@@ -55,8 +72,7 @@
                                 </a>
                             </div>
                         @elseif($session->status === 'round_2_ongoing')
-                            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-bold text-sm">Sedang Babak
-                                2</span>
+                            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-bold text-sm">Sedang Babak 2</span>
                             <div class="ml-auto">
                                 <a href="{{ route('peserta.cerdas-cermat.round-2') }}"
                                     class="btn-scout-primary py-2 px-4 rounded shadow text-sm font-bold flex items-center hover:bg-scout-accent hover:text-scout-primary transition">
@@ -64,8 +80,7 @@
                                 </a>
                             </div>
                         @elseif($session->status === 'round_2_done')
-                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-bold text-sm">Selesai Babak
-                                2</span>
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-bold text-sm">Selesai Babak 2</span>
                             <div class="ml-auto">
                                 <a href="{{ route('peserta.cerdas-cermat.round-3') }}"
                                     class="btn-scout-primary py-2 px-4 rounded shadow text-sm font-bold flex items-center hover:bg-scout-accent hover:text-scout-primary transition">
@@ -73,8 +88,7 @@
                                 </a>
                             </div>
                         @elseif($session->status === 'round_3_ongoing')
-                            <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 font-bold text-sm">Sedang Babak
-                                Final</span>
+                            <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 font-bold text-sm">Sedang Babak Final</span>
                             <div class="ml-auto">
                                 <a href="{{ route('peserta.cerdas-cermat.round-3') }}"
                                     class="btn-scout-primary py-2 px-4 rounded shadow text-sm font-bold flex items-center hover:bg-scout-accent hover:text-scout-primary transition">
@@ -82,9 +96,8 @@
                                 </a>
                             </div>
                         @elseif($session->status === 'finished')
-                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 font-bold text-sm">Selesai
-                                Lomba</span>
-                            <span class="ml-4 text-gray-600 text-sm">Terima kasih telah berpartisipasi.</span>
+                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 font-bold text-sm">Selesai Lomba</span>
+                            <span class="text-gray-600 text-sm">Terima kasih telah berpartisipasi.</span>
                         @else
                             <span
                                 class="px-3 py-1 rounded-full bg-scout-accent text-scout-primary font-bold text-sm uppercase">{{ str_replace('_', ' ', $session->status) }}</span>
@@ -111,7 +124,7 @@
                         <!-- Mobile View -->
                         <div class="md:hidden divide-y divide-gray-200">
                             @foreach($leaderboardRound1 as $index => $item)
-                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                <div class="p-4 {{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} {{ $item->id === $session->id ? 'ring-2 ring-yellow-400' : '' }}">
                                     <div class="flex items-center justify-between mb-2">
                                         <div class="flex items-center space-x-2">
                                             <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
@@ -137,20 +150,18 @@
                         <table class="hidden md:table min-w-full divide-y divide-gray-300">
                             <thead class="bg-scout-primary text-white">
                                 <tr>
-                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Peringkat
-                                    </th>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Peringkat</th>
                                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Regu</th>
                                     <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold">Skor</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach($leaderboardRound1 as $index => $item)
-                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : '' }}">
+                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : ($index % 2 === 0 ? 'bg-white' : 'bg-gray-50') }}">
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ $index + 1 }}
                                             @if($index < 5)
-                                                <span
-                                                    class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos</span>
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Lolos</span>
                                             @endif
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -182,7 +193,7 @@
                         <!-- Mobile View -->
                         <div class="md:hidden divide-y divide-gray-200">
                             @foreach($leaderboardRound2 as $index => $item)
-                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                <div class="p-4 {{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} {{ $item->id === $session->id ? 'ring-2 ring-yellow-400' : '' }}">
                                     <div class="flex items-center justify-between mb-2">
                                         <div class="flex items-center space-x-2">
                                             <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
@@ -215,7 +226,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach($leaderboardRound2 as $index => $item)
-                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : '' }}">
+                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : ($index % 2 === 0 ? 'bg-white' : 'bg-gray-50') }}">
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ $index + 1 }}
                                             @if($index < 3)
@@ -240,6 +251,7 @@
                 </div>
             @endif
 
+            {{-- Final leaderboard: only show round 1 + 2 total (round 3 hidden from peserta) --}}
             @if(isset($leaderboardFinal) && $leaderboardFinal->isNotEmpty())
                 <div class="border-t border-gray-200 p-8 bg-gray-50">
                     <h3 class="font-bold text-xl text-gray-800 mb-6 flex items-center">
@@ -251,7 +263,7 @@
                         <!-- Mobile View -->
                         <div class="md:hidden divide-y divide-gray-200">
                             @foreach($leaderboardFinal as $index => $item)
-                                <div class="p-4 {{ $item->id === $session->id ? 'bg-yellow-50' : 'bg-white' }}">
+                                <div class="p-4 {{ $index % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} {{ $item->id === $session->id ? 'ring-2 ring-yellow-400' : '' }}">
                                     <div class="flex items-center justify-between mb-2">
                                         <div class="flex items-center space-x-2">
                                             <span class="inline-flex items-center justify-center w-6 h-6 rounded bg-scout-primary text-white text-xs font-bold">
@@ -289,7 +301,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach($leaderboardFinal as $index => $item)
-                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : '' }}">
+                                    <tr class="{{ $item->id === $session->id ? 'bg-yellow-50' : ($index % 2 === 0 ? 'bg-white' : 'bg-gray-50') }}">
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                             {{ $index + 1 }}
                                             @if($index === 0)
@@ -312,8 +324,40 @@
                             </tbody>
                         </table>
                     </div>
+                    <p class="mt-4 text-sm text-gray-500 text-center">
+                        * Total skor berdasarkan Babak 1 + Babak 2. Nilai Babak 3 hanya dapat dilihat oleh Admin.
+                    </p>
                 </div>
             @endif
         </div>
     </div>
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentStatus = '{{ $session->status }}';
+            const isVerifiedR2 = {{ $session->is_verified_round_2 ? 'true' : 'false' }};
+            const isGradedR2 = {{ $session->is_graded_round_2 ? 'true' : 'false' }};
+            
+            // Only poll if they are in a "waiting" state for the next round
+            if (['round_1_done', 'round_2_done'].includes(currentStatus)) {
+                const interval = setInterval(async () => {
+                    try {
+                        const response = await fetch('{{ route("peserta.cerdas-cermat.check-status") }}');
+                        const data = await response.json();
+                        
+                        if (currentStatus === 'round_1_done' && data.round_2_started && isVerifiedR2) {
+                            clearInterval(interval);
+                            window.location.href = '{{ route("peserta.cerdas-cermat.round-2") }}';
+                        } else if (currentStatus === 'round_2_done' && data.round_3_started && isGradedR2) {
+                            clearInterval(interval);
+                            window.location.href = '{{ route("peserta.cerdas-cermat.round-3") }}';
+                        }
+                    } catch (error) {
+                        console.error('Error checking status:', error);
+                    }
+                }, 3000);
+            }
+        });
+    </script>
+    @endpush
 @endsection

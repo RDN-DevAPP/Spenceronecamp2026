@@ -50,6 +50,15 @@ Route::middleware(['auth', 'juri'])->prefix('juri')->name('juri.')->group(functi
     Route::post('/cerdas-cermat/{id}/verify-round-2', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'verifyRound2'])->name('cerdas-cermat.verify');
     Route::get('/cerdas-cermat/{session}/{round}', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'show'])->name('cerdas-cermat.show');
     Route::post('/cerdas-cermat/{session}/{round}/grade', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'grade'])->name('cerdas-cermat.grade');
+    Route::post('/cerdas-cermat/{session}/{round}/finalize', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'finalize'])->name('cerdas-cermat.finalize');
+    Route::post('/cerdas-cermat/start-round/{round}', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'startRound'])->name('cerdas-cermat.start-round');
+    Route::post('/cerdas-cermat/reset-round/{round}', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'resetRound'])->name('cerdas-cermat.reset-round');
+    Route::post('/cerdas-cermat/{id}/reset-session', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'resetSession'])->name('cerdas-cermat.reset-session');
+    Route::delete('/cerdas-cermat/destroy-all', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'destroyAll'])->name('cerdas-cermat.destroy-all');
+    Route::delete('/cerdas-cermat/{id}', [\App\Http\Controllers\Juri\JuriCerdasCermatController::class, 'destroy'])->name('cerdas-cermat.destroy');
+
+    // Rekap Nilai (Accessible by Juri)
+    Route::get('/rekap-nilai', [\App\Http\Controllers\Admin\AdminRekapNilaiController::class, 'index'])->name('rekap-nilai.index');
 });
 
 // Admin
@@ -115,14 +124,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'index'])->name('randomize-regu.index');
     Route::post('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'randomize'])->name('randomize-regu.randomize');
     Route::delete('randomize-regu', [\App\Http\Controllers\Admin\AdminRandomizeReguController::class, 'reset'])->name('randomize-regu.reset');
+
+    // Rekap Nilai Admin
+    Route::get('rekap-nilai', [\App\Http\Controllers\Admin\AdminRekapNilaiController::class, 'index'])->name('rekap-nilai.index');
 });
 
 // Peserta (Regu)
 Route::middleware(['auth', 'regu'])->prefix('peserta')->name('peserta.')->group(function () {
     Route::get('/dashboard', [PesertaDashboardController::class, 'index'])->name('dashboard');
     Route::post('/poster', [PesertaPosterController::class, 'upload'])->name('poster.upload');
-    Route::get('/anggota/create', [PesertaDashboardController::class, 'createAnggota'])->name('anggota.create');
-    Route::post('/anggota', [PesertaDashboardController::class, 'storeAnggota'])->name('anggota.store');
     Route::get('/anggota/{id}/edit', [PesertaDashboardController::class, 'editAnggota'])->name('anggota.edit');
     Route::put('/anggota/{id}', [PesertaDashboardController::class, 'updateAnggota'])->name('anggota.update');
     Route::delete('/anggota/{id}', [PesertaDashboardController::class, 'destroyAnggota'])->name('anggota.destroy');
@@ -138,5 +148,6 @@ Route::middleware(['auth', 'regu'])->prefix('peserta')->name('peserta.')->group(
     Route::post('/cerdas-cermat/round-2', [\App\Http\Controllers\Peserta\PesertaCerdasCermatController::class, 'submitRound2'])->name('cerdas-cermat.round-2.submit');
     Route::get('/cerdas-cermat/round-3', [\App\Http\Controllers\Peserta\PesertaCerdasCermatController::class, 'round3'])->name('cerdas-cermat.round-3');
     Route::post('/cerdas-cermat/round-3', [\App\Http\Controllers\Peserta\PesertaCerdasCermatController::class, 'submitRound3'])->name('cerdas-cermat.round-3.submit');
+    Route::get('/cerdas-cermat/check-status', [\App\Http\Controllers\Peserta\PesertaCerdasCermatController::class, 'checkStatus'])->name('cerdas-cermat.check-status');
 
 });
