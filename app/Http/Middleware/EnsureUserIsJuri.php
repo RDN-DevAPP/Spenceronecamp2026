@@ -12,9 +12,9 @@ class EnsureUserIsJuri
     {
         $user = $request->user();
 
-        // Allow BOTH Admin and Juri
-        if (!$user || (!$user->isJuri() && !$user->isAdmin())) {
-            abort(403, 'Akses hanya untuk Juri atau Admin.');
+        // Only allow Juri role
+        if (!$user || !$user->isJuri()) {
+            abort(403, 'Akses hanya untuk Juri.');
         }
 
         return $next($request);

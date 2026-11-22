@@ -11,11 +11,19 @@ class Siswa extends Model
     use HasFactory;
 
     protected $fillable = [
+        'season_id',
         'nama',
+        'nisn',
         'kelas',
+        'tingkatan_tku',
         'jenis_kelamin',
         'regu_profile_id',
     ];
+
+    public function season(): BelongsTo
+    {
+        return $this->belongsTo(Season::class);
+    }
 
     public function reguProfile(): BelongsTo
     {

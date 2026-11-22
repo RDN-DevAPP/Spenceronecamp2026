@@ -11,11 +11,22 @@ class Score extends Model
 {
     use HasFactory;
 
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_SUBMITTED = 'submitted';
+    public const STATUS_VERIFIED = 'verified';
+
     protected $fillable = [
+        'season_id',
         'regu_profile_id',
         'mata_lomba_id',
         'juri_id',
         'nilai',
+        'status',
+        'unlock_requested',
+        'unlock_reason',
+        'submitted_at',
+        'verified_at',
+        'verified_by',
         'catatan',
         'delete_requested'
     ];
@@ -25,7 +36,35 @@ class Score extends Model
         return [
             'nilai' => 'decimal:2',
             'delete_requested' => 'boolean',
+            'unlock_requested' => 'boolean',
+            'submitted_at' => 'datetime',
+            'verified_at' => 'datetime',
         ];
+    }
+
+    public function isDraft(): bool
+    {
+        return $this->status === self::STATUS_DRAFT;
+    }
+
+    public function isSubmitted(): bool
+    {
+        return $this->status === self::STATUS_SUBMITTED;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->status === self::STATUS_VERIFIED;
+    }
+
+    public function isLocked(): bool
+    {
+        return in_array($this->status, [self::STATUS_SUBMITTED, self::STATUS_VERIFIED]);
+    }
+
+    public function season(): BelongsTo
+    {
+        return $this->belongsTo(Season::class);
     }
 
     public function reguProfile(): BelongsTo
@@ -46,5 +85,15 @@ class Score extends Model
     public function scoreDetails(): HasMany
     {
         return $this->hasMany(ScoreDetail::class);
+    }
+
+    public function verifiedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'verified_by');
+    }
+
+    public function auditLogs(): HasMany
+    {
+        return $this->hasMany(ScoreAuditLog::class);
     }
 }

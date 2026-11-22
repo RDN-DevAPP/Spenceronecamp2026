@@ -6,24 +6,109 @@
 @source '../**/*.js';
 @source '../js/**/*.vue';
 
-/* LT-I Spencerone Camp – Scout for Future branding */
+/* Spencerone Camp Season II Official Brand Palette */
 @theme {
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    /* Pramuka / Scout palette */
-    --color-scout-brown: #4B2E2A;
-    --color-scout-tan: #C4A77D;
-    --color-scout-gold: #B8860B;
-    --color-scout-cream: #FAF8F5;
-    --color-scout-white: #FFFFFF;
-    
-    /* Aliases */
-    --color-scout-primary: var(--color-scout-brown);
-    --color-scout-secondary: var(--color-scout-tan);
-    --color-scout-accent: var(--color-scout-gold);
-    --color-scout-surface: var(--color-scout-cream);
+
+    /* Official Brand Colors Season II */
+    --color-brand-forest: #1B4332;
+    --color-brand-amber: #D97706;
+    --color-brand-cyber: #1E3A8A;
+    --color-brand-purple: #6B21A8;
+    --color-brand-khaki: #F4EDE4;
+
+    /* Semantic Aliases */
+    --color-scout-primary: #1B4332;
+    --color-scout-secondary: #2D6A4F;
+    --color-scout-accent: #D97706;
+    --color-scout-cyber: #1E3A8A;
+    --color-scout-purple: #6B21A8;
+    --color-scout-surface: #F4EDE4;
+    --color-scout-light: #F9FAFB;
+    --color-scout-dark: #1F2937;
 }
 
-/* Page transition (Vue + Inertia) */
+/* Custom UI Utilities for Season II */
+.badge-gold {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+}
+
+.badge-cyber {
+    background: linear-gradient(135deg, #2563EB 0%, #1E3A8A 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(30, 58, 138, 0.35);
+}
+
+.badge-forest {
+    background: linear-gradient(135deg, #2D6A4F 0%, #1B4332 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(27, 67, 50, 0.35);
+}
+
+.card-scout {
+    background-color: #FFFFFF;
+    border: 2px solid #E5DFD5;
+    box-shadow: 0 4px 14px -2px rgba(27, 67, 50, 0.08), 0 2px 6px -1px rgba(27, 67, 50, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-scout:hover {
+    border-color: #1B4332;
+    box-shadow: 0 12px 24px -4px rgba(27, 67, 50, 0.15), 0 4px 10px -2px rgba(27, 67, 50, 0.08);
+}
+
+.btn-scout-primary {
+    background-color: #1B4332;
+    color: #F9FAFB;
+    transition: all 0.25s ease;
+}
+
+.btn-scout-primary:hover {
+    background-color: #143527;
+    box-shadow: 0 6px 16px -2px rgba(27, 67, 50, 0.35);
+}
+
+.btn-scout-accent {
+    background-color: #D97706;
+    color: #FFFFFF;
+    transition: all 0.25s ease;
+}
+
+.btn-scout-accent:hover {
+    background-color: #B45309;
+    box-shadow: 0 6px 16px -2px rgba(217, 119, 6, 0.4);
+}
+
+.btn-scout-cyber {
+    background-color: #1E3A8A;
+    color: #FFFFFF;
+    transition: all 0.25s ease;
+}
+
+.btn-scout-cyber:hover {
+    background-color: #172554;
+    box-shadow: 0 6px 16px -2px rgba(30, 58, 138, 0.4);
+}
+
+/* Glassmorphism Season II */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-dark {
+    background: rgba(27, 67, 50, 0.88);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(45, 106, 79, 0.5);
+}
+
+/* Page transitions */
 .page-enter-active,
 .page-leave-active {
     transition: opacity 0.2s ease, transform 0.2s ease;

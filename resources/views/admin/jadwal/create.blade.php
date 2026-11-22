@@ -1,126 +1,108 @@
 @extends('layouts.main')
 
-@section('title', 'Tambah Jadwal - Admin LTI 2026')
+@section('title', 'Tambah Agenda Jadwal - Admin Spencerone Camp 2026')
 
 @section('content')
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Header -->
-        <div class="mb-6">
-            <div class="flex items-center gap-2 mb-2">
+    <div class="py-10 min-h-screen">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Header -->
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <div class="flex items-center gap-2 mb-1.5 text-xs text-gray-500">
+                        <a href="{{ route('admin.jadwal.index') }}" class="hover:text-brand-forest transition font-medium">Jadwal</a>
+                        <span>/</span>
+                        <span class="text-brand-forest font-bold">Tambah Agenda</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black text-brand-forest uppercase tracking-tight">
+                        Tambah Agenda Kegiatan
+                    </h1>
+                </div>
                 <a href="{{ route('admin.jadwal.index') }}"
-                    class="text-scout-primary/70 hover:text-scout-accent transition-colors font-semibold text-sm flex items-center gap-1">
-                    Kelola Jadwal
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
                 </a>
-                <span class="text-scout-primary/50 text-sm">/</span>
-                <span class="text-scout-primary text-sm font-bold">Tambah Baru</span>
             </div>
-            <h1 class="text-3xl font-bold text-scout-primary flex items-center gap-3">
-                <i data-lucide="calendar-plus" class="w-8 h-8 text-scout-accent"></i>
-                Tambah Agenda Kegiatan
-            </h1>
-        </div>
 
-        <div class="card-scout rounded-2xl p-6 sm:p-8">
-            <form action="{{ route('admin.jadwal.store') }}" method="POST">
-                @csrf
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-gray-200/80 shadow-sm">
+                <form action="{{ route('admin.jadwal.store') }}" method="POST" class="space-y-5">
+                    @csrf
 
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Hari Ke -->
                         <div>
-                            <label for="hari_ke" class="block text-sm font-bold text-scout-primary mb-2">
+                            <label for="hari_ke" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
                                 Hari Ke- <span class="text-red-500">*</span>
                             </label>
-                            <input type="number" name="hari_ke" id="hari_ke" value="{{ old('hari_ke', 1) }}" min="1"
-                                required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('hari_ke') border-red-500 @enderror">
-                            @error('hari_ke')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                            <input type="number" name="hari_ke" id="hari_ke" value="{{ old('hari_ke', 1) }}" min="1" required
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-bold text-center transition">
                         </div>
 
                         <!-- Tanggal -->
                         <div>
-                            <label for="tanggal" class="block text-sm font-bold text-scout-primary mb-2">
-                                Tanggal <span class="text-red-500">*</span>
+                            <label for="tanggal" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                                Tanggal Pelaksanaan <span class="text-red-500">*</span>
                             </label>
                             <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal') }}" required
                                 min="{{ $settings['event_start_date'] ?? '' }}"
                                 max="{{ $settings['event_end_date'] ?? '' }}"
-                                class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('tanggal') border-red-500 @enderror">
-                            @error('tanggal')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Waktu Mulai -->
                         <div>
-                            <label for="waktu_mulai" class="block text-sm font-bold text-scout-primary mb-2">
+                            <label for="waktu_mulai" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
                                 Waktu Mulai <span class="text-red-500">*</span>
                             </label>
                             <input type="time" name="waktu_mulai" id="waktu_mulai" value="{{ old('waktu_mulai') }}" required
-                                class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('waktu_mulai') border-red-500 @enderror">
-                            @error('waktu_mulai')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition">
                         </div>
 
                         <!-- Waktu Selesai -->
                         <div>
-                            <label for="waktu_selesai" class="block text-sm font-bold text-scout-primary mb-2">
-                                Waktu Selesai
+                            <label for="waktu_selesai" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                                Waktu Selesai (Opsional)
                             </label>
                             <input type="time" name="waktu_selesai" id="waktu_selesai" value="{{ old('waktu_selesai') }}"
-                                class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('waktu_selesai') border-red-500 @enderror">
-                            @error('waktu_selesai')
-                                <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                            @enderror
-                            <p class="mt-1 text-xs text-scout-primary/40 italic">Kosongkan jika acara tentatif / sampai
-                                selesai.</p>
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition">
                         </div>
                     </div>
 
                     <!-- Nama Kegiatan -->
                     <div>
-                        <label for="kegiatan" class="block text-sm font-bold text-scout-primary mb-2">
+                        <label for="kegiatan" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
                             Nama Kegiatan <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="kegiatan" id="kegiatan" value="{{ old('kegiatan') }}" required
-                            class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('kegiatan') border-red-500 @enderror"
-                            placeholder="Contoh: Upacara Pembukaan, Lomba Masak, dsb.">
-                        @error('kegiatan')
-                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition"
+                            placeholder="Contoh: Upacara Pembukaan & Apel Pagi">
                     </div>
 
                     <!-- Lokasi Kegiatan -->
                     <div>
-                        <label for="lokasi" class="block text-sm font-bold text-scout-primary mb-2">
+                        <label for="lokasi" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
                             Lokasi Kegiatan
                         </label>
                         <input type="text" name="lokasi" id="lokasi" value="{{ old('lokasi') }}"
-                            class="w-full px-4 py-3 rounded-xl border-2 border-scout-secondary/50 focus:border-scout-primary focus:ring-0 bg-white text-scout-primary transition-all @error('lokasi') border-red-500 @enderror"
-                            placeholder="Contoh: Lapangan Utama, Ruang Kelas A, dsb.">
-                        @error('lokasi')
-                            <p class="mt-1 text-sm text-red-600 font-medium">{{ $message }}</p>
-                        @enderror
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition"
+                            placeholder="Contoh: Lapangan Utama / Aula">
                     </div>
-                </div>
 
-                <!-- Action Buttons -->
-                <div class="mt-10 flex flex-col md:flex-row gap-4 pt-8 border-t border-scout-primary/10">
-                    <button type="submit"
-                        class="w-full md:w-auto btn-scout-accent px-10 py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-scout-accent/20 hover:scale-[1.02] transition-transform">
-                        <i data-lucide="plus-circle" class="w-5 h-5"></i> Tambah ke Jadwal
-                    </button>
-                    <a href="{{ route('admin.jadwal.index') }}"
-                        class="w-full md:w-auto px-10 py-4 rounded-xl font-bold bg-white text-scout-primary border-2 border-scout-secondary hover:border-scout-primary text-center transition flex items-center justify-center gap-2">
-                        Batal
-                    </a>
-                </div>
-            </form>
+                    <!-- Action Buttons -->
+                    <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row gap-2.5">
+                        <button type="submit"
+                            class="px-6 py-2.5 rounded-xl font-bold text-xs bg-brand-forest hover:bg-emerald-900 text-white shadow-sm flex items-center justify-center gap-1.5 transition">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah ke Jadwal
+                        </button>
+                        <a href="{{ route('admin.jadwal.index') }}"
+                            class="px-5 py-2.5 rounded-xl font-semibold text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 text-center transition">
+                            Batal
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="py-12 bg-gray-50/50 min-h-screen">
+    <div class="py-12 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
@@ -156,23 +156,7 @@
                 @endif
             </form>
 
-            {{-- Finalize button (separate from grade form) --}}
-            @if(!$isFinalized && $answers->isNotEmpty())
-                <div class="mt-8 flex justify-center px-4 sm:px-0 mb-12">
-                    <form action="{{ route('juri.cerdas-cermat.finalize', [$session->id, $round]) }}" method="POST"
-                        onsubmit="return confirm('PERHATIAN: Setelah difinalkan, nilai tidak dapat diubah lagi. Yakin ingin memfinalkan sekarang?')" class="w-full sm:w-auto">
-                        @csrf
-                        <button type="submit"
-                            class="w-full sm:w-auto bg-rose-50 text-rose-600 px-8 py-4 rounded-2xl font-black hover:bg-rose-600 hover:text-white transition-all shadow-lg flex items-center justify-center border-2 border-rose-100 uppercase tracking-widest text-xs">
-                            <i data-lucide="lock" class="w-5 h-5 mr-3"></i>
-                            Finalkan & Kunci Nilai
-                        </button>
-                    </form>
-                </div>
-            @endif
-        </div>
-    </div>
-@endsection
+
         </div>
     </div>
 @endsection

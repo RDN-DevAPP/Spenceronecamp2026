@@ -72,9 +72,12 @@ class UserRoleSeeder extends Seeder
                 ]
             );
 
+            $activeSeason = \App\Models\Season::where('is_active', true)->first();
+
             ReguProfile::updateOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'season_id' => $activeSeason?->id,
                     'nama_regu' => $r['nama_regu'],
                     'jenis' => $r['jenis'],
                     'nomor_regu' => $r['nomor_regu'],

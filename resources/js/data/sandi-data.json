@@ -1,0 +1,2026 @@
+{
+  "version": "1.0.0",
+  "source": "SANDI QUEST",
+  "kotak1": {
+    "name": "Sandi Kotak 1",
+    "description": "Standar Gerakan Pramuka. Kisi pagar (#) 3x3 untuk A-R dan kisi silang (X) untuk S-Z. Huruf ke-1 tanpa titik, huruf ke-2 dengan 1 titik.",
+    "space": {
+      "letter": " ",
+      "symbolId": "space",
+      "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak-space\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></svg>"
+    },
+    "alphabet": {
+      "A": {
+        "letter": "A",
+        "symbolId": "k1-A",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "B": {
+        "letter": "B",
+        "symbolId": "k1-B",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "C": {
+        "letter": "C",
+        "symbolId": "k1-C",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "D": {
+        "letter": "D",
+        "symbolId": "k1-D",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "E": {
+        "letter": "E",
+        "symbolId": "k1-E",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "F": {
+        "letter": "F",
+        "symbolId": "k1-F",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "G": {
+        "letter": "G",
+        "symbolId": "k1-G",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "H": {
+        "letter": "H",
+        "symbolId": "k1-H",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "I": {
+        "letter": "I",
+        "symbolId": "k1-I",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "J": {
+        "letter": "J",
+        "symbolId": "k1-J",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "K": {
+        "letter": "K",
+        "symbolId": "k1-K",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "L": {
+        "letter": "L",
+        "symbolId": "k1-L",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "M": {
+        "letter": "M",
+        "symbolId": "k1-M",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "N": {
+        "letter": "N",
+        "symbolId": "k1-N",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 0,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "O": {
+        "letter": "O",
+        "symbolId": "k1-O",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "P": {
+        "letter": "P",
+        "symbolId": "k1-P",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 1,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "Q": {
+        "letter": "Q",
+        "symbolId": "k1-Q",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "R": {
+        "letter": "R",
+        "symbolId": "k1-R",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 2,
+        "xQuadrant": -1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "S": {
+        "letter": "S",
+        "symbolId": "k1-S",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 3,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 21
+            },
+            {
+              "x1": 35,
+              "y1": 21,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"21\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"21\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "T": {
+        "letter": "T",
+        "symbolId": "k1-T",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 3,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 21
+            },
+            {
+              "x1": 35,
+              "y1": 21,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 19,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"21\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"21\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"19\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "U": {
+        "letter": "U",
+        "symbolId": "k1-U",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 21,
+              "y2": 35
+            },
+            {
+              "x1": 21,
+              "y1": 35,
+              "x2": 35,
+              "y2": 7
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"21\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"21\" y1=\"35\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "V": {
+        "letter": "V",
+        "symbolId": "k1-V",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 0,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 21,
+              "y2": 35
+            },
+            {
+              "x1": 21,
+              "y1": 35,
+              "x2": 35,
+              "y2": 7
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 19,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"21\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"21\" y1=\"35\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"19\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "W": {
+        "letter": "W",
+        "symbolId": "k1-W",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 1,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 7,
+              "y2": 21
+            },
+            {
+              "x1": 7,
+              "y1": 21,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"35\" y1=\"7\" x2=\"7\" y2=\"21\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"21\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "X": {
+        "letter": "X",
+        "symbolId": "k1-X",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 7,
+              "y2": 21
+            },
+            {
+              "x1": 7,
+              "y1": 21,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 23,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"35\" y1=\"7\" x2=\"7\" y2=\"21\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"21\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"23\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "Y": {
+        "letter": "Y",
+        "symbolId": "k1-Y",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 2,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 21,
+              "y2": 7
+            },
+            {
+              "x1": 21,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"21\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"21\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "Z": {
+        "letter": "Z",
+        "symbolId": "k1-Z",
+        "gridType": "x-grid",
+        "row": -1,
+        "col": -1,
+        "xQuadrant": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 21,
+              "y2": 7
+            },
+            {
+              "x1": 21,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 23,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak1 kotak1-x\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"21\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"21\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"23\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      }
+    },
+    "decodeMap": {
+      "k1-A": "A",
+      "k1-B": "B",
+      "k1-C": "C",
+      "k1-D": "D",
+      "k1-E": "E",
+      "k1-F": "F",
+      "k1-G": "G",
+      "k1-H": "H",
+      "k1-I": "I",
+      "k1-J": "J",
+      "k1-K": "K",
+      "k1-L": "L",
+      "k1-M": "M",
+      "k1-N": "N",
+      "k1-O": "O",
+      "k1-P": "P",
+      "k1-Q": "Q",
+      "k1-R": "R",
+      "k1-S": "S",
+      "k1-T": "T",
+      "k1-U": "U",
+      "k1-V": "V",
+      "k1-W": "W",
+      "k1-X": "X",
+      "k1-Y": "Y",
+      "k1-Z": "Z"
+    }
+  },
+  "kotak2": {
+    "name": "Sandi Kotak 2",
+    "description": "Standar Gerakan Pramuka. Satu kisi pagar (#) 3x3 untuk A-Z (3 huruf per sel, kecuali YZ). dotCount: 0=polos, 1=satu titik tengah, 2=dua titik horizontal.",
+    "space": {
+      "letter": " ",
+      "symbolId": "space",
+      "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak-space\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></svg>"
+    },
+    "alphabet": {
+      "A": {
+        "letter": "A",
+        "symbolId": "k2-A",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "B": {
+        "letter": "B",
+        "symbolId": "k2-B",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "C": {
+        "letter": "C",
+        "symbolId": "k2-C",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "D": {
+        "letter": "D",
+        "symbolId": "k2-D",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "E": {
+        "letter": "E",
+        "symbolId": "k2-E",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "F": {
+        "letter": "F",
+        "symbolId": "k2-F",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "G": {
+        "letter": "G",
+        "symbolId": "k2-G",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "H": {
+        "letter": "H",
+        "symbolId": "k2-H",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "I": {
+        "letter": "I",
+        "symbolId": "k2-I",
+        "gridType": "hash-grid",
+        "row": 0,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "J": {
+        "letter": "J",
+        "symbolId": "k2-J",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "K": {
+        "letter": "K",
+        "symbolId": "k2-K",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "L": {
+        "letter": "L",
+        "symbolId": "k2-L",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "M": {
+        "letter": "M",
+        "symbolId": "k2-M",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "N": {
+        "letter": "N",
+        "symbolId": "k2-N",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "O": {
+        "letter": "O",
+        "symbolId": "k2-O",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "P": {
+        "letter": "P",
+        "symbolId": "k2-P",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "Q": {
+        "letter": "Q",
+        "symbolId": "k2-Q",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "R": {
+        "letter": "R",
+        "symbolId": "k2-R",
+        "gridType": "hash-grid",
+        "row": 1,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 35,
+              "x2": 35,
+              "y2": 35
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"35\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "S": {
+        "letter": "S",
+        "symbolId": "k2-S",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "T": {
+        "letter": "T",
+        "symbolId": "k2-T",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "U": {
+        "letter": "U",
+        "symbolId": "k2-U",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 0,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "V": {
+        "letter": "V",
+        "symbolId": "k2-V",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "W": {
+        "letter": "W",
+        "symbolId": "k2-W",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "X": {
+        "letter": "X",
+        "symbolId": "k2-X",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 1,
+        "xQuadrant": -1,
+        "dotCount": 2,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            },
+            {
+              "x1": 35,
+              "y1": 7,
+              "x2": 35,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 15,
+              "cy": 21,
+              "r": 3
+            },
+            {
+              "cx": 27,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"35\" y1=\"7\" x2=\"35\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"15\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/><circle cx=\"27\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      },
+      "Y": {
+        "letter": "Y",
+        "symbolId": "k2-Y",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 0,
+        "hasDot": false,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": []
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
+      },
+      "Z": {
+        "letter": "Z",
+        "symbolId": "k2-Z",
+        "gridType": "hash-grid",
+        "row": 2,
+        "col": 2,
+        "xQuadrant": -1,
+        "dotCount": 1,
+        "hasDot": true,
+        "geometry": {
+          "viewBox": "0 0 42 42",
+          "lines": [
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 35,
+              "y2": 7
+            },
+            {
+              "x1": 7,
+              "y1": 7,
+              "x2": 7,
+              "y2": 35
+            }
+          ],
+          "dots": [
+            {
+              "cx": 21,
+              "cy": 21,
+              "r": 3
+            }
+          ]
+        },
+        "svg": "<svg viewBox=\"0 0 42 42\" xmlns=\"http://www.w3.org/2000/svg\" class=\"cipher-svg kotak2\" stroke=\"currentColor\" fill=\"none\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"7\" y1=\"7\" x2=\"35\" y2=\"7\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"7\" y1=\"7\" x2=\"7\" y2=\"35\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"21\" cy=\"21\" r=\"3\" fill=\"currentColor\" stroke=\"none\" class=\"cipher-dot\"/></svg>"
+      }
+    },
+    "decodeMap": {
+      "k2-A": "A",
+      "k2-B": "B",
+      "k2-C": "C",
+      "k2-D": "D",
+      "k2-E": "E",
+      "k2-F": "F",
+      "k2-G": "G",
+      "k2-H": "H",
+      "k2-I": "I",
+      "k2-J": "J",
+      "k2-K": "K",
+      "k2-L": "L",
+      "k2-M": "M",
+      "k2-N": "N",
+      "k2-O": "O",
+      "k2-P": "P",
+      "k2-Q": "Q",
+      "k2-R": "R",
+      "k2-S": "S",
+      "k2-T": "T",
+      "k2-U": "U",
+      "k2-V": "V",
+      "k2-W": "W",
+      "k2-X": "X",
+      "k2-Y": "Y",
+      "k2-Z": "Z"
+    }
+  },
+  "angka": {
+    "name": "Sandi Angka",
+    "description": "Substitusi numerik A=1 sampai Z=26. Huruf dalam satu kata dipisahkan tanda hubung (-), antar kata dipisahkan spasi ( ).",
+    "letterSeparator": "-",
+    "wordSeparator": " ",
+    "encodeMap": {
+      "A": 1,
+      "B": 2,
+      "C": 3,
+      "D": 4,
+      "E": 5,
+      "F": 6,
+      "G": 7,
+      "H": 8,
+      "I": 9,
+      "J": 10,
+      "K": 11,
+      "L": 12,
+      "M": 13,
+      "N": 14,
+      "O": 15,
+      "P": 16,
+      "Q": 17,
+      "R": 18,
+      "S": 19,
+      "T": 20,
+      "U": 21,
+      "V": 22,
+      "W": 23,
+      "X": 24,
+      "Y": 25,
+      "Z": 26
+    },
+    "decodeMap": {
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E",
+      "6": "F",
+      "7": "G",
+      "8": "H",
+      "9": "I",
+      "10": "J",
+      "11": "K",
+      "12": "L",
+      "13": "M",
+      "14": "N",
+      "15": "O",
+      "16": "P",
+      "17": "Q",
+      "18": "R",
+      "19": "S",
+      "20": "T",
+      "21": "U",
+      "22": "V",
+      "23": "W",
+      "24": "X",
+      "25": "Y",
+      "26": "Z"
+    }
+  }
+}

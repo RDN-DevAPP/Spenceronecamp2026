@@ -16,6 +16,8 @@ class ScoringCriteria extends Model
     protected $fillable = [
         'mata_lomba_id',
         'nama_kriteria',
+        'kelompok',
+        'rubrik',
         'nilai_min',
         'nilai_max',
         'urutan',
@@ -26,6 +28,7 @@ class ScoringCriteria extends Model
         return [
             'nilai_min' => 'decimal:2',
             'nilai_max' => 'decimal:2',
+            'rubrik' => 'array',
         ];
     }
 

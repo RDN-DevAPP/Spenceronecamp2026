@@ -16,6 +16,7 @@ class CerdasCermatQuestion extends Model
         'mata_lomba_id',
         'type',
         'question',
+        'image_path',
         'options',
         'correct_answer',
         'score',

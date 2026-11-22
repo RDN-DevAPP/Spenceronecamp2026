@@ -78,29 +78,47 @@ class JuriDashboardController extends Controller
         $visualSlugs = ['desain-poster-digital', 'masak-konvensional', 'tapak-kemah', 'upcycle-art'];
         $isVisual = in_array($slug, $visualSlugs);
 
-        $regu = ReguProfile::with('user:id,name,username')
-            ->whereHas('user', fn($q) => $q->where('role', 'regu'))
-            ->orderBy('jenis')
-            ->orderBy('nomor_regu')
-            ->get();
+        $query = ReguProfile::with('user:id,name,username')
+            ->whereHas('user', fn($q) => $q->where('role', 'regu'));
 
-        // Load existing scores for this lomba to show status
-        $existingScoresQuery = Score::where('juri_id', $juriId)
-            ->where('mata_lomba_id', $lomba->id);
-
-        // If visual, we need the details for the modal form
-        if ($isVisual) {
-            $existingScoresQuery->with('scoreDetails.scoringCriteria');
+        if ($slug === 'lkbb-tongkat') {
+            $putra = (clone $query)->where('jenis', 'putra')->orderBy('nomor_regu')->get();
+            $putri = (clone $query)->where('jenis', 'putri')->orderBy('nomor_regu')->get();
+            
+            $regu = collect();
+            $max = max($putra->count(), $putri->count());
+            for ($i = 0; $i < $max; $i++) {
+                if ($putra->has($i)) $regu->push($putra[$i]);
+                if ($putri->has($i)) $regu->push($putri[$i]);
+            }
+        } else {
+            $regu = $query->orderBy('jenis')
+                ->orderBy('nomor_regu')
+                ->get();
         }
 
-        $existingScores = $existingScoresQuery->get()->keyBy('regu_profile_id');
+        // Load existing scores for this lomba to show status and details
+        $existingScores = Score::where('juri_id', $juriId)
+            ->where('mata_lomba_id', $lomba->id)
+            ->with('scoreDetails.scoringCriteria')
+            ->get()
+            ->keyBy('regu_profile_id');
 
-        // Load criteria if it's a visual competition (for the modal)
-        $criteria = null;
-        if ($isVisual) {
-            $criteria = ScoringCriteria::where('mata_lomba_id', $lomba->id)
-                ->orderBy('urutan')
-                ->get();
+        // Load criteria for this competition
+        $criteria = ScoringCriteria::where('mata_lomba_id', $lomba->id)
+            ->orderBy('urutan')
+            ->get();
+
+        $isBulkCapable = in_array($slug, ['lkbb', 'lkbb-tongkat', 'tapak-kemah']);
+
+        // Lomba PBB dengan Lembar Penilaian berjenjang (rubrik) -> daftar regu menuju lembar penilaian khusus
+        if ($criteria->contains(fn ($c) => !empty($c->rubrik))) {
+            return view('juri.pbb-list', [
+                'lomba' => $lomba,
+                'regu' => $regu,
+                'existingScores' => $existingScores,
+                'totalMax' => $criteria->sum('nilai_max'),
+            ]);
         }
 
         return view('juri.score-lomba', [
@@ -109,6 +127,7 @@ class JuriDashboardController extends Controller
             'existingScores' => $existingScores,
             'isVisual' => $isVisual,
             'criteria' => $criteria,
+            'isBulkCapable' => $isBulkCapable,
         ]);
     }
 
@@ -145,10 +164,36 @@ class JuriDashboardController extends Controller
         $prevReguId = $currentIndex > 0 ? $allReguIds[$currentIndex - 1] : null;
         $nextReguId = $currentIndex < count($allReguIds) - 1 ? $allReguIds[$currentIndex + 1] : null;
 
+        // Load karyaLomba if visual/hasta-karya
+        $karyaLomba = \App\Models\KaryaLomba::where('regu_profile_id', $reguId)
+            ->where(function($q) use ($slug) {
+                $q->where('mata_lomba_slug', $slug)
+                  ->orWhere('mata_lomba_slug', 'like', '%' . $slug . '%');
+            })
+            ->first();
+
+        // Get audit logs for this score if existing
+        $auditLogs = $existingScore ? $existingScore->auditLogs()->with('user')->latest()->get() : collect();
+
+        // Lembar Penilaian PBB (rubrik berjenjang per poin)
+        if ($criteria->contains(fn ($c) => !empty($c->rubrik))) {
+            return view('juri.pbb-lembar', [
+                'lomba' => $lomba,
+                'regu' => $regu,
+                'existingScore' => $existingScore,
+                'groups' => $criteria->groupBy(fn ($c) => $c->kelompok ?: 'Penilaian'),
+                'labels' => \App\Support\PbbRubrikDefault::LEVEL_LABELS,
+                'prevReguId' => $prevReguId,
+                'nextReguId' => $nextReguId,
+            ]);
+        }
+
         return view('juri.score-regu', [
             'lomba' => $lomba,
             'regu' => $regu,
             'existingScore' => $existingScore,
+            'karyaLomba' => $karyaLomba,
+            'auditLogs' => $auditLogs,
             'criteria' => $criteria,
             'hasCriteria' => $criteria->isNotEmpty(),
             'prevReguId' => $prevReguId,

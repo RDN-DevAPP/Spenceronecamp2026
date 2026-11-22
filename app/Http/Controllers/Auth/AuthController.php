@@ -33,6 +33,12 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if ($user->isAdmin()) {
+                if ($user->isSubAdmin() && !$user->hasPermission('dashboard')) {
+                    $firstRoute = $user->getFirstPermittedRoute();
+                    if ($firstRoute) {
+                        return redirect()->intended($firstRoute);
+                    }
+                }
                 return redirect()->intended(route('admin.dashboard'));
             }
 

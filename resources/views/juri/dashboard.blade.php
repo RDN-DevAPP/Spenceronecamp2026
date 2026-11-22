@@ -3,7 +3,7 @@
 @section('title', 'Dashboard Juri - LT-I Spencerone Camp 2026')
 
 @section('content')
-    <div class="py-8 sm:py-12 bg-white min-h-screen">
+    <div class="py-8 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-6 sm:mb-8 text-center">

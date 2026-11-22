@@ -6,21 +6,41 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\MataLomba;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
-class AdminUserController extends Controller
+class AdminUserController extends Controller implements HasMiddleware
 {
+    /**
+     * Pastikan seluruh aksi manajemen user HANYA dapat diakses oleh Admin Utama (Super Admin).
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(function ($request, $next) {
+                if (!$request->user() || !$request->user()->isSuperAdmin()) {
+                    abort(403, 'Akses Ditolak: Fitur Pengaturan Pengguna hanya dapat diakses oleh Admin Utama.');
+                }
+                return $next($request);
+            }),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $admins = User::where('role', 'admin')->orderBy('name')->get();
-        $juris = User::where('role', 'juri')->with('mataLombas')->orderBy('name')->get();
-        $regus = User::where('role', 'regu')->orderBy('name')->get();
+        $superAdmins = User::where('role', User::ROLE_ADMIN)->orderBy('name')->get();
+        $subAdmins = User::where('role', User::ROLE_SUB_ADMIN)->orderBy('name')->get();
+        $juris = User::where('role', User::ROLE_JURI)->with('mataLombas')->orderBy('name')->get();
+        $regus = User::where('role', User::ROLE_REGU)->orderBy('name')->get();
         $allMataLomba = MataLomba::orderBy('nama')->get();
-        return view('admin.users.index', compact('admins', 'juris', 'regus', 'allMataLomba'));
+        $availablePermissions = User::availablePermissions();
+
+        return view('admin.users.index', compact('superAdmins', 'subAdmins', 'juris', 'regus', 'allMataLomba', 'availablePermissions'));
     }
 
     /**
@@ -28,7 +48,9 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $availablePermissions = User::availablePermissions();
+        $allMataLomba = MataLomba::orderBy('nama')->get();
+        return view('admin.users.create', compact('availablePermissions', 'allMataLomba'));
     }
 
     /**
@@ -36,17 +58,33 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
+        $validFeatures = array_keys(User::availablePermissions());
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_JURI, User::ROLE_REGU])],
+            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_SUB_ADMIN, User::ROLE_JURI, User::ROLE_REGU])],
+            'permissions' => 'nullable|array',
+            'permissions.*' => ['string', Rule::in($validFeatures)],
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        User::create($validated);
+        // Kelola izin fitur untuk Sub Admin
+        if ($validated['role'] === User::ROLE_SUB_ADMIN) {
+            $validated['permissions'] = $request->input('permissions', []);
+        } else {
+            $validated['permissions'] = null;
+        }
+
+        $user = User::create($validated);
+
+        if ($validated['role'] === User::ROLE_JURI) {
+            $mataLombaIds = $request->input('mata_lomba_ids', []);
+            $user->mataLombas()->sync($mataLombaIds);
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -58,7 +96,9 @@ class AdminUserController extends Controller
     {
         $user->load('mataLombas');
         $allMataLomba = MataLomba::orderBy('nama')->get();
-        return view('admin.users.edit', compact('user', 'allMataLomba'));
+        $availablePermissions = User::availablePermissions();
+
+        return view('admin.users.edit', compact('user', 'allMataLomba', 'availablePermissions'));
     }
 
     /**
@@ -66,12 +106,16 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $validFeatures = array_keys(User::availablePermissions());
+
         $rules = [
             'name' => 'required|string|max:255',
             'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8',
-            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_JURI, User::ROLE_REGU])],
+            'role' => ['required', Rule::in([User::ROLE_ADMIN, User::ROLE_SUB_ADMIN, User::ROLE_JURI, User::ROLE_REGU])],
+            'permissions' => 'nullable|array',
+            'permissions.*' => ['string', Rule::in($validFeatures)],
         ];
 
         if ($request->input('role') === User::ROLE_JURI && $request->filled('kode_mata_lomba')) {
@@ -80,10 +124,22 @@ class AdminUserController extends Controller
 
         $validated = $request->validate($rules);
 
+        // Jangan izinkan Admin Utama yang sedang login mengubah role dirinya sendiri
+        if ($user->id === auth()->id() && $validated['role'] !== User::ROLE_ADMIN) {
+            return back()->with('error', 'Anda tidak dapat mengubah role akun Admin Utama Anda sendiri.');
+        }
+
         if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        // Kelola izin fitur untuk Sub Admin
+        if ($validated['role'] === User::ROLE_SUB_ADMIN) {
+            $validated['permissions'] = $request->input('permissions', []);
+        } else {
+            $validated['permissions'] = null;
         }
 
         // Handle mata_lomba for juri (many-to-many pivot)

@@ -1,79 +1,97 @@
 @extends('layouts.main')
 
-@section('title', 'Edit Soal Cerdas Cermat - Admin')
+@section('title', 'Edit Soal Cerdas Cermat - Admin Spencerone Camp 2026')
 
 @section('content')
-    <div class="py-12 bg-gray-100 min-h-screen">
+    <div class="py-10 min-h-screen">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">Edit Soal</h3>
+            
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black text-brand-forest uppercase tracking-tight">
+                        Edit Butir Soal
+                    </h1>
+                    <p class="text-xs text-gray-500 mt-0.5">Perbarui pertanyaan, ilustrasi gambar, dan kunci jawaban</p>
                 </div>
-                <div class="px-4 py-5 sm:p-6">
-                    <form action="{{ route('admin.cerdas-cermat.update', $question->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                <a href="{{ route('admin.cerdas-cermat.index') }}"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                </a>
+            </div>
 
-                        <div class="mb-4">
-                            <label for="type" class="block text-sm font-medium text-gray-700">Tipe Soal</label>
-                            <select name="type" id="type" onchange="toggleOptions()"
-                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-scout-primary focus:border-scout-primary sm:text-sm rounded-md">
-                                <option value="Pilihan Ganda" {{ $question->type == 'Pilihan Ganda' ? 'selected' : '' }}>
-                                    Pilihan Ganda</option>
-                                <option value="Isian Singkat" {{ $question->type == 'Isian Singkat' ? 'selected' : '' }}>Isian
-                                    Singkat</option>
-                                <option value="Uraian" {{ $question->type == 'Uraian' ? 'selected' : '' }}>Uraian</option>
-                            </select>
-                        </div>
+            <div class="bg-white shadow-sm border border-gray-200/80 rounded-2xl overflow-hidden">
+                <form action="{{ route('admin.cerdas-cermat.update', $question->id) }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-5">
+                    @csrf
+                    @method('PUT')
 
-                        <div class="mb-4">
-                            <label for="question" class="block text-sm font-medium text-gray-700">Pertanyaan</label>
-                            <textarea name="question" id="question" rows="3" required
-                                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-scout-primary focus:border-scout-primary">{{ old('question', $question->question) }}</textarea>
-                        </div>
+                    <div>
+                        <label for="type" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Tipe Soal / Babak</label>
+                        <select name="type" id="type" onchange="toggleOptions()"
+                            class="block w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition">
+                            <option value="Pilihan Ganda" {{ $question->type == 'Pilihan Ganda' ? 'selected' : '' }}>Pilihan Ganda (Babak 1)</option>
+                            <option value="Isian Singkat" {{ $question->type == 'Isian Singkat' ? 'selected' : '' }}>Isian Singkat (Babak 2)</option>
+                            <option value="Uraian" {{ $question->type == 'Uraian' ? 'selected' : '' }}>Uraian (Babak 3)</option>
+                        </select>
+                    </div>
 
-                        <div id="options-container" class="mb-4 {{ $question->type != 'Pilihan Ganda' ? 'hidden' : '' }}">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Pilihan Jawaban</label>
+                    <div>
+                        <label for="question" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Teks Pertanyaan</label>
+                        <textarea name="question" id="question" rows="4" required
+                            class="block w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition">{{ old('question', $question->question) }}</textarea>
+                    </div>
 
-                            @php $options = $question->options ?? []; @endphp
-                            @foreach(['a', 'b', 'c', 'd', 'e'] as $opt)
-                                <div class="flex items-center mb-2">
-                                    <span class="w-8 text-center text-gray-500 font-bold capitalize">{{ $opt }}</span>
-                                    <input type="text" name="options[{{ $opt }}]" value="{{ $options[$opt] ?? '' }}"
-                                        class="flex-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-scout-primary focus:border-scout-primary"
-                                        placeholder="Pilihan {{ strtoupper($opt) }}">
-                                </div>
-                            @endforeach
-                        </div>
+                    <div>
+                        <label for="image" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Gambar Ilustrasi Soal</label>
+                        @if($question->image_path)
+                            <div class="mb-3">
+                                <img src="{{ asset('storage/' . $question->image_path) }}" alt="Ilustrasi Soal" class="h-32 object-contain rounded-xl border border-gray-200">
+                            </div>
+                        @endif
+                        <input type="file" name="image" id="image" accept="image/*"
+                            class="block w-full text-xs text-gray-600 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-brand-forest hover:file:bg-emerald-200 transition">
+                        <p class="text-[11px] text-gray-400 mt-1">Kosongkan jika tidak ingin mengganti gambar yang ada.</p>
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="correct_answer" class="block text-sm font-medium text-gray-700">Jawaban
-                                Benar</label>
-                            <input type="text" name="correct_answer" id="correct_answer" required
-                                value="{{ old('correct_answer', $question->correct_answer) }}"
-                                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-scout-primary focus:border-scout-primary"
-                                placeholder="Untuk PG tulis huruf kunci (misal: a), lainnya tulis jawaban lengkap">
-                        </div>
+                    <div id="options-container" class="space-y-3 pt-2 {{ $question->type != 'Pilihan Ganda' ? 'hidden' : '' }}">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700">Pilihan Jawaban</label>
+                        @php $options = $question->options ?? []; @endphp
+                        @foreach(['a', 'b', 'c', 'd', 'e'] as $opt)
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-xl bg-gray-100 text-gray-700 font-black text-xs flex items-center justify-center shrink-0 uppercase border border-gray-200">
+                                    {{ $opt }}
+                                </span>
+                                <input type="text" name="options[{{ $opt }}]" value="{{ $options[$opt] ?? '' }}"
+                                    class="block w-full px-3 py-2 text-sm rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition"
+                                    placeholder="Teks pilihan {{ strtoupper($opt) }}">
+                            </div>
+                        @endforeach
+                    </div>
 
-                        <div class="mb-6">
-                            <label for="score" class="block text-sm font-medium text-gray-700">Nilai</label>
-                            <input type="number" name="score" id="score" required min="0"
-                                value="{{ old('score', $question->score) }}"
-                                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:ring-scout-primary focus:border-scout-primary">
-                        </div>
+                    <div>
+                        <label for="correct_answer" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Kunci Jawaban</label>
+                        <input type="text" name="correct_answer" id="correct_answer" required
+                            value="{{ old('correct_answer', $question->correct_answer) }}"
+                            class="block w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition">
+                    </div>
 
-                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-0">
-                            <a href="{{ route('admin.cerdas-cermat.index') }}"
-                                class="w-full sm:w-auto bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-bold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-scout-primary sm:mr-3 text-center">
-                                Batal
-                            </a>
-                            <button type="submit"
-                                class="w-full sm:w-auto inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-scout-primary hover:bg-scout-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-scout-primary">
-                                Simpan Perubahan
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div>
+                        <label for="score" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Bobot Nilai</label>
+                        <input type="number" name="score" id="score" required min="1"
+                            value="{{ old('score', $question->score) }}"
+                            class="block w-full px-3.5 py-2.5 text-sm rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition">
+                    </div>
+
+                    <div class="flex flex-col-reverse sm:flex-row justify-end gap-2.5 pt-4 border-t border-gray-100">
+                        <a href="{{ route('admin.cerdas-cermat.index') }}"
+                            class="w-full sm:w-auto px-5 py-2.5 border border-gray-200 rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-50 text-center transition">
+                            Batal
+                        </a>
+                        <button type="submit"
+                            class="w-full sm:w-auto px-6 py-2.5 bg-brand-forest hover:bg-emerald-900 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -82,15 +100,10 @@
         function toggleOptions() {
             const type = document.getElementById('type').value;
             const container = document.getElementById('options-container');
-            const optionsInputs = container.querySelectorAll('input');
-
             if (type === 'Pilihan Ganda') {
                 container.classList.remove('hidden');
-                // Only make required if not hidden, though server side validation handles it mainly
-                // optionsInputs.forEach(input => input.required = true);
             } else {
                 container.classList.add('hidden');
-                optionsInputs.forEach(input => input.required = false);
             }
         }
     </script>

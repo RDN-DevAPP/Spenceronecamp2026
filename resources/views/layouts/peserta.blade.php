@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard Peserta - LT-I 2026')</title>
 
     <!-- Vue 3 -->
@@ -23,12 +24,24 @@
                 theme: {
                     extend: {
                         colors: {
+                            brand: {
+                                forest: '#1B4332',
+                                amber: '#D97706',
+                                cyber: '#1E3A8A',
+                                purple: '#6B21A8',
+                                khaki: '#F4EDE4',
+                                dark: '#1F2937',
+                                light: '#F9FAFB'
+                            },
                             scout: {
-                                primary: '#5D4037',
-                                secondary: '#D7CCC8',
-                                accent: '#FFC107',
-                                light: '#FFF8E1',
-                                surface: '#FFF8E1'
+                                primary: '#1B4332',
+                                secondary: '#2D6A4F',
+                                accent: '#D97706',
+                                cyber: '#1E3A8A',
+                                purple: '#6B21A8',
+                                light: '#F9FAFB',
+                                surface: '#F4EDE4',
+                                dark: '#1F2937'
                             }
                         },
                         fontFamily: {
@@ -52,90 +65,120 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FFF8E1;
-            color: #3E2723;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5 2.24 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%235D4037' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-color: #F4EDE4;
+            color: #1F2937;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: #5D4037;
+        h1, h2, h3, h4, h5, h6 {
+            color: inherit;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        .card-scout {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(27, 67, 50, 0.15);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #FFF8E1;
+        .btn-scout-primary {
+            background-color: #1B4332;
+            color: #FFFFFF;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #5D4037;
-            border-radius: 4px;
-            border: 2px solid #FFF8E1;
+        .btn-scout-primary:hover {
+            background-color: #2D6A4F;
+        }
+
+        .btn-scout-accent {
+            background-color: #D97706;
+            color: #FFFFFF;
+        }
+
+        .btn-scout-accent:hover {
+            background-color: #B45309;
         }
     </style>
     @stack('styles')
 </head>
 
-<body>
+<body class="bg-[#F4EDE4]/60 text-gray-800 antialiased">
 
     <div id="app" class="min-h-screen flex flex-col">
 
         <!-- REGUS NAVIGATION BAR -->
-        <nav class="bg-scout-primary text-scout-light shadow-lg sticky top-0 z-50 border-b-2 border-scout-secondary">
+        <nav class="bg-brand-forest text-white shadow-lg sticky top-0 z-50 border-b-2 border-brand-amber">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center space-x-6">
-                        <div class="flex items-center space-x-3">
-                            <div
-                                class="w-9 h-9 bg-scout-accent rounded-full flex items-center justify-center text-scout-primary font-bold shadow-sm border-2 border-scout-primary">
-                                <i data-lucide="tent" class="w-5 h-5"></i>
-                            </div>
+                        <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
+                            <img src="{{ asset('images/season2/logo-season2.jpg') }}" alt="Logo Season II"
+                                class="w-10 h-10 rounded-full object-cover shadow border-2 border-amber-400 group-hover:scale-105 transition-transform">
                             <div>
-                                <span class="font-bold text-xl block leading-none tracking-tight">LT-I 2026</span>
-                                <span class="text-xs text-scout-secondary font-semibold">Dashboard Peserta</span>
+                                <span class="font-black text-lg block leading-none tracking-tight text-white flex items-center gap-1">
+                                    Spencerone Camp <span class="text-amber-400">II</span>
+                                </span>
+                                <span class="text-[11px] text-amber-200/90 font-bold">Portal Peserta</span>
                             </div>
-                        </div>
-                        <div class="hidden md:flex space-x-4">
+                        </a>
+                        <div class="hidden md:flex items-center space-x-2">
                             <a href="{{ route('peserta.dashboard') }}"
-                                class="text-scout-surface hover:text-scout-accent font-medium transition">Dashboard</a>
-                            <a href="{{ route('peserta.cerdas-cermat.index') }}"
-                                class="text-scout-surface hover:text-scout-accent font-medium transition">Cerdas
-                                Cermat</a>
+                                class="{{ request()->routeIs('peserta.dashboard') ? 'bg-brand-amber text-white font-black' : 'text-white/95 hover:bg-white/15 hover:text-white font-medium' }} px-3 py-1.5 rounded-lg text-sm transition">
+                                Dashboard
+                            </a>
+                            <a href="{{ route('peserta.hasta-karya') }}"
+                                class="{{ request()->routeIs('peserta.hasta-karya') ? 'bg-brand-amber text-white font-black' : 'text-white/95 hover:bg-white/15 hover:text-white font-medium' }} px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5">
+                                <i data-lucide="hammer" class="w-4 h-4 text-amber-300"></i> Hasta Karya
+                            </a>
+                            @php
+                                $navRegu = Auth::user()->reguProfile;
+                                $navCcEligible = $navRegu && $navRegu->isEligibleForCerdasCermat();
+                                $navMinAnggota = \App\Models\ReguProfile::getMinAnggotaRequired();
+                            @endphp
+                            @if($navCcEligible)
+                                <a href="{{ route('peserta.cerdas-cermat.index') }}"
+                                    class="{{ request()->routeIs('peserta.cerdas-cermat.*') ? 'bg-brand-amber text-white font-black' : 'text-white/95 hover:bg-white/15 hover:text-white font-medium' }} px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5">
+                                    <i data-lucide="brain" class="w-4 h-4 text-amber-300"></i> Cerdas Cermat
+                                </a>
+                            @else
+                                <span
+                                    title="Menu terkunci: daftarkan minimal {{ $navMinAnggota }} anggota regu terlebih dahulu"
+                                    class="px-3 py-1.5 rounded-lg text-sm font-medium text-white/45 bg-black/15 border border-white/10 cursor-not-allowed flex items-center gap-1.5">
+                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400/60"></i> Cerdas Cermat
+                                </span>
+                            @endif
+                            <a href="{{ route('peserta.administrasi.index') }}"
+                                class="{{ request()->routeIs('peserta.administrasi.*') ? 'bg-brand-amber text-white font-black' : 'text-white/95 hover:bg-white/15 hover:text-white font-medium' }} px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5">
+                                <i data-lucide="book-open" class="w-4 h-4 text-amber-300"></i> Administrasi Regu
+                            </a>
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-4">
                         @if(Auth::user()->reguProfile)
                             <div class="hidden md:block text-right">
-                                <div class="text-sm font-bold text-scout-accent">{{ Auth::user()->reguProfile->nama_regu }}
-                                </div>
-                                <div class="text-xs text-scout-secondary">{{ Auth::user()->reguProfile->jenis }} -
-                                    {{ Auth::user()->reguProfile->nomor_regu }}
+                                <div class="text-sm font-black text-amber-300 uppercase tracking-wide">{{ Auth::user()->reguProfile->nama_regu }}</div>
+                                <div class="text-xs text-emerald-100 font-semibold">
+                                    {{ ucfirst(Auth::user()->reguProfile->jenis) }} • Regu {{ Auth::user()->reguProfile->nomor_regu }}
+                                    @if(Auth::user()->reguProfile->nomor_kavling)
+                                        • <span class="text-amber-300">{{ Auth::user()->reguProfile->nomor_kavling }}</span>
+                                    @endif
                                 </div>
                             </div>
                         @else
-                            <div class="hidden md:block text-sm font-bold text-scout-accent">{{ Auth::user()->name }}</div>
+                            <div class="hidden md:block text-sm font-bold text-amber-400">{{ Auth::user()->name }}</div>
                         @endif
 
                         <form method="POST" action="{{ route('logout') }}" class="hidden md:inline">
                             @csrf
                             <button type="submit"
-                                class="bg-scout-accent text-scout-primary px-4 py-1.5 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md border-2 border-scout-accent hover:border-yellow-500 flex items-center gap-2">
-                                <i data-lucide="log-out" class="w-4 h-4"></i>
-                                <span class="hidden sm:inline">Logout</span>
+                                class="bg-brand-amber hover:bg-amber-600 text-white px-4 py-1.5 rounded-full text-xs font-bold transition shadow-md flex items-center gap-1.5">
+                                <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                                <span>Logout</span>
                             </button>
                         </form>
 
                         <!-- Mobile Menu Button -->
                         <button @click="toggleMobileMenu"
-                            class="md:hidden text-scout-secondary hover:text-white focus:outline-none">
+                            class="md:hidden text-white hover:text-amber-300 focus:outline-none">
                             <svg v-if="!mobileMenuOpen" class="w-8 h-8" fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -158,20 +201,35 @@
                     <div
                         class="flex items-center px-3 py-2 text-scout-accent font-bold border-b border-scout-secondary mb-2">
                         @if(Auth::user()->reguProfile)
-                            <span>{{ Auth::user()->reguProfile->nama_regu }}</span>
+                            <span>{{ strtoupper(Auth::user()->reguProfile->nama_regu) }}</span>
                         @else
                             <span>{{ Auth::user()->name }}</span>
                         @endif
                     </div>
 
                     <a href="{{ route('peserta.dashboard') }}"
-                        class="text-scout-surface block px-3 py-2 rounded-md text-base font-medium hover:bg-scout-secondary hover:text-scout-primary transition">
-                        <i data-lucide="home" class="w-4 h-4 inline-block mr-2"></i> Dashboard
+                        class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-white/10 transition">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4 inline-block mr-2 text-amber-300"></i> Dashboard
                     </a>
 
-                    <a href="{{ route('peserta.cerdas-cermat.index') }}"
-                        class="text-scout-surface block px-3 py-2 rounded-md text-base font-medium hover:bg-scout-secondary hover:text-scout-primary transition">
-                        <i data-lucide="book-open" class="w-4 h-4 inline-block mr-2"></i> Cerdas Cermat
+                    <a href="{{ route('peserta.hasta-karya') }}"
+                        class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-white/10 transition">
+                        <i data-lucide="hammer" class="w-4 h-4 inline-block mr-2 text-amber-300"></i> Hasta Karya
+                    </a>
+
+                    @if($navCcEligible ?? (Auth::user()->reguProfile && Auth::user()->reguProfile->isEligibleForCerdasCermat()))
+                        <a href="{{ route('peserta.cerdas-cermat.index') }}"
+                            class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-white/10 transition">
+                            <i data-lucide="brain" class="w-4 h-4 inline-block mr-2 text-amber-300"></i> Cerdas Cermat
+                        </a>
+                    @else
+                        <div class="text-white/50 block px-3 py-2 rounded-md text-base font-medium cursor-not-allowed">
+                            <i data-lucide="lock" class="w-4 h-4 inline-block mr-2 text-amber-400/60"></i> Cerdas Cermat (Daftarkan Anggota)
+                        </div>
+                    @endif
+                    <a href="{{ route('peserta.administrasi.index') }}"
+                        class="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-white/10 transition">
+                        <i data-lucide="book-open" class="w-4 h-4 inline-block mr-2 text-amber-300"></i> Administrasi Regu
                     </a>
 
                     <form method="POST" action="{{ route('logout') }}" class="block w-full">

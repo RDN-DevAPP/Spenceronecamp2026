@@ -36,14 +36,39 @@ class JuriScoreController extends Controller
 
         $juriId = Auth::id();
         $mataLomba = MataLomba::findOrFail($validated['mata_lomba_id']);
+        $regu = ReguProfile::findOrFail($validated['regu_profile_id']);
 
-        DB::transaction(function () use ($validated, $juriId, $mataLomba) {
+        // Check if existing score is locked
+        $existingScore = Score::where('regu_profile_id', $validated['regu_profile_id'])
+            ->where('mata_lomba_id', $mataLomba->id)
+            ->where('juri_id', $juriId)
+            ->first();
+
+        if ($existingScore && $existingScore->isLocked()) {
+            return back()->with('error', 'Nilai telah dikunci dan tidak dapat diubah tanpa persetujuan Admin.');
+        }
+
+        // Check if upload is required and present
+        $requiredPhoto = $regu->getCompetitionPhoto($mataLomba->nama);
+        $visualSlugs = ['desain-poster-digital', 'masak-konvensional', 'tapak-kemah', 'upcycle-art'];
+        
+        if (in_array($mataLomba->slug, $visualSlugs) && empty($requiredPhoto)) {
+            return back()->with('error', 'Regu ini belum mengunggah file/foto untuk mata lomba ' . $mataLomba->nama . '. Nilai tidak dapat disimpan.');
+        }
+
+        $action = $request->input('action', 'draft'); // 'draft' or 'finalize'
+
+        DB::transaction(function () use ($validated, $juriId, $mataLomba, $existingScore, $action, $request) {
             // Calculate total if criteria exists
             $totalNilai = $validated['nilai'] ?? 0;
 
             if (isset($validated['criteria']) && !empty($validated['criteria'])) {
                 $totalNilai = collect($validated['criteria'])->sum('nilai');
             }
+
+            $oldScoreVal = $existingScore?->nilai;
+            $oldStatusVal = $existingScore?->status ?? Score::STATUS_DRAFT;
+            $newStatusVal = ($action === 'finalize') ? Score::STATUS_SUBMITTED : Score::STATUS_DRAFT;
 
             $score = Score::updateOrCreate(
                 [
@@ -53,6 +78,8 @@ class JuriScoreController extends Controller
                 ],
                 [
                     'nilai' => $totalNilai,
+                    'status' => $newStatusVal,
+                    'submitted_at' => ($action === 'finalize') ? now() : ($existingScore?->submitted_at),
                     'catatan' => $validated['catatan'] ?? null,
                 ]
             );
@@ -70,9 +97,25 @@ class JuriScoreController extends Controller
                     ]);
                 }
             }
+
+            // Log to audit trail
+            \App\Services\ScoreAuditService::log(
+                $score,
+                $action === 'finalize' ? 'submitted' : 'draft_saved',
+                $oldScoreVal,
+                $totalNilai,
+                $oldStatusVal,
+                $newStatusVal,
+                $action === 'finalize' ? 'Nilai difinalisasi dan dikunci oleh juri' : 'Nilai disimpan sebagai draf',
+                $request
+            );
         });
 
-        return to_route('juri.lomba.score', $mataLomba->slug)->with('success', 'Nilai berhasil disimpan.');
+        $msg = ($action === 'finalize') 
+            ? 'Nilai berhasil dikunci dan difinalisasi.' 
+            : 'Nilai draf berhasil disimpan. Anda masih dapat menyuntingnya sebelum dikunci.';
+
+        return to_route('juri.lomba.score', $mataLomba->slug)->with('success', $msg);
     }
 
     /**
@@ -97,12 +140,34 @@ class JuriScoreController extends Controller
 
         // Check if this lomba has criteria
         $hasCriteria = ScoringCriteria::where('mata_lomba_id', $mataLombaId)->exists();
+        $mataLomba = MataLomba::findOrFail($mataLombaId);
 
-        DB::transaction(function () use ($validated, $juriId, $mataLombaId, $hasCriteria) {
+        // Visual check logic
+        $visualSlugs = ['desain-poster-digital', 'masak-konvensional', 'tapak-kemah', 'upcycle-art'];
+        $isVisual = in_array($mataLomba->slug, $visualSlugs);
+
+        DB::transaction(function () use ($validated, $juriId, $mataLombaId, $hasCriteria, $isVisual, $mataLomba) {
             foreach ($validated['scores'] as $item) {
                 // Skip if no nilai and no criteria
                 if (empty($item['nilai']) && empty($item['criteria'])) {
                     continue;
+                }
+
+                // Nilai yang sudah dikunci/diverifikasi tidak boleh diubah tanpa persetujuan Admin
+                $lockedScore = Score::where('regu_profile_id', $item['regu_profile_id'])
+                    ->where('mata_lomba_id', $mataLombaId)
+                    ->where('juri_id', $juriId)
+                    ->first();
+                if ($lockedScore && $lockedScore->isLocked()) {
+                    continue;
+                }
+
+                // If visual, check for photo
+                if ($isVisual) {
+                    $regu = ReguProfile::find($item['regu_profile_id']);
+                    if ($regu && empty($regu->getCompetitionPhoto($mataLomba->nama))) {
+                        continue; // Skip regu without photo in bulk scoring
+                    }
                 }
 
                 if ($hasCriteria && !empty($item['criteria'])) {
@@ -186,9 +251,76 @@ class JuriScoreController extends Controller
             return back()->with('error', 'Nilai ini tidak sedang diajukan untuk dihapus.');
         }
 
-        // Kembalikan status delete_requested ke false
-        $score->update(['delete_requested' => false]);
+        $score->update([
+            'delete_requested' => false,
+            'delete_reason' => null,
+        ]);
 
-        return back()->with('success', 'Permintaan penghapusan nilai ditolak. Nilai tetap dipertahankan.');
+        return back()->with('success', 'Pengajuan penghapusan nilai berhasil ditolak.');
+    }
+
+    /**
+     * Finalisasi dan kunci nilai oleh juri.
+     */
+    public function finalizeScore(Request $request, Score $score): RedirectResponse
+    {
+        if ($score->juri_id !== Auth::id()) {
+            return back()->with('error', 'Anda tidak memiliki otorisasi untuk nilai ini.');
+        }
+
+        $oldStatus = $score->status;
+        $score->update([
+            'status' => Score::STATUS_SUBMITTED,
+            'submitted_at' => now(),
+            'unlock_requested' => false,
+        ]);
+
+        \App\Services\ScoreAuditService::log(
+            $score,
+            'submitted',
+            $score->nilai,
+            $score->nilai,
+            $oldStatus,
+            Score::STATUS_SUBMITTED,
+            'Juri mengunci dan memfinalisasi nilai',
+            $request
+        );
+
+        return back()->with('success', 'Nilai berhasil dikunci. Terima kasih atas finalisasinya.');
+    }
+
+    /**
+     * Ajukan permintaan buka kunci nilai (Unlock Request) kepada Admin.
+     */
+    public function requestUnlock(Request $request, Score $score): RedirectResponse
+    {
+        if ($score->juri_id !== Auth::id()) {
+            return back()->with('error', 'Anda tidak memiliki otorisasi untuk nilai ini.');
+        }
+
+        $validated = $request->validate([
+            'unlock_reason' => ['required', 'string', 'min:5', 'max:500'],
+        ], [
+            'unlock_reason.required' => 'Mohon sertakan alasan pengajuan buka kunci nilai.',
+            'unlock_reason.min' => 'Alasan minimal 5 karakter.',
+        ]);
+
+        $score->update([
+            'unlock_requested' => true,
+            'unlock_reason' => $validated['unlock_reason'],
+        ]);
+
+        \App\Services\ScoreAuditService::log(
+            $score,
+            'unlock_requested',
+            $score->nilai,
+            $score->nilai,
+            $score->status,
+            $score->status,
+            'Alasan pengajuan: ' . $validated['unlock_reason'],
+            $request
+        );
+
+        return back()->with('success', 'Pengajuan buka kunci nilai berhasil dikirim ke Administrator. Harap tunggu persetujuan.');
     }
 }

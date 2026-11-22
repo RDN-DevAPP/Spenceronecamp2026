@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sponsorship;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -15,7 +16,31 @@ class SponsorshipRegistrationController extends Controller
      */
     public function create(): View
     {
-        return view('sponsorship.daftar');
+        $bankSettings = [
+            'bank_name' => Setting::where('key', 'sponsor_bank_name')->value('value') ?? 'Bank BRI',
+            'bank_account' => Setting::where('key', 'sponsor_bank_account')->value('value') ?? '0643-01-002891-53-4',
+            'bank_owner' => Setting::where('key', 'sponsor_bank_owner')->value('value') ?? 'Gudep SMPN 1 Cerbon',
+            'bank_instruction' => Setting::where('key', 'sponsor_bank_instruction')->value('value') ?? 'Seluruh kontribusi kemitraan dan sponsorship disalurkan langsung melalui rekening bendahara kegiatan resmi:',
+            'bank_note' => Setting::where('key', 'sponsor_bank_note')->value('value') ?? 'Harap simpan bukti transfer untuk dilampirkan pada formulir.',
+        ];
+
+        $benefitsJson = Setting::where('key', 'sponsor_benefits')->value('value');
+        $benefits = $benefitsJson ? json_decode($benefitsJson, true) : [
+            [
+                'title' => 'Logo Ditampilkan di Beranda Web',
+                'description' => 'Logo dan nama usaha tampil langsung pada portal resmi Spencerone Camp Season II.',
+            ],
+            [
+                'title' => 'Pemasangan Banner & Spanduk',
+                'description' => 'Hak pemasangan standing banner / umbul-umbul di area utama Bumi Perkemahan.',
+            ],
+            [
+                'title' => 'Piagam Penghargaan Mitra Resmi',
+                'description' => 'Panitia memberikan piagam apresiasi resmi bertandatangan Kepala Sekolah & Kamabigus.',
+            ],
+        ];
+
+        return view('sponsorship.daftar', compact('bankSettings', 'benefits'));
     }
 
     /**

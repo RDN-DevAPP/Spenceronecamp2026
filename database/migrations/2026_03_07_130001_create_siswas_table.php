@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nama');
             $table->unsignedTinyInteger('kelas')->comment('7, 8, or 9');
-            $table->string('jenis_kelamin', 1)->comment('L or P');
+            $table->string('jenis_kelamin', 1)->nullable()->comment('L or P');
             $table->foreignId('regu_profile_id')->nullable()
                 ->constrained('regu_profiles')->nullOnDelete();
             $table->timestamps();

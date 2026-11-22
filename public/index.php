@@ -5,6 +5,13 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
+// Polyfill mb_split jika ekstensi mbstring regex belum diaktifkan di hosting
+if (!function_exists('mb_split')) {
+    function mb_split($pattern, $string, $limit = -1) {
+        return preg_split('~' . $pattern . '~u', $string, $limit);
+    }
+}
+
 // Determine if the application is in maintenance mode...
 if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;

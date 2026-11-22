@@ -17,15 +17,17 @@ return new class extends Migration {
             $table->unique(['user_id', 'mata_lomba_id']);
         });
 
-        // Migrate existing mata_lomba_id data to pivot table
-        $juris = DB::table('users')->whereNotNull('mata_lomba_id')->where('role', 'juri')->get();
-        foreach ($juris as $juri) {
-            DB::table('user_mata_lomba')->insert([
-                'user_id' => $juri->id,
-                'mata_lomba_id' => $juri->mata_lomba_id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        // Migrate existing mata_lomba_id data to pivot table if column exists
+        if (Schema::hasColumn('users', 'mata_lomba_id')) {
+            $juris = DB::table('users')->whereNotNull('mata_lomba_id')->where('role', 'juri')->get();
+            foreach ($juris as $juri) {
+                DB::table('user_mata_lomba')->insert([
+                    'user_id' => $juri->id,
+                    'mata_lomba_id' => $juri->mata_lomba_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 

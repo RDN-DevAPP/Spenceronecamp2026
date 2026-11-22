@@ -13,9 +13,9 @@ class AdminSiswaController extends Controller
 {
     public function index(): View
     {
-        $siswaKelas7 = Siswa::where('kelas', 7)->orderByRaw('nama COLLATE NOCASE')->get();
-        $siswaKelas8 = Siswa::where('kelas', 8)->orderByRaw('nama COLLATE NOCASE')->get();
-        $siswaKelas9 = Siswa::where('kelas', 9)->orderByRaw('nama COLLATE NOCASE')->get();
+        $siswaKelas7 = Siswa::with('reguProfile')->where('kelas', 7)->orderBy('nama')->get();
+        $siswaKelas8 = Siswa::with('reguProfile')->where('kelas', 8)->orderBy('nama')->get();
+        $siswaKelas9 = Siswa::with('reguProfile')->where('kelas', 9)->orderBy('nama')->get();
 
         return view('admin.siswa.index', compact('siswaKelas7', 'siswaKelas8', 'siswaKelas9'));
     }

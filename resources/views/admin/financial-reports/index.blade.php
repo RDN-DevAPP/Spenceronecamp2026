@@ -1,122 +1,112 @@
 @extends('layouts.main')
 
-@section('title', 'Kelola Laporan Keuangan - Admin Dashboard')
+@section('title', 'Kelola Laporan Keuangan - Admin Spencerone Camp 2026')
 
 @section('content')
-    <div class="py-12 bg-gray-100 min-h-screen">
+    <div class="py-10 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            @if($errors->any())
-                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-lg shadow-sm">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i data-lucide="alert-circle" class="h-5 w-5 text-red-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h3 class="text-sm font-bold text-red-800">Terdapat kesalahan:</h3>
-                            <div class="mt-2 text-sm text-red-700">
-                                <ul class="list-disc pl-5 space-y-1">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+            
+            @if(isset($errors) && $errors->any())
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl">
+                    <div class="flex items-start gap-2.5">
+                        <i data-lucide="alert-circle" class="w-5 h-5 text-red-500 shrink-0 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-xs font-bold text-red-800 uppercase tracking-wider">Terdapat kesalahan:</h3>
+                            <ul class="mt-1 text-xs text-red-700 list-disc list-inside space-y-0.5">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
             @endif
 
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Kelola Laporan Keuangan</h1>
-                    <p class="mt-1 text-sm text-gray-500">Unggah dan kelola laporan keuangan untuk ditampilkan di beranda.
-                    </p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 text-xs font-semibold uppercase tracking-wider mb-2">
+                        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        Transparansi Anggaran
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black text-brand-forest uppercase tracking-tight">
+                        Kelola Laporan Keuangan
+                    </h1>
+                    <p class="mt-1 text-xs sm:text-sm text-gray-500">Unggah dan kelola berkas laporan transparansi keuangan untuk publik.</p>
                 </div>
-                <div class="mt-4 md:mt-0">
+                <div>
                     <button onclick="openUploadModal()"
-                        class="inline-flex items-center px-6 py-3 bg-scout-primary border border-transparent rounded-xl font-bold text-white uppercase tracking-widest hover:bg-scout-primary-dark shadow-lg transition-all active:scale-95">
-                        <i data-lucide="plus" class="w-5 h-5 mr-2"></i> Unggah Laporan Baru
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-brand-forest hover:bg-emerald-900 border border-emerald-800 shadow-sm transition">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Unggah Laporan Baru</span>
                     </button>
                 </div>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-2xl border border-gray-200">
+            <div class="bg-white rounded-2xl border border-gray-200/80 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/70">
+                    <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                        <i data-lucide="folder" class="w-4 h-4 text-emerald-700"></i>
+                        <span>Daftar Dokumen Laporan</span>
+                    </h3>
+                    <span class="text-xs font-bold text-brand-forest bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/60">
+                        {{ count($reports) }} Dokumen
+                    </span>
+                </div>
+
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-100">
+                        <thead class="bg-gray-50/80 text-gray-600">
                             <tr>
-                                <th scope="col"
-                                    class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Laporan</th>
-                                <th scope="col"
-                                    class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    File</th>
-                                <th scope="col"
-                                    class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Status</th>
-                                <th scope="col"
-                                    class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Tanggal Unggah</th>
-                                <th scope="col"
-                                    class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                    Aksi</th>
+                                <th scope="col" class="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Laporan</th>
+                                <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Berkas</th>
+                                <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Tanggal Unggah</th>
+                                <th scope="col" class="px-6 py-3.5 text-right text-xs font-bold uppercase tracking-wider">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-100">
                             @forelse($reports as $report)
-                                <tr class="hover:bg-gray-50/50 transition-colors">
+                                <tr class="hover:bg-gray-50/60 transition">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div
-                                                class="flex-shrink-0 h-10 w-10 bg-scout-secondary/10 rounded-lg flex items-center justify-center">
-                                                <i data-lucide="{{ str_contains($report->file_path, '.pdf') ? 'file-text' : 'image' }}"
-                                                    class="w-6 h-6 text-scout-primary"></i>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-emerald-50 text-brand-forest rounded-xl flex items-center justify-center shrink-0 border border-emerald-200/50">
+                                                <i data-lucide="{{ str_contains($report->file_path, '.pdf') ? 'file-text' : 'image' }}" class="w-5 h-5"></i>
                                             </div>
-                                            <div class="ml-4">
+                                            <div>
                                                 <div class="text-sm font-bold text-gray-900">{{ $report->title }}</div>
-                                                <div class="text-xs text-gray-500">{{ basename($report->file_path) }}</div>
+                                                <div class="text-xs text-gray-400 font-mono">{{ basename($report->file_path) }}</div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-xs font-medium">
                                         <a href="{{ Storage::url($report->file_path) }}" target="_blank"
-                                            class="inline-flex items-center text-scout-primary hover:text-scout-primary-dark transition-colors">
-                                            <i data-lucide="external-link" class="w-4 h-4 mr-1"></i> Buka File
+                                            class="inline-flex items-center gap-1 text-emerald-800 hover:text-emerald-950 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 font-bold transition">
+                                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Buka File
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         @if($report->is_active)
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-green-100 text-green-800 border border-green-200">Aktif</span>
+                                            <span class="px-2.5 py-0.5 inline-flex text-xs font-bold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">Aktif</span>
                                         @else
-                                            <span
-                                                class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-gray-100 text-gray-600 border border-gray-200">Nonaktif</span>
+                                            <span class="px-2.5 py-0.5 inline-flex text-xs font-bold rounded-full bg-gray-100 text-gray-600 border border-gray-200">Nonaktif</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-xs text-gray-500 font-medium">
                                         {{ $report->created_at->translatedFormat('d F Y') }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <div class="flex justify-end items-center space-x-2">
-                                            <button
-                                                onclick="confirmDeleteReport('{{ route('admin.financial-reports.destroy', $report) }}')"
-                                                class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100"
-                                                title="Hapus">
-                                                <i data-lucide="trash-2" class="w-5 h-5"></i>
-                                            </button>
-                                        </div>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-xs">
+                                        <button onclick="confirmDeleteReport('{{ route('admin.financial-reports.destroy', $report) }}')"
+                                            class="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus Laporan">
+                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-20 text-center">
-                                        <div class="flex flex-col items-center">
-                                            <div class="p-6 bg-gray-50 rounded-full mb-4">
-                                                <i data-lucide="clipboard-x" class="w-12 h-12 text-gray-300"></i>
-                                            </div>
-                                            <h3 class="text-lg font-bold text-gray-900">Belum ada laporan</h3>
-                                            <p class="text-sm text-gray-500 max-w-xs mx-auto mt-1">Gunakan tombol di atas untuk
-                                                mengunggah laporan keuangan pertama Anda.</p>
-                                        </div>
+                                    <td colspan="5" class="px-6 py-16 text-center text-gray-400">
+                                        <i data-lucide="file-x" class="w-10 h-10 text-gray-300 mx-auto mb-2"></i>
+                                        <p class="text-sm font-semibold text-gray-700">Belum ada laporan keuangan</p>
+                                        <p class="text-xs text-gray-400 mt-0.5">Gunakan tombol di atas untuk mengunggah dokumen baru.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -124,74 +114,58 @@
                     </table>
                 </div>
             </div>
+
+            <div class="mt-6">
+                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-brand-forest transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Dashboard
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- Upload Modal -->
-    <div id="uploadModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog"
-        aria-modal="true">
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"
-                onclick="closeUploadModal()"></div>
+            <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-xs transition-opacity" aria-hidden="true" onclick="closeUploadModal()"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div
-                class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border-t-8 border-scout-primary">
+            <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-200">
+                <div class="bg-gradient-to-r from-brand-forest to-emerald-800 px-6 py-4 text-white flex justify-between items-center">
+                    <h3 class="text-base font-bold flex items-center gap-2" id="modal-title">
+                        <i data-lucide="upload-cloud" class="w-4 h-4 text-amber-400"></i>
+                        <span>Unggah Dokumen Laporan</span>
+                    </h3>
+                    <button onclick="closeUploadModal()" class="text-white/80 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
                 <form action="{{ route('admin.financial-reports.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="bg-white px-4 pt-6 pb-4 sm:p-8 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-                            <div
-                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-scout-secondary/20 sm:mx-0 sm:h-12 sm:w-12">
-                                <i data-lucide="upload-cloud" class="h-6 w-6 text-scout-primary"></i>
-                            </div>
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-5 sm:text-left w-full">
-                                <h3 class="text-xl leading-6 font-black text-gray-900" id="modal-title">Unggah Laporan</h3>
-                                <div class="mt-6 space-y-5">
-                                    <div>
-                                        <label for="title" class="block text-sm font-bold text-gray-700 mb-2">Judul
-                                            Laporan</label>
-                                        <input type="text" name="title" id="title"
-                                            class="block w-full rounded-xl border-gray-300 shadow-sm focus:ring-scout-accent focus:border-scout-primary py-3 px-4 transition-all"
-                                            placeholder="Contoh: Laporan LT-I 2026" required>
-                                    </div>
-                                    <div>
-                                        <label for="file" class="block text-sm font-bold text-gray-700 mb-2">File
-                                            (PDF Saja)</label>
-                                        <div
-                                            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-scout-primary transition-colors bg-gray-50/50">
-                                            <div class="space-y-2 text-center">
-                                                <i data-lucide="file-up" class="mx-auto h-10 w-10 text-gray-400"></i>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="file"
-                                                        class="relative cursor-pointer bg-white rounded-md font-bold text-scout-primary hover:text-scout-primary-dark">
-                                                        <span>Pilih file</span>
-                                                        <input id="file" name="file" type="file" class="sr-only" required
-                                                            accept=".pdf">
-                                                    </label>
-                                                    <p class="pl-1">atau drag & drop</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500 italic">Maksimal 5MB</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                        <input type="checkbox" name="is_active" id="is_active" value="1" checked
-                                            class="h-5 w-5 text-scout-primary focus:ring-scout-accent border-gray-300 rounded-md cursor-pointer transition-all">
-                                        <label for="is_active"
-                                            class="ml-3 block text-sm font-bold text-gray-700 cursor-pointer">Aktifkan
-                                            Sekarang</label>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="p-6 space-y-4">
+                        <div>
+                            <label for="title" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Judul Dokumen Laporan</label>
+                            <input type="text" name="title" id="title"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:border-emerald-600 text-sm font-medium transition"
+                                placeholder="Contoh: Laporan Realisasi Anggaran LT-I Season II" required>
+                        </div>
+                        <div>
+                            <label for="file" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Berkas Laporan (PDF Saja)</label>
+                            <input id="file" name="file" type="file" required accept=".pdf"
+                                class="block w-full text-xs text-gray-600 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-brand-forest hover:file:bg-emerald-200 transition">
+                            <p class="text-[11px] text-gray-400 mt-1">Format PDF resmi, ukuran maksimal 5MB.</p>
+                        </div>
+                        <div class="flex items-center gap-2.5 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                            <input type="checkbox" name="is_active" id="is_active" value="1" checked
+                                class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 rounded border-gray-300 cursor-pointer">
+                            <label for="is_active" class="text-xs font-bold text-gray-700 cursor-pointer">Publikasikan dan aktifkan langsung di beranda</label>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-6 py-5 sm:px-8 sm:flex sm:flex-row-reverse gap-3">
+                    <div class="bg-gray-50/80 px-6 py-3.5 border-t border-gray-100 flex flex-row-reverse gap-2">
                         <button type="submit"
-                            class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-lg px-6 py-3 bg-scout-primary text-base font-bold text-white hover:bg-scout-primary-dark sm:w-auto transition-all active:scale-95">
-                            Simpan & Unggah
+                            class="px-5 py-2 rounded-xl bg-brand-forest hover:bg-emerald-900 text-white text-xs font-bold shadow-xs transition">
+                            Unggah Laporan
                         </button>
                         <button type="button" onclick="closeUploadModal()"
-                            class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-3 bg-white text-base font-bold text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto transition-all">
+                            class="px-4 py-2 bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 rounded-xl text-xs font-semibold transition">
                             Batal
                         </button>
                     </div>
@@ -216,7 +190,7 @@
         }
 
         function confirmDeleteReport(url) {
-            if (confirm('Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak bisa dibatalkan.')) {
+            if (confirm('Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak dapat dibatalkan.')) {
                 const form = document.getElementById('delete-report-form');
                 form.action = url;
                 form.submit();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sponsorship;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -38,6 +39,9 @@ class AdminSponsorshipController extends Controller
             'tier' => 'required|in:platinum,gold,silver',
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'website_url' => 'nullable|url|max:255',
+            'pic_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
         ]);
 
         $logoPath = $request->hasFile('logo')
@@ -77,6 +81,9 @@ class AdminSponsorshipController extends Controller
             'tier' => 'required|in:platinum,gold,silver',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'website_url' => 'nullable|url|max:255',
+            'pic_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
         ]);
 
         $data = [
@@ -133,5 +140,78 @@ class AdminSponsorshipController extends Controller
 
         return redirect()->route('admin.sponsorships.index')
             ->with('success', 'Sponsorship berhasil disetujui sebagai sponsor ' . ucfirst($request->tier));
+    }
+
+    /**
+     * Show form to manage bank account & sponsor benefits settings.
+     */
+    public function settings(): View
+    {
+        $bankSettings = [
+            'bank_name' => Setting::where('key', 'sponsor_bank_name')->value('value') ?? 'Bank BRI',
+            'bank_account' => Setting::where('key', 'sponsor_bank_account')->value('value') ?? '0643-01-002891-53-4',
+            'bank_owner' => Setting::where('key', 'sponsor_bank_owner')->value('value') ?? 'Gudep SMPN 1 Cerbon',
+            'bank_instruction' => Setting::where('key', 'sponsor_bank_instruction')->value('value') ?? 'Seluruh kontribusi kemitraan dan sponsorship disalurkan langsung melalui rekening bendahara kegiatan resmi:',
+            'bank_note' => Setting::where('key', 'sponsor_bank_note')->value('value') ?? 'Harap simpan bukti transfer untuk dilampirkan pada formulir.',
+        ];
+
+        $benefitsJson = Setting::where('key', 'sponsor_benefits')->value('value');
+        $benefits = $benefitsJson ? json_decode($benefitsJson, true) : [
+            [
+                'title' => 'Logo Ditampilkan di Beranda Web',
+                'description' => 'Logo dan nama usaha tampil langsung pada portal resmi Spencerone Camp Season II.',
+            ],
+            [
+                'title' => 'Pemasangan Banner & Spanduk',
+                'description' => 'Hak pemasangan standing banner / umbul-umbul di area utama Bumi Perkemahan.',
+            ],
+            [
+                'title' => 'Piagam Penghargaan Mitra Resmi',
+                'description' => 'Panitia memberikan piagam apresiasi resmi bertandatangan Kepala Sekolah & Kamabigus.',
+            ],
+        ];
+
+        return view('admin.sponsorships.settings', compact('bankSettings', 'benefits'));
+    }
+
+    /**
+     * Update bank account & sponsor benefits settings.
+     */
+    public function updateSettings(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'bank_name' => 'required|string|max:100',
+            'bank_account' => 'required|string|max:100',
+            'bank_owner' => 'required|string|max:150',
+            'bank_instruction' => 'nullable|string|max:500',
+            'bank_note' => 'nullable|string|max:255',
+            'benefits' => 'nullable|array',
+            'benefits.*.title' => 'nullable|string|max:255',
+            'benefits.*.description' => 'nullable|string|max:500',
+        ]);
+
+        Setting::updateOrCreate(['key' => 'sponsor_bank_name'], ['value' => $validated['bank_name']]);
+        Setting::updateOrCreate(['key' => 'sponsor_bank_account'], ['value' => $validated['bank_account']]);
+        Setting::updateOrCreate(['key' => 'sponsor_bank_owner'], ['value' => $validated['bank_owner']]);
+        Setting::updateOrCreate(['key' => 'sponsor_bank_instruction'], ['value' => $validated['bank_instruction'] ?? '']);
+        Setting::updateOrCreate(['key' => 'sponsor_bank_note'], ['value' => $validated['bank_note'] ?? '']);
+
+        // Process benefits (filter out empty titles)
+        $cleanBenefits = [];
+        if (!empty($validated['benefits']) && is_array($validated['benefits'])) {
+            foreach ($validated['benefits'] as $b) {
+                if (!empty(trim($b['title'] ?? ''))) {
+                    $cleanBenefits[] = [
+                        'title' => trim($b['title']),
+                        'description' => trim($b['description'] ?? ''),
+                    ];
+                }
+            }
+        }
+
+        Setting::updateOrCreate(['key' => 'sponsor_benefits'], ['value' => json_encode(array_values($cleanBenefits))]);
+
+        return redirect()->route('admin.sponsorships.settings')
+            ->with('success', 'Pengaturan nomor rekening bank dan keuntungan sponsor berhasil disimpan.');
     }
 }

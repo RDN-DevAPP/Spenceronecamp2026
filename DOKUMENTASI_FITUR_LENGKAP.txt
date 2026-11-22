@@ -1,0 +1,416 @@
+================================================================================
+          DOKUMENTASI LENGKAP FITUR SISTEM INFORMASI & PENILAIAN LOMBA
+                         LT-I SPENCERONE CAMP 2026
+================================================================================
+Tanggal Penyusunan : 05 September 2026
+Framework          : Laravel 12 (PHP 8.5) + Vite + Tailwind CSS v4 + Vue 3
+Database           : SQLite
+Versi Dokumentasi  : 2.0 (Edisi Lengkap Seluruh Modul)
+================================================================================
+
+DAFTAR ISI:
+-----------
+1. GAMBARAN UMUM DAN ARSITEKTUR SISTEM
+2. FITUR PUBLIK (GUEST / PENGUNJUNG TANPA LOGIN)
+3. FITUR PESERTA (PERAN: REGU PRAMUKA PUTRA & PUTRI)
+4. FITUR JURI (PERAN: PENILAI LOMBA & WASIT CERDAS CERMAT)
+5. FITUR ADMINISTRATOR (PERAN: ADMIN SISTEM)
+6. MODUL KHUSUS: SISTEM CERDAS CERMAT ONLINE & ANTI-CHEAT
+7. MODUL KHUSUS: PENGACAKAN REGU OTOMATIS (SMART RANDOMIZER)
+8. MODUL KHUSUS: SISTEM PERHITUNGAN JUARA UMUM & TIE-BREAKING
+9. FITUR KEAMANAN, VALIDASI, DAN INTEGRITAS DATA
+
+
+================================================================================
+1. GAMBARAN UMUM DAN ARSITEKTUR SISTEM
+================================================================================
+Sistem Informasi LT-I Spencerone Camp 2026 adalah platform terpadu berbasis web 
+yang dirancang untuk mengelola seluruh rangkaian kegiatan perkemahan Lomba Tingkat I 
+(LT-I) Pramuka, meliputi pendaftaran, administrasi data siswa/anggota, pengacakan 
+regu otomatis, jadwal kegiatan, informasi teknis lomba, pengerjaan ujian Cerdas 
+Cermat online terproteksi, penilaian lomba real-time oleh dewan juri, rekapitulasi 
+juara umum otomatis, hingga transparansi laporan keuangan dan sponsorship.
+
+Sistem menerapkan model Role-Based Access Control (RBAC) dengan 4 tingkat akses:
+- Publik (Guest)         : Pengunjung umum, masyarakat, peserta/pembina tanpa login.
+- Peserta (Regu)         : Regu peserta putra/putri untuk mengelola data anggota, 
+                           mengunggah portofolio karya, dan mengikuti cerdas cermat.
+- Juri                   : Dewan penilai lomba untuk memasukkan nilai, mengoreksi 
+                           cerdas cermat, dan memantau pelanggaran ujian.
+- Administrator (Admin)  : Pengelola penuh sistem, pengaturan lomba, akun pengguna, 
+                           database siswa, master soal, dan rekapitulasi akhir.
+
+
+================================================================================
+2. FITUR PUBLIK (GUEST / PENGUNJUNG TANPA LOGIN)
+================================================================================
+Halaman-halaman publik yang dapat diakses secara bebas tanpa perlu autentikasi:
+
+2.1. Halaman Utama (Landing Page) [URL: /]
+     - Hero Section & Branding Resmi LT-I Spencerone Camp 2026.
+     - Dynamic Countdown Timer: Hitung mundur otomatis menuju waktu pembukaan acara 
+       yang terintegrasi langsung dengan jadwal pertama di database.
+     - Widget Informasi Pelaksanaan: Rentang tanggal kegiatan dan lokasi perkemahan 
+       yang dapat diatur secara dinamis oleh administrator.
+     - Live Leaderboard Juara Umum: Menampilkan klasemen regu berdasarkan perolehan 
+       medali (Emas, Perak, Perunggu) dan akumulasi poin.
+     - Sensor Nama 3 Besar (Spoiler Protection): Fitur penyensoran otomatis nama regu 
+       peringkat 1, 2, dan 3 dengan efek blur/terkunci sebelum pengumuman resmi dibuka 
+       oleh Admin melalui tombol reveal.
+     - Showcase Sponsorship: Galeri logo dan nama sponsor yang telah disetujui, 
+       dikelompokkan rapi berdasarkan tier (Platinum, Gold, Silver, Bronze).
+     - Unduh / Akses Laporan Keuangan Publik: Tautan transparansi keuangan yang dapat 
+       ditampilkan atau disembunyikan sesuai pengaturan Admin.
+
+2.2. Halaman Informasi & Juknis Lomba [URL: /informasi-lomba]
+     - Menampilkan katalog lengkap seluruh mata lomba yang dipertandingkan.
+     - Informasi detail per mata lomba meliputi:
+       * Deskripsi lomba dan latar belakang kegiatan.
+       * Ketentuan peserta, perlengkapan, dan durasi lomba.
+       * Indikator dan kriteria penilaian juri.
+       * Petunjuk teknis (Juknis) dan aturan khusus.
+
+2.3. Halaman Jadwal & Rundown Acara [URL: /jadwal]
+     - Timeline kegiatan harian perkemahan yang terstruktur.
+     - Informasi mencakup tanggal kegiatan, jam mulai, jam selesai, nama aktivitas, 
+       lokasi tempat pelaksanaan, dan mata lomba terkait.
+     - Status kegiatan (akan datang, sedang berlangsung, atau telah selesai).
+
+2.4. Halaman Daftar Regu [URL: /daftar-regu]
+     - Menampilkan direktori seluruh regu peserta yang terdaftar resmi.
+     - Filter pengelompokan berdasarkan Kategori Regu (Putra dan Putri).
+     - Informasi nomor regu, nama regu, nama pangkalan/sekolah, dan daftar nama anggota.
+
+2.5. Halaman Pendaftaran Sponsorship Online [URL: /sponsorship/daftar]
+     - Form pengajuan sponsor secara mandiri oleh pihak eksternal/perusahaan.
+     - Input data: Nama Instansi/Perusahaan, Nama PIC, Email, Nomor WhatsApp/Telepon, 
+       Pilihan Tier Sponsorship (Platinum/Gold/Silver/Bronze), Bentuk Dukungan (Dana/Barang), 
+       Nominal Bantuan, serta Unggah Berkas Logo / Bukti Kerjasama.
+     - Masuk ke antrean moderasi admin dengan status awal "Pending".
+
+2.6. Pendaftaran Akun Mandiri (Registrasi Publik)
+     - Registrasi Regu Peserta [URL: /register-regu]
+       Form pendaftaran regu baru secara mandiri lengkap dengan data identitas dan 
+       penentuan password login tim.
+     - Registrasi Akun Juri [URL: /register-juri]
+       Form registrasi calon juri dengan pemilihan mata lomba yang dikuasai/diajukan.
+
+2.7. Autentikasi Terpadu (Login & Logout) [URL: /login, /logout]
+     - Single entrance login untuk seluruh peran (Admin, Juri, dan Regu).
+     - Fitur auto-redirection cerdas berdasarkan role pengguna setelah otentikasi berhasil:
+       * Admin diarahkan ke: /admin/dashboard
+       * Juri diarahkan ke: /juri/dashboard
+       * Regu diarahkan ke: /peserta/dashboard
+     - Fitur "Remember Me" dan proteksi brute-force login.
+
+
+================================================================================
+3. FITUR PESERTA (PERAN: REGU PRAMUKA PUTRA & PUTRI)
+================================================================================
+Akses khusus bagi regu peserta setelah login menggunakan akun regu:
+
+3.1. Dashboard Peserta [URL: /peserta/dashboard]
+     - Profil Tim: Menampilkan nomor kavling/regu, nama regu, jenis (putra/putri), 
+       dan nama pangkalan/sekolah.
+     - Status Kelengkapan Tim: Indikator jumlah anggota regu terdaftar.
+     - Rekap Nilai Regu: Menampilkan daftar mata lomba yang telah dinilai oleh juri 
+       beserta skor yang diperoleh (jika pengumuman nilai telah diaktifkan).
+     - Akses Cepat (Quick Action) menuju Ujian Cerdas Cermat, Unggah Karya, dan 
+       Manajemen Anggota.
+
+3.2. Manajemen Anggota Regu [URL: /peserta/anggota/*]
+     - Tambah Anggota Baru: Menambahkan siswa ke dalam susunan regu.
+     - Edit Anggota: Memperbarui nama lengkap, kelas (7, 8, atau 9), NISN/NIS, 
+       Tingkatan TKU (Tanda Kecakapan Umum: Ramu, Rakit, Terap), dan 
+       Jabatan dalam Regu (Pemimpin Regu / Pinru, Wakil Pinru / Wapinru, Anggota).
+     - Hapus Anggota: Menghapus data anggota jika terjadi pergantian personel.
+
+3.3. Galeri Portofolio & Unggah Bukti Karya Lomba
+     - Unggah Foto / Berkas Lomba Digital [URL: /peserta/upload-photo]
+       Peserta dapat mengunggah dokumentasi/karya untuk mata lomba berbasis penilaian visual:
+       * Foto Tapak Kemah & Pendirian Tenda.
+       * Foto Masak Konvensional / Kuliner Rimba.
+       * Foto Hasil Karya Upcycle Art / Daur Ulang Sampah.
+       * File Karya Desain Poster Digital [URL: /peserta/poster].
+     - Input Deskripsi / Sinopsis Karya [URL: /peserta/update-description]
+       Peserta dapat melampirkan teks penjelasan, konsep karya, filosofi, resep masakan, 
+       atau deskripsi bahan daur ulang yang akan dibaca langsung oleh dewan juri saat menilai.
+     - Hapus & Ganti Berkas [URL: /peserta/delete-photo]
+       Kemudahan merevisi atau mengganti unggahan sebelum batas waktu penilaian ditutup.
+
+3.4. Portal Cerdas Cermat Peserta [URL: /peserta/cerdas-cermat/*]
+     - Registrasi & Konfirmasi Kehadiran Sesi: Tombol siap mengikuti sesi lomba.
+     - Antarmuka Pengerjaan Babak 1 (Round 1): Pilihan Ganda dengan timer real-time.
+     - Antarmuka Pengerjaan Babak 2 (Round 2): Isian Singkat & Uraian bertahap.
+     - Antarmuka Pengerjaan Babak 3 (Round 3): Rebutan & Soal Cepat.
+     - Sistem Proteksi Layar Terkunci & Validasi Kode Buka Kunci (Unlock Code).
+     - Pelaporan Pelanggaran Otomatis ke Server.
+
+
+================================================================================
+4. FITUR JURI (PERAN: PENILAI LOMBA & WASIT CERDAS CERMAT)
+================================================================================
+Akses khusus bagi dewan juri yang ditugaskan menilai mata lomba:
+
+4.1. Dashboard Juri [URL: /juri/dashboard]
+     - Penugasan Mata Lomba: Menampilkan daftar mata lomba yang menjadi wewenang juri 
+       yang sedang login (berdasarkan mapping multi-lomba per juri).
+     - Status Progres Penilaian: Menghitung berapa regu yang sudah dinilai dan yang belum.
+     - Akses langsung menuju halaman penilaian dan modul wasit Cerdas Cermat.
+
+4.2. Penilaian Mata Lomba Reguler
+     - Penilaian Per Regu [URL: /juri/lomba/{slug}/regu/{reguId}]
+       * Menampilkan identitas regu, nomor regu, dan galeri karya yang diunggah peserta.
+       * Menampilkan deskripsi/konsep karya yang ditulis oleh peserta.
+       * Form penilaian interaktif berdasarkan Kriteria Penilaian dan Bobot Resmi.
+       * Kalkulasi otomatis skor akhir berdasarkan bobot masing-masing kriteria.
+       * Kolom input catatan/feedback evaluasi juri untuk peserta.
+     - Penilaian Massal / Borongan (Bulk Scoring) [URL: /juri/lomba/{slug}]
+       * Tabel matriks seluruh regu untuk menginput nilai banyak regu sekaligus 
+         dalam satu layar tanpa perlu membuka satu per satu.
+       * Sangat efisien untuk lomba parade, baris-berbaris, atau pentas seni.
+     - Manajemen Revisi & Pembatalan Nilai [URL: /juri/scores/*]
+       * Mekanisme pengajuan hapus nilai (Request Delete).
+       * Konfirmasi persetujuan (Approve) atau penolakan (Reject) penghapusan nilai 
+         untuk mencegah kecurangan atau manipulasi skor sepihak.
+
+4.3. Modul Wasit & Koreksi Cerdas Cermat [URL: /juri/cerdas-cermat/*]
+     - Live Session Monitoring: Memantau status pengerjaan seluruh regu secara langsung 
+       (belum mulai, sedang mengerjakan, selesai, terkunci).
+     - Kontrol Babak Terpusat:
+       * Mulai Babak (Start Round): Membuka akses soal babak tertentu secara serentak.
+       * Kunci Babak (Finalize Round): Menutup babak secara serentak.
+       * Reset Babak (Reset Round) & Reset Sesi Regu Tertentu jika ada kendala perangkat.
+     - Live Grading (Koreksi Jawaban Manual) [URL: /juri/cerdas-cermat/{session}/{round}/grade]:
+       * Koreksi jawaban peserta untuk Babak 2 (Isian Singkat) dan Babak 3 (Uraian/Rebutan).
+       * Membaca jawaban asli peserta dan kunci jawaban, lalu memberikan poin penilaian.
+       * Finalisasi nilai sesi peserta.
+     - Live Violation Tracker (Pemantau Kecurangan) [URL: /juri/cerdas-cermat/violations]:
+       * Tabel log real-time peserta yang melanggar aturan ujian online (pindah tab, dll).
+     - Generator Unlock Code [URL: /juri/cerdas-cermat/generate-unlock-code]:
+       * Juri dapat membuat kode numerik rahasia untuk membuka kembali layar ujian 
+         peserta yang terkunci setelah dilakukan verifikasi langsung di lokasi lomba.
+     - Halaman Kualifikasi Finalis (Qualifiers) [URL: /juri/cerdas-cermat/qualifiers]:
+       * Menampilkan peringkat peserta lolos seleksi dengan sistem tie-break otomatis 
+         berdasarkan waktu pengerjaan terkecil.
+
+4.4. Akses Rekapitulasi Nilai Terpadu [URL: /juri/rekap-nilai]
+     - Juri dapat melihat rekapitulasi nilai seluruh mata lomba dan hasil klasemen 
+       secara transparan.
+
+
+================================================================================
+5. FITUR ADMINISTRATOR (PERAN: ADMIN SISTEM)
+================================================================================
+Akses tertinggi untuk mengelola seluruh aspek sistem, data master, dan lomba:
+
+5.1. Dashboard Utama Administrator [URL: /admin/dashboard]
+     - Ringkasan Metrik Statistik:
+       * Total Regu Terdaftar (dipisahkan Putra dan Putri).
+       * Total Juri yang aktif bertugas.
+       * Total Mata Lomba dan Kriteria Penilaian.
+       * Total Data Siswa di database.
+       * Status kelengkapan penilaian juri per mata lomba.
+     - Live Klasemen & Perolehan Medali Juara Umum (Emas, Perak, Perunggu) real-time.
+     - Saklar Pengaturan Global (Quick Toggles):
+       * Toggle Sensor Juara Umum (Buka/Tutup sensor nama 3 besar di landing page publik).
+       * Toggle Tampilkan Laporan Keuangan (Aktifkan/Nonaktifkan transparansi publik).
+
+5.2. Manajemen Pengguna & Hak Akses (User Management) [URL: /admin/users/*]
+     - CRUD Akun: Tambah, edit data, dan hapus akun Admin, Juri, dan Regu.
+     - Penugasan Mata Lomba Juri (Multi-Assignment): Memetakan satu atau lebih 
+       mata lomba ke akun juri tertentu via tabel relasi pivot `user_mata_lomba`.
+     - Reset Password Instan: Mereset kata sandi peserta atau juri jika terjadi kendala login.
+
+5.3. Manajemen Mata Lomba & Kriteria Penilaian [URL: /admin/mata-lomba/*, /admin/kriteria/*]
+     - Master Mata Lomba: Tambah, edit, dan hapus mata lomba, kode singkatan, 
+       slug URL, ikon visual, dan penanggung jawab teknis.
+     - Master Kriteria Penilaian:
+       * Menentukan nama kriteria (misal: Kerapian, Kekompakan, Kesesuaian Tema, Waktu).
+       * Menentukan rentang skor minimum & maksimum (skala penilaian).
+       * Menentukan bobot persentase nilai tiap kriteria (total 100%).
+
+5.4. Manajemen Informasi & Juknis Lomba [URL: /admin/informasi-lomba/*]
+     - Mengelola teks deskripsi, peraturan teknis, persyaratan peserta, dan panduan 
+       yang ditampilkan pada halaman informasi publik.
+
+5.5. Manajemen Jadwal & Konfigurasi Acara [URL: /admin/jadwal/*]
+     - CRUD Entri Jadwal: Tanggal, waktu mulai, waktu selesai, nama agenda/kegiatan, 
+       lokasi tempat lomba, dan mata lomba terkait.
+     - Pengaturan Parameter Acara [URL: /admin/jadwal/settings]:
+       * Setting Tanggal Mulai Acara (`event_start_date`).
+       * Setting Tanggal Selesai Acara (`event_end_date`).
+       * Setting Lokasi Pelaksanaan (`event_location`).
+       (Pengaturan ini otomatis mengubah teks dan target countdown timer di landing page).
+
+5.6. Master Data Siswa Sekolah [URL: /admin/siswa/*]
+     - Basis data seluruh siswa calon peserta perkemahan.
+     - CRUD Data Siswa: Nama lengkap, kelas (7, 8, atau 9), jenis kelamin (L/P), NISN.
+     - Fitur Import Massal CSV: Mengunggah file CSV daftar nama siswa secara instan 
+       tanpa perlu mengetik satu per satu.
+     - Pengelompokan Tab Siswa per Tingkat Kelas (Kelas 7, Kelas 8, Kelas 9).
+     - Fitur Pembersihan Data: Hapus data siswa per tingkat kelas atau keseluruhan.
+
+5.7. Sistem Pengacakan Regu Otomatis (Smart Randomizer) [URL: /admin/randomize-regu/*]
+     - (Dijelaskan secara komprehensif pada Bagian 7).
+
+5.8. Manajemen Lengkap Cerdas Cermat [URL: /admin/cerdas-cermat/*]
+     - Bank Soal: CRUD soal untuk Babak 1 (PG), Babak 2 (Isian), dan Babak 3 (Rebutan).
+     - Dukungan gambar ilustrasi soal, teks pertanyaan, pilihan opsi A/B/C/D, 
+       kunci jawaban, dan skor bobot soal.
+     - Import Soal Massal via File/CSV untuk mempercepat persiapan bank soal.
+     - Hapus Massal Seluruh Soal (Destroy All Questions).
+     - Manajemen Sesi Ujian Peserta [URL: /admin/cerdas-cermat/sessions]:
+       * Memantau daftar sesi seluruh regu.
+       * Reset sesi regu individual atau hapus seluruh sesi (Destroy All Sessions).
+     - Konfigurasi Ujian [URL: /admin/cerdas-cermat/settings]:
+       * Mengatur durasi waktu pengerjaan per babak (dalam satuan menit).
+       * Mengatur tanggal dan jam aktif pelaksanaan ujian online.
+
+5.9. Rekapitulasi Nilai & Juara Umum [URL: /admin/rekap-nilai, /admin/scores]
+     - Matriks tabel nilai terpadu yang merangkum perolehan seluruh regu di setiap mata lomba.
+     - Filter berdasarkan kategori jenis regu (Putra dan Putri).
+     - Audit Trail Nilai: Meninjau nilai yang masuk dari dewan juri, serta wewenang 
+       menghapus nilai jika ditemukan anomali atau kesalahan input.
+
+5.10. Manajemen Sponsorship [URL: /admin/sponsorships/*]
+      - Daftar pengajuan sponsor masuk dari website publik.
+      - Aksi Moderasi: Menyetujui (Approve) atau Menolak (Reject) proposal sponsor.
+      - CRUD Sponsor Manual: Input langsung sponsor yang deal secara offline, menentukan 
+        paket/tier (Platinum, Gold, Silver, Bronze), nominal bantuan, dan mengunggah file logo.
+      - Pengaturan urutan tampil dan visibilitas sponsor di halaman depan.
+
+5.11. Manajemen Laporan Keuangan (Financial Report) [URL: /admin/financial-reports/*]
+      - Modul transparansi anggaran kepanitiaan Spencerone Camp 2026.
+      - Unggah berkas dokumen laporan keuangan resmi dalam format file PDF.
+      - Input judul laporan dan pengaturan status publikasi (Aktif / Non-Aktif).
+      - Edit dan hapus laporan serta penggantian file PDF.
+
+
+================================================================================
+6. MODUL KHUSUS: SISTEM CERDAS CERMAT ONLINE & ANTI-CHEAT
+================================================================================
+Aplikasi memiliki sistem Computer Based Test (CBT) mandiri yang dibangun khusus 
+untuk kompetisi Cerdas Cermat Pramuka dengan alur 3 babak dan proteksi anti-curang:
+
+6.1. Mekanisme 3 Babak (Round Stages):
+     - Babak 1 (Penyisihan):
+       * Soal Pilihan Ganda (Multiple Choice).
+       * Koreksi otomatis oleh sistem secara instan.
+       * Pengacakan urutan soal dan opsi jawaban per peserta.
+       * Timer hitung mundur pengerjaan. Jika waktu habis, sistem otomatis men-submit jawaban.
+     - Babak 2 (Semi-Final):
+       * Soal Isian Singkat & Uraian Konseptual.
+       * Dikoreksi langsung secara manual oleh Dewan Juri melalui panel grading.
+     - Babak 3 (Final / Rebutan):
+       * Soal cepat untuk finalis dengan verifikasi nilai langsung oleh Juri.
+
+6.2. Sistem Keamanan Ujian & Deteksi Kecurangan (Exam Anti-Cheating System):
+     Sistem client-side dan server-side bekerja sama secara real-time untuk 
+     mendeteksi upaya kecurangan selama peserta mengerjakan ujian:
+     - Deteksi Pindah Tab / Blur Window (`tab_switch`):
+       Mendeteksi saat peserta membuka tab baru di browser, membuka aplikasi lain, 
+       atau jendela browser kehilangan fokus.
+     - Deteksi Keluar Layar Penuh (`fullscreen_exit`):
+       Ujian mewajibkan mode Fullscreen. Sistem mendeteksi jika peserta menekan ESC 
+       atau keluar dari mode layar penuh.
+     - Blokir & Deteksi Copy-Paste-Cut (`copy`, `paste`, `cut`):
+       Sistem menonaktifkan shortcut Ctrl+C, Ctrl+V, Ctrl+X dan fungsi blok teks pada soal.
+     - Blokir Klik Kanan (`context_menu`):
+       Mencegah inspect element atau menu browser melalui klik kanan.
+     - Deteksi Tangkapan Layar (`screenshot`):
+       Mendeteksi tombol PrintScreen atau tombol kombinasi screenshot.
+     - Deteksi Developer Tools (`devtools`):
+       Mencegah dan mencatat pembukaan F12 atau DevTools console.
+
+6.3. Mekanisme Penguncian Layar & Kode Pembuka Kunci (Exam Lock & Unlock Code):
+     - Begitu pelanggaran terdeteksi:
+       1. Sistem mencatat log insiden ke tabel `exam_violations` lengkap dengan 
+          ID regu, jenis pelanggaran, babak, dan timestamp.
+       2. Layar browser peserta seketika dibekukan dan menampilkan modal merah 
+          bertuliskan "Ujian Terkunci Karena Indikasi Pelanggaran".
+       3. Peserta tidak dapat melanjutkan pengerjaan atau menekan tombol apapun.
+       4. Peserta wajib melapor ke Juri/Pengawas di ruangan.
+       5. Juri memeriksa log pelanggaran di panel wasit dan memverifikasi kondisi peserta.
+       6. Juri men-generate kode numerik acak (Unlock Code) melalui panel Juri.
+       7. Peserta memasukkan Unlock Code tersebut ke layar yang terkunci untuk melanjutkan ujian.
+     - Sinkronisasi Status (Polling): Endpoint `/peserta/cerdas-cermat/check-status` 
+       secara berkala memeriksa apakah sesi peserta masih aktif, terkunci, atau telah di-reset.
+
+
+================================================================================
+7. MODUL KHUSUS: PENGACAKAN REGU OTOMATIS (SMART RANDOMIZER)
+================================================================================
+Fitur unggulan untuk panitia dalam membagi ratusan siswa sekolah menjadi regu-regu 
+pramuka yang seimbang, adil, dan proporsional secara otomatis dalam hitungan detik.
+
+7.1. Algoritma Pembagian Proporsional:
+     - Memisahkan siswa berdasarkan Jenis Kelamin (Regu Putra dan Regu Putri).
+     - Menghitung statistik ketersediaan siswa per angkatan (Kelas 7, Kelas 8, dan Kelas 9).
+     - Mendistribusikan siswa dari masing-masing tingkat kelas secara merata ke setiap 
+       regu sehingga tidak ada regu yang hanya berisi anak kelas 7 saja atau kelas 9 saja.
+     - Pengaturan fleksibel: Admin dapat menentukan target jumlah regu atau jumlah 
+       anggota per regu.
+
+7.2. Otomatisasi Terpadu Saat Pengacakan Dijalankan:
+     Sekali klik "Acak Regu Sekarang", sistem otomatis:
+     1. Membuat entri profil regu (`ReguProfile`) dengan nomor regu dan nama regu default.
+     2. Menugaskan siswa terpilih ke dalam tabel `AnggotaRegu`.
+     3. Menautkan siswa di tabel `Siswa` dengan ID profil regunya.
+     4. Menghasilkan akun pengguna (`User`) untuk regu tersebut secara otomatis 
+       sehingga regu bisa langsung login dengan username dan password yang digenerate.
+
+7.3. Penyesuaian Manual Pasca-Pengacakan (Fine-Tuning Management):
+     Setelah pengacakan otomatis selesai, panitia masih memiliki kontrol penuh:
+     - Ganti Nama Regu: Mengubah nama default (misal: "Regu Putra 1") menjadi nama 
+       regu pramuka resmi (misal: "Regu Garuda", "Regu Rajawali", "Regu Mawar").
+     - Tambah Anggota Manual: Memasukkan siswa susulan ke dalam regu tertentu.
+     - Pindah / Swap Anggota: Memindahkan siswa dari satu regu ke regu lain dengan mudah.
+     - Hapus Anggota / Hapus Regu: Menyesuaikan kuota jika ada peserta yang berhalangan.
+     - Reset Pengacakan Total: Mengembalikan seluruh data siswa ke status belum memiliki regu.
+
+
+================================================================================
+8. MODUL KHUSUS: SISTEM PERHITUNGAN JUARA UMUM & TIE-BREAKING
+================================================================================
+Sistem perhitungan klasemen juara umum dirancang dengan aturan baku kompetisi:
+
+8.1. Perhitungan Poin Medali Lomba:
+     Di setiap mata lomba, juara ditentukan berdasarkan peringkat akumulasi nilai juri:
+     - Juara 1 (Medali Emas)     : Mendapatkan 3 Poin Juara Umum.
+     - Juara 2 (Medali Perak)    : Mendapatkan 2 Poin Juara Umum.
+     - Juara 3 (Medali Perunggu) : Mendapatkan 1 Poin Juara Umum.
+
+8.2. Penentuan Klasemen Juara Umum:
+     Peringkat klasemen umum dihitung berdasarkan:
+     1. Total Poin Medali terbanyak.
+     2. Jika poin sama, dihitung dari jumlah perolehan Medali Emas terbanyak.
+     3. Jika masih sama, dihitung dari perolehan Medali Perak terbanyak.
+     4. Jika masih sama, dihitung dari perolehan Medali Perunggu terbanyak.
+     5. Jika masih sama, dihitung dari total akumulasi nilai murni seluruh mata lomba.
+     - Klasemen Juara Umum dipisah secara tegas antara Kategori Putra dan Kategori Putri.
+
+8.3. Aturan Pemecah Seri Cerdas Cermat (Tie-Breaking by Time):
+     Pada babak seleksi dan kualifikasi Cerdas Cermat, jika dua atau lebih regu 
+     memiliki total skor yang sama persis:
+     - Sistem otomatis membandingkan Durasi Waktu Pengerjaan (`time_used_seconds`).
+     - Regu yang menyelesaikan soal dalam waktu lebih cepat berhak menduduki peringkat lebih tinggi.
+
+
+================================================================================
+9. FITUR KEAMANAN, VALIDASI, DAN INTEGRITAS DATA
+================================================================================
+- Proteksi CSRF (Cross-Site Request Forgery): Diterapkan pada seluruh form dan mutasi data.
+- Enkripsi Kata Sandi: Menggunakan algoritma hashing modern (Bcrypt Rounds 12).
+- Sanitasi Input & Validasi Ketat: Mencegah SQL Injection dan XSS attack pada formulir input.
+- Database Transactions (DB::beginTransaction): Digunakan pada proses vital seperti 
+  pengacakan regu massal dan pembatalan nilai, memastikan tidak terjadi data korup jika 
+  terjadi interupsi jaringan.
+- Storage Isolation: Dokumen publik, bukti pembayaran sponsor, berkas laporan keuangan, 
+  dan foto karya regu disimpan secara terisolasi dan tertata rapi di storage Laravel.
+- Audit & Konfirmasi Hapus: Tindakan berbahaya seperti hapus nilai, hapus sesi, dan 
+  reset pengacakan selalu dilengkapi dengan dialog konfirmasi keamanan.
+
+================================================================================
+               AKHIR DARI DOKUMENTASI FITUR LENGKAP SPENCERONE CAMP 2026
+================================================================================

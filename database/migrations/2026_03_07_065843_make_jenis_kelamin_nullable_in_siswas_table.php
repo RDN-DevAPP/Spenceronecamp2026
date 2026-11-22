@@ -10,9 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('siswas', function (Blueprint $table) {
-            $table->string('jenis_kelamin', 1)->nullable()->change();
-        });
+        if (Schema::hasTable('siswas')) {
+            Schema::table('siswas', function (Blueprint $table) {
+                $table->string('jenis_kelamin', 1)->nullable()->change();
+            });
+        }
     }
 
     /**

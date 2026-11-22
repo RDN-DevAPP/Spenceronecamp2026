@@ -22,3 +22,10 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/CleanDeploy
+/spencerone_camp_backup.sql
+/storage/framework/*.zip
+/crop_morning_nomor.png
+/public/cek.php
+/public/clear-cache.php
+/public/dummy.png

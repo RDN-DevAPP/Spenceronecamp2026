@@ -147,16 +147,51 @@ class AdminDashboardController extends Controller
 
         $revealLeaderboard = Setting::where('key', 'reveal_juara_umum')->first()->value ?? '0';
         $showFinancialReport = Setting::where('key', 'show_financial_report')->first()->value ?? '0';
+        $combineGender = Setting::where('key', 'combine_gender_champions')->first()->value ?? '0';
 
-        return view('admin.dashboard', compact('leaderboards', 'juaraUmum', 'allMataLomba', 'allMataLombaFiltered', 'revealLeaderboard', 'showFinancialReport', 'lombaFilterId'));
+        // Kelompokkan Juara Umum jika mode terpisah aktif
+        $juaraUmumPutra = array_values(array_filter($juaraUmum, fn($item) => strtolower($item['reguProfile']->jenis) === 'putra'));
+        $juaraUmumPutri = array_values(array_filter($juaraUmum, fn($item) => strtolower($item['reguProfile']->jenis) === 'putri'));
+
+        // Re-ranking jika dipisah per kategori
+        $rankPutra = 1;
+        foreach ($juaraUmumPutra as &$jup) {
+            $jup['peringkat_gender'] = $rankPutra++;
+        }
+        $rankPutri = 1;
+        foreach ($juaraUmumPutri as &$jpi) {
+            $jpi['peringkat_gender'] = $rankPutri++;
+        }
+
+        return view('admin.dashboard', compact(
+            'leaderboards',
+            'juaraUmum',
+            'juaraUmumPutra',
+            'juaraUmumPutri',
+            'combineGender',
+            'allMataLomba',
+            'allMataLombaFiltered',
+            'revealLeaderboard',
+            'showFinancialReport',
+            'lombaFilterId'
+        ));
     }
 
     public function toggleRevealJuaraUmum(Request $request)
     {
         $setting = Setting::firstOrCreate(['key' => 'reveal_juara_umum']);
-        $setting->update(['value' => $request->reveal ? '1' : '0']);
+        $isRevealed = $request->reveal ? true : false;
+        $setting->update(['value' => $isRevealed ? '1' : '0']);
 
-        return back()->with('success', 'Status penampilan Juara Umum berhasil diperbarui.');
+        // Broadcast event to live screen projector
+        try {
+            broadcast(new \App\Events\RevealChampionEvent($isRevealed))->toOthers();
+        } catch (\Throwable $e) {
+            // Log error silently if broadcasting fails
+            \Illuminate\Support\Facades\Log::warning('Failed broadcasting RevealChampionEvent: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Status penampilan Juara Umum berhasil diperbarui dan disiarkan ke Layar Proyektor.');
     }
 
     public function toggleShowFinancialReport(Request $request)
@@ -167,5 +202,14 @@ class AdminDashboardController extends Controller
         return back()->with('success', 'Tampilan laporan keuangan di beranda berhasil diperbarui.');
     }
 
+    public function toggleCombineGender(Request $request)
+    {
+        $setting = Setting::firstOrCreate(['key' => 'combine_gender_champions']);
+        $combine = $request->combine ? '1' : '0';
+        $setting->update(['value' => $combine]);
+
+        $statusText = $combine === '1' ? 'digabungkan (Umum Campuran)' : 'dipisahkan (Putra & Putri terpisah)';
+        return back()->with('success', "Pengaturan berhasil diperbarui: Klasemen Juara {$statusText}.");
+    }
 
 }
